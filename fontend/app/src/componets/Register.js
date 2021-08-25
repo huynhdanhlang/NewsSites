@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 import { isEmail } from "validator";
+
 import { register } from "../actions/auth";
 
 const required = (value) => {
@@ -27,7 +28,7 @@ const validEmail = (value) => {
   }
 };
 
-const validusername = (value) => {
+const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -37,7 +38,7 @@ const validusername = (value) => {
   }
 };
 
-const validpassword = (value) => {
+const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -52,8 +53,8 @@ const Register = () => {
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector((state) => state.message);
@@ -63,17 +64,18 @@ const Register = () => {
     const username = e.target.value;
     setUsername(username);
   };
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
   };
 
-  const handleResgister = (e) => {
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleRegister = (e) => {
     e.preventDefault();
 
     setSuccessful(false);
@@ -100,7 +102,7 @@ const Register = () => {
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleResgister} ref={form}>
+        <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
               <div className="form-group">
@@ -111,9 +113,10 @@ const Register = () => {
                   name="username"
                   value={username}
                   onChange={onChangeUsername}
-                  validations={[required, validusername]}
+                  validations={[required, vusername]}
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <Input
@@ -125,25 +128,25 @@ const Register = () => {
                   validations={[required, validEmail]}
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="password">Mật khẩu</label>
                 <Input
-                  type="text"
+                  type="password"
                   className="form-control"
                   name="password"
                   value={password}
                   onChange={onChangePassword}
-                  validations={[required, validpassword]}
+                  validations={[required, vpassword]}
                 />
               </div>
-              &nbsp;
+
               <div className="form-group">
-                <button type="button" className="btn btn-primary">
-                  Đăng ký
-                </button>
+                <button className="btn btn-primary btn-block">Đăng ký</button>
               </div>
             </div>
           )}
+
           {message && (
             <div className="form-group">
               <div

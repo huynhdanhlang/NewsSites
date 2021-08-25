@@ -13,12 +13,12 @@ const getUserBoard = () => {
   });
 };
 
-const getAuthorsBoard = () => {
+const getAuthorBoard = () => {
   return axios.get(API_URL + "author", { headers: authHeader() });
 };
 
 const getModeratorBoard = () => {
-  return axios.get(API_URL + "moderator", { headers: authHeader() });
+  return axios.get(API_URL + "mod", { headers: authHeader() });
 };
 
 const getAdminBoard = () => {
@@ -29,7 +29,7 @@ const getAdminBoard = () => {
 export default {
   getPublicContent,
   getUserBoard,
-  getAuthorsBoard,
+  getAuthorBoard,
   getModeratorBoard,
   getAdminBoard,
 };

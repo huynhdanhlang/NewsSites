@@ -6,7 +6,7 @@ const BoardAuthor = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    UserService.getAuthorsBoard().then(
+    UserService.getAuthorBoard().then(
       (response) => {
         setContent(response.data);
       },
