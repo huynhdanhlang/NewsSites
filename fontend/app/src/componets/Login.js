@@ -99,7 +99,7 @@ const Login = (props) => {
               validations={[required]}
             />
           </div>
-
+          &nbsp;
           <div className="form-group">
             <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
