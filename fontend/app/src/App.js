@@ -51,13 +51,13 @@ const App = () => {
       <div>
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            danhlang
+            Hello
           </Link>
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav">
               <li className="nav-item active">
                 <Link to={"/home"} className="nav-link">
-                  Home
+                  Trang chủ
                 </Link>
               </li>
               {showAdminBoard && (
@@ -69,22 +69,22 @@ const App = () => {
               )}
               {showModeratorBoard && (
                 <li className="nav-item">
-                  <Link to={"/moderator"} className="nav-link">
-                    Moderator
+                  <Link to={"/mod"} className="nav-link">
+                    Người kiểm duyệt
                   </Link>
                 </li>
               )}
               {showAuthorBoard && (
                 <li className="nav-item">
                   <Link to={"/author"} className="nav-link">
-                    Author
+                    Tác giả
                   </Link>
                 </li>
               )}
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
-                    User
+                    Người dùng
                   </Link>
                 </li>
               )}
@@ -94,21 +94,27 @@ const App = () => {
           {currentUser ? (
             <div className="navbar-nav">
               <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">{currentUser.username}</Link>
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
               </li>
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={logOut}>
-                  Logout
+                  Đăng xuất
                 </a>
               </li>
             </div>
           ) : (
             <div className="navbar-nav">
               <li className="nav-item">
-                <Link to={"/login"} className="nav-link" >Login</Link>
+                <Link to={"/login"} className="nav-link">
+                  Đăng nhập
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/register"} className="nav-link">Signup</Link>
+                <Link to={"/register"} className="nav-link">
+                  Đăng ký
+                </Link>
               </li>
             </div>
           )}

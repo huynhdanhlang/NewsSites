@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -25,8 +26,8 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { message } = useSelector((state) => state.message);
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
 
   const dispatch = useDispatch();
 
@@ -42,9 +43,12 @@ const Login = (props) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
     form.current.validateAll();
 
-    if (checkBtn.current.context._error.length === 0) {
+    if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
           props.history.push("/profile");
@@ -77,13 +81,13 @@ const Login = (props) => {
             <Input
               type="text"
               className="form-control"
-              // eslint-disable-next-line react/jsx-no-duplicate-props
               name="username"
               value={username}
               onChange={onChangeUsername}
               validations={[required]}
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="password">Mật khẩu</label>
             <Input
@@ -95,15 +99,16 @@ const Login = (props) => {
               validations={[required]}
             />
           </div>
-          &nbsp;
+
           <div className="form-group">
-            <button type="button" className="btn btn-primary" disabled={loading}>
+            <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
               <span>Đăng nhập</span>
             </button>
           </div>
+
           {message && (
             <div className="form-group">
               <div className="alert alert-danger" role="alert">
