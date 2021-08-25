@@ -20,7 +20,7 @@ exports.singup = (req, res) => {
     }
 
     // console.log(req.body.roles);
-    console.log("Thinh khung");
+
     if (req.body.roles) {
       Role.find(
         {
