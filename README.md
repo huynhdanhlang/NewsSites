@@ -2,7 +2,7 @@
 
 Trang tin cho phép đăng bài, xét duyệt và phân quyền người dùng.
 
-## Yêu cầu 
+## Môi trường phát triển
 
 **Yêu cầu:** Nodejs 
 
