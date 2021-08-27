@@ -1,3 +1,4 @@
+//ActionsCreater
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -7,7 +8,7 @@ import {
   SET_MESSAGE,
 } from "./types";
 
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 export const register = (username, email, password) => (dispatch) => {
   return AuthService.register(username, email, password).then(
