@@ -1,4 +1,4 @@
-# Trang tin tức đơn giản đọc tin tức
+# Trang tin tức đơn giản
 
 Trang tin cho phép đăng bài, xét duyệt và phân quyền người dùng.
 
