@@ -12,4 +12,4 @@ Server : node server (npm start if using nodemon)
 
 Client : npm start
 
-About document: [https://github.com/huynhdanhlang/NewsSites/blob/main/doc/References.md](Check here!)
+About [document](./doc)
