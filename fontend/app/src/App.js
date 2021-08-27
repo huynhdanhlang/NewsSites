@@ -14,10 +14,12 @@ import BoardAuthor from "./componets/BoardAuthor";
 import BoardModerator from "./componets/BoardModerator";
 import BoardAdmin from "./componets/BoardAdmin";
 
-import { logout } from "./actions/auth";
-import { clearMessage } from "./actions/message";
+import { logout } from "./redux/actions/auth";
+import { clearMessage } from "./redux/actions/message";
 
 import { history } from "./helpers/history";
+
+// import { getPosts } from "./redux/actions/posts";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -27,6 +29,8 @@ const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  // dispatch(getPosts.getPostsRequest()); //Test trigger action getPosts
 
   useEffect(() => {
     history.listen((location) => {
@@ -99,7 +103,7 @@ const App = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>
+                <a href="/logout" className="nav-link" onClick={logOut}>
                   Đăng xuất
                 </a>
               </li>
