@@ -5,14 +5,14 @@ import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./componets/Login";
-import Register from "./componets/Register";
-import Home from "./componets/Home";
-import Profile from "./componets/Profile";
-import BoardUser from "./componets/BoardUser";
-import BoardAuthor from "./componets/BoardAuthor";
-import BoardModerator from "./componets/BoardModerator";
-import BoardAdmin from "./componets/BoardAdmin";
+import Login from "./componets/login/Login";
+import Register from "./componets/register/Register";
+import Home from "./componets/home/Home";
+import Profile from "./componets/profile/Profile";
+import BoardUser from "./componets/user/BoardUser";
+import BoardAuthor from "./componets/author/BoardAuthor";
+import BoardModerator from "./componets/mod/BoardModerator";
+import BoardAdmin from "./componets/admin/BoardAdmin";
 
 import { logout } from "./redux/actions/auth";
 import { clearMessage } from "./redux/actions/message";
@@ -48,22 +48,32 @@ const App = () => {
 
   const logOut = () => {
     dispatch(logout());
+    
   };
 
   return (
     <Router history={history}>
       <div>
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
+          {/* <Link to={"/"} className="navbar-brand">
             Hello
-          </Link>
+          </Link> */}
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav">
-              <li className="nav-item active">
-                <Link to={"/home"} className="nav-link">
-                  Trang chủ
-                </Link>
-              </li>
+              {!currentUser && (
+                <li className="nav-item active">
+                  <Link to={"/home"} className="nav-link">
+                    Trang chủ
+                  </Link>
+                </li>
+              )}
+              {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/user"} className="nav-link">
+                    Trang chủ
+                  </Link>
+                </li>
+              )}
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -85,13 +95,6 @@ const App = () => {
                   </Link>
                 </li>
               )}
-              {currentUser && (
-                <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                    Người dùng
-                  </Link>
-                </li>
-              )}
             </div>
           </div>
 
@@ -103,7 +106,7 @@ const App = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/logout" className="nav-link" onClick={logOut}>
+                <a href="/" className="nav-link" onClick={logOut}>
                   Đăng xuất
                 </a>
               </li>

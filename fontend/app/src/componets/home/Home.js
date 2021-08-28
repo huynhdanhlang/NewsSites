@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import UserService from "../services/user.service";
+import UserService from "../../services/user.service";
 
-const BoardModerator = () => {
+const Home = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    UserService.getModeratorBoard().then(
+    UserService.getPublicContent().then(
       (response) => {
+        console.log(response);
         setContent(response.data);
       },
       (error) => {
+        console.log(error);
         const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+          (error.message && error.response.data) ||
           error.message ||
           error.toString();
-
         setContent(_content);
       }
     );
@@ -32,4 +31,4 @@ const BoardModerator = () => {
   );
 };
 
-export default BoardModerator;
+export default Home;
