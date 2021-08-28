@@ -1,28 +1,36 @@
-import { getTypes, getPosts } from "../actions/posts";
+import { getTypes, getPosts, createPosts, updatePosts } from "../actions/posts";
+import { initialState } from "./const";
 
-const initialState = {
-  isLoading: false,
-  data: [],
-};
-
-export default function postsReducers(state = initialState, action) {
-  const { type, payload } = action;
-  switch (type) {
+export default function postsReducers(state = initialState.posts, action) {
+  switch (action.type) {
     case getTypes(getPosts.getPostsRequest):
       return {
         ...state,
         isLoading: true,
       };
     case getTypes(getPosts.getPostsSuccess):
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
-        data: payload,
+        data: action.payload,
       };
     case getTypes(getPosts.getPostsFailure):
       return {
         ...state,
         isLoading: false,
+      };
+    case getTypes(createPosts.createPostsSuccess):
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+      };
+    case getTypes(updatePosts.updatePostsSuccess):
+      return {
+        ...state,
+        data: state.data.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
       };
     default:
       return state;
