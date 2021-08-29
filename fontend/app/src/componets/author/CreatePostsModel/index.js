@@ -10,24 +10,26 @@ import { hideModal, createPosts } from "../../../redux/actions/posts";
 function CreatePostsModel() {
   const classes = useStyles();
   const dispatch = useDispatch(modalState$);
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const [data, setData] = React.useState({
     title: "",
     content: "",
     attachment: "",
+    author: currentUser.fullname,
   });
 
   const onClose = React.useCallback(() => {
     dispatch(hideModal());
+  }, [dispatch]);
+
+  const onSubmit = React.useCallback(() => {
+    dispatch(createPosts.createPostsRequest(data));
     setData({
       title: "",
       content: "",
       attachment: "",
     });
-  }, [dispatch]);
-
-  const onSubmit = React.useCallback(() => {
-    dispatch(createPosts.createPostsRequest(data));
   }, [dispatch, data]);
 
   const body = (
