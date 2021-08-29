@@ -14,7 +14,7 @@ checkDuplicateUsernameorEmail = (req, res, next) => {
     }
 
     if (user) {
-      res.status(400).send({ message: `Failed! ${req.body.email} already in use!` });
+      res.status(400).send({ message: `Xin lỗi! ${req.body.username} đã được dùng!` });
       return;
     }
 
@@ -28,7 +28,7 @@ checkDuplicateUsernameorEmail = (req, res, next) => {
       }
 
       if (user) {
-        res.status(400).send({ message: `Failed! ${req.body.email} already in use!` });
+        res.status(400).send({ message: `Xin lỗi! ${req.body.email} đã được dùng!` });
         return;
       }
 
@@ -43,7 +43,7 @@ checkRolesExisted = (req, res, next) => {
     for (let i = 0; i < req.body.roles.length; i++) {
       if (!ROLES.includes(req.body.roles[i])) {
         res.status(400).send({
-          message: `Failed! Role ${req.body.roles[i]} already exists!`,
+          message: `Xin lỗi! Role ${req.body.roles[i]} vai trò đã tồn tại!`,
         });
         return;
       }

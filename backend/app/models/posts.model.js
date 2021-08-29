@@ -15,7 +15,6 @@ const Post = mongoose.model(
       author: {
         type: String,
         required: true,
-        default: "Anonymous",
       },
       attachment: String,
       likeCount: {

@@ -38,6 +38,16 @@ const vusername = (value) => {
   }
 };
 
+// const vfullname = (value) => {
+//   if (typeof value != "string") {
+//     return (
+//       <div className="alert alert-danger" role="alert">
+//         Họ và tên phải là ký tự
+//       </div>
+//     );
+//   }
+// };
+
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
@@ -53,6 +63,7 @@ const Register = () => {
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
@@ -63,6 +74,11 @@ const Register = () => {
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
+  };
+
+  const onChangeFullname = (e) => {
+    const fullname = e.target.value;
+    setFullname(fullname);
   };
 
   const onChangeEmail = (e) => {
@@ -83,7 +99,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(username, email, password))
+      dispatch(register(fullname, username, email, password))
         .then(() => {
           setSuccessful(true);
         })
@@ -106,6 +122,17 @@ const Register = () => {
           {!successful && (
             <div>
               <div className="form-group">
+                <label htmlFor="fullname">Họ và tên</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="fullname"
+                  value={fullname}
+                  onChange={onChangeFullname}
+                  validations={[required]}
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="username">Tên người dùng</label>
                 <Input
                   type="text"
@@ -116,7 +143,6 @@ const Register = () => {
                   validations={[required, vusername]}
                 />
               </div>
-
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <Input
@@ -128,7 +154,6 @@ const Register = () => {
                   validations={[required, validEmail]}
                 />
               </div>
-
               <div className="form-group">
                 <label htmlFor="password">Mật khẩu</label>
                 <Input
