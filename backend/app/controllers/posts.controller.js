@@ -2,7 +2,9 @@ const db = require("../models/index");
 const Post = db.post;
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    console.log(req.params.author);
+    const author = req.params.author;
+    const posts = await Post.find({author:author}); 
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });
