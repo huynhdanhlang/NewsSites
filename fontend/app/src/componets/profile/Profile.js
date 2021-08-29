@@ -15,7 +15,7 @@ const Profile = () => {
     <div className="container">
       <header className="jumbotron">
         <h3>
-          Welcome <strong>{currentUser.username}</strong>
+          Welcome <strong>{currentUser.fullname}</strong>
         </h3>
       </header>
       <p>
@@ -26,6 +26,10 @@ const Profile = () => {
       <p>
         <strong>Id:</strong>
         {currentUser.id}
+      </p>
+      <p>
+        <strong>Username:</strong>
+        {currentUser.username}
       </p>
       <p>
         <strong>Email:</strong>

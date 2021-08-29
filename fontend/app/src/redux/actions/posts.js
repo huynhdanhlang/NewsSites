@@ -6,7 +6,7 @@ const getTypes = (reduxAction) => {
 };
 
 const getPosts = createActions({
-  getPostsRequest: undefined,
+  getPostsRequest: (payload) => payload,
   getPostsSuccess: (payload) => payload,
   getPostsFailure: (error) => error,
 });

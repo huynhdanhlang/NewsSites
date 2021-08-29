@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../redux/actions/posts";
 
 import { postsState$ } from "../../../redux/selector/index";
-
+const user = JSON.parse(localStorage.getItem("user"));
 export default function PostsList() {
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ export default function PostsList() {
   console.log(["PostsList - posts"], posts);
 
   React.useEffect(() => {
-    dispatch(actions.getPosts.getPostsRequest());
+    dispatch(actions.getPosts.getPostsRequest(user.username));
   }, [dispatch]);
 
   return (

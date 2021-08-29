@@ -1,7 +1,7 @@
 const controller = require("../controllers/posts.controller");
 
 module.exports = function (app) {
-  app.get("/api/posts/all", controller.getPosts);
+  app.get("/api/posts/all/:author", controller.getPosts);
 
   app.post("/api/posts/create", controller.createPost);
 
