@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dbConfig = require("./app/config/db.config")
+const dbConfig = require("./app/config/db.config");
 const app = express();
 
 var corsOptions = {
@@ -9,12 +9,17 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-//parser requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 //parser requests of content-type - application/json
-app.use(bodyParser.json());
-
-
+app.use(bodyParser.json({ limit: "50mb" }));
+//parser requests of content-type - application/x-www-form-urlencoded
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    parameterLimit: 100000,
+    extended: true,
+  })
+);
+app.use(express.json());
 //simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcom to nodejs application" });

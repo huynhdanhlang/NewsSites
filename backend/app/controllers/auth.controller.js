@@ -8,6 +8,7 @@ var bycrypt = require("bcryptjs");
 
 exports.singup = (req, res) => {
   const user = new User({
+    fullname: req.body.fullname,
     username: req.body.username,
     email: req.body.email,
     password: bycrypt.hashSync(req.body.password, 8),
@@ -72,7 +73,7 @@ exports.signin = (req, res) => {
       }
 
       if (!user) {
-       return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: "User not found" });
       }
 
       var passIsValid = bycrypt.compareSync(req.body.password, user.password);
@@ -96,6 +97,7 @@ exports.signin = (req, res) => {
 
       res.status(200).send({
         id: user._id,
+        fullname: user.fullname,
         username: user.username,
         email: user.email,
         roles: authorities,
