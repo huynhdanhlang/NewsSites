@@ -6,16 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../redux/actions/posts";
 
 import { postsState$ } from "../../../redux/selector/index";
-const user = JSON.parse(localStorage.getItem("user"));
+
 export default function PostsList() {
   const dispatch = useDispatch();
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const posts = useSelector(postsState$);
 
   console.log(["PostsList - posts"], posts);
 
   React.useEffect(() => {
-    dispatch(actions.getPosts.getPostsRequest(user.username));
+    dispatch(actions.getPosts.getPostsRequest(currentUser.id));
   }, [dispatch]);
 
   return (

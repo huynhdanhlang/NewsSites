@@ -31,7 +31,7 @@ export default function Post({ post }) {
     <Card>
       <CardHeader
         avatar={<Avatar>A</Avatar>}
-        title={post.author}
+        title={post.author.fullname}
         subheader={moment(post.updatedAt).format("HH:MM MM DD,YYYY")}
         action={
           <IconButton>
