@@ -30,7 +30,7 @@ export default function Post({ post }) {
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar>A</Avatar>}
+        avatar={<Avatar src=""/>}
         title={post.author.fullname}
         subheader={moment(post.updatedAt).format("HH:MM MM DD,YYYY")}
         action={
@@ -42,7 +42,7 @@ export default function Post({ post }) {
 
       <CardMedia
         image={post.attachment}
-        title="Title"
+        title={post.title}
         className={classes.media}
       />
       <CardContent>

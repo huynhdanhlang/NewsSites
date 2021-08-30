@@ -17,7 +17,7 @@ export default function PostsList() {
 
   React.useEffect(() => {
     dispatch(actions.getPosts.getPostsRequest(currentUser.id));
-  }, [dispatch]);
+  }, [dispatch,currentUser]);
 
   return (
     <Grid container spacing={2} alignItems="stretch">
