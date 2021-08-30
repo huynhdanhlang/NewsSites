@@ -16,7 +16,7 @@ function CreatePostsModel() {
     title: "",
     content: "",
     attachment: "",
-    author: currentUser.fullname,
+    author: currentUser.id,
   });
 
   const onClose = React.useCallback(() => {
