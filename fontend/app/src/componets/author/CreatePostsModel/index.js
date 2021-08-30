@@ -6,13 +6,25 @@ import useStyles from "./style";
 import { TextField, TextareaAutosize, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
 import { hideModal, createPosts } from "../../../redux/actions/posts";
+import { useState, useRef } from "react";
+import JoditEditor from "jodit-react";
 
 function CreatePostsModel() {
   const classes = useStyles();
   const dispatch = useDispatch(modalState$);
   const { user: currentUser } = useSelector((state) => state.auth);
+  const editor = useRef(null);
 
-  const [data, setData] = React.useState({
+  const config = {
+    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    placeholder:"Nội dung...",
+    enableDragAndDropFileToEditor: true, 
+    // uploader: { url: "www.xyz.com/upload"},
+    editHTMLDocumentMode:true,
+
+  };
+
+  const [data, setData] = useState({
     title: "",
     content: "",
     attachment: "",
@@ -32,6 +44,14 @@ function CreatePostsModel() {
     });
   }, [dispatch, data]);
 
+  //   <TextareaAutosize
+  //   className={classes.textarea}
+  //   minRows={10}
+  //   maxRows={15}
+  //   placeholder="Nội dung...."
+  //   value={data.content}
+  //   onChange={(e) => setData({ ...data, content: e.target.value })}
+  // />
   const body = (
     <div className={classes.paper} id="simple-modal-title">
       <h2>Thêm tin mới</h2>
@@ -43,13 +63,13 @@ function CreatePostsModel() {
           value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
         />
-        <TextareaAutosize
-          className={classes.textarea}
-          minRows={10}
-          maxRows={15}
-          placeholder="Nội dung...."
+        <JoditEditor
+          ref={editor}
           value={data.content}
-          onChange={(e) => setData({ ...data, content: e.target.value })}
+          config={config}
+          tabIndex={1} // tabIndex of textarea
+          onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
+          onChange={(newContent) => {}}
         />
         <FileBase64
           accept="image/*"
