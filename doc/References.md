@@ -1,1 +1,2 @@
-- [https://www.bezkoder.com/react-node-mongodb-auth/](https://www.bezkoder.com/react-node-mongodb-auth/)
+- [Authentication & Authorization using expressjs and reactjs](https://www.bezkoder.com/react-node-mongodb-auth/)
+- [An excellent WYSIWYG editor written in pure TypeScript without the use of additional libraries](https://xdsoft.net/jodit/doc/)
