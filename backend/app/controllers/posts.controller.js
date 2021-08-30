@@ -4,7 +4,10 @@ exports.getPosts = async (req, res) => {
   try {
     console.log(req.params.author);
     const author = req.params.author;
-    const posts = await Post.find({author:author}); 
+    const posts = await Post.find({ author: author })
+      .populate("author")
+      .populate({ path: "author", select: "fullname" });
+
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });

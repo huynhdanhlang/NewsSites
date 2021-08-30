@@ -4,7 +4,7 @@ exports.allAcess = (req, res) => {
 };
 
 exports.userBoard = (req, res) => {
-  console.log(req.userId);
+  console.log("userId",req.userId);
   res.status(200).send("User content");
 };
 

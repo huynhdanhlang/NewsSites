@@ -13,7 +13,8 @@ const Post = mongoose.model(
         required: true,
       },
       author: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
       },
       attachment: String,
