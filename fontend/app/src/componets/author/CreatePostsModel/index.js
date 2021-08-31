@@ -3,7 +3,7 @@ import { Modal } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { modalState$ } from "../../../redux/selector/index";
 import useStyles from "./style";
-import { TextField, TextareaAutosize, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
 import { hideModal, createPosts } from "../../../redux/actions/posts";
 import { useState, useRef } from "react";
@@ -17,11 +17,11 @@ function CreatePostsModel() {
 
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    placeholder:"Nội dung...",
-    enableDragAndDropFileToEditor: true, 
-    // uploader: { url: "www.xyz.com/upload"},
-    editHTMLDocumentMode:true,
-
+    placeholder: "Nội dung...",
+    enableDragAndDropFileToEditor: true,
+    uploader: { insertImageAsBase64URI: true },
+    editHTMLDocumentMode: true,
+    toolbar: true,
   };
 
   const [data, setData] = useState({
@@ -96,7 +96,13 @@ function CreatePostsModel() {
 
   return (
     <div>
-      <Modal open={isShow} onClose={onClose}>
+      <Modal
+        disablePortal
+        disableEnforceFocus
+        disableAutoFocus
+        open={isShow}
+        onClose={onClose}
+      >
         {body}
       </Modal>
     </div>
