@@ -1,0 +1,6 @@
+.jodit-container .jodit-workplace,
+.jodit .jodit-workplace {
+  overflow: auto !important;
+  position: relative;
+  max-height: 300px !important;
+}

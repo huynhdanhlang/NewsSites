@@ -28,9 +28,5 @@ export default makeStyles((theme) => ({
   footer: {
     marginTop: "10px",
   },
-  outer: {
-    overflowY: "auto",
-    maxHeight: "300px",
-    transform: "translate(0, 0)",
-  },
+
 }));

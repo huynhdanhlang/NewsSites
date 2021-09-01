@@ -21,6 +21,7 @@ function CreatePostsModel() {
     enableDragAndDropFileToEditor: true,
     uploader: { insertImageAsBase64URI: true },
     toolbar: true,
+    editorCssClass: "jodit-workplace",
   };
 
   const [data, setData] = useState({
@@ -62,8 +63,8 @@ function CreatePostsModel() {
           value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
         />
-       <div className={classes.outer}>
-       <JoditEditor
+        {/* <div className={classes.outer}> */}
+        <JoditEditor
           ref={editor}
           value={data.content}
           config={config}
@@ -71,7 +72,7 @@ function CreatePostsModel() {
           onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
           onChange={(newContent) => {}}
         />
-       </div>
+        {/* </div> */}
         <FileBase64
           accept="image/*"
           multiple={false}
@@ -97,11 +98,7 @@ function CreatePostsModel() {
 
   return (
     <div>
-      <Modal
-        disableEnforceFocus
-        open={isShow}
-        onClose={onClose}
-      >
+      <Modal disableEnforceFocus open={isShow} onClose={onClose}>
         {body}
       </Modal>
     </div>
