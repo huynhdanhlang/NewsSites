@@ -10,10 +10,9 @@ import Register from "./componets/register/Register";
 import Home from "./componets/home/Home";
 import Profile from "./componets/profile/Profile";
 import BoardUser from "./componets/user/BoardUser";
-import BoardAuthor from "./componets/author/BoardAuthor";
 import BoardModerator from "./componets/mod/BoardModerator";
 import BoardAdmin from "./componets/admin/BoardAdmin";
-
+import SimpleBottomNavigation from "./componets/author/NavAuthor"
 import { logout } from "./redux/actions/auth";
 import { clearMessage } from "./redux/actions/message";
 
@@ -134,7 +133,7 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
-            <Route path="/author" component={BoardAuthor} />
+            <Route path="/author" component={SimpleBottomNavigation} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
           </Switch>

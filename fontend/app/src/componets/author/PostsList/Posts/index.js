@@ -30,7 +30,7 @@ export default function Post({ post }) {
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar src=""/>}
+        avatar={<Avatar src="" />}
         title={post.author.fullname}
         subheader={moment(post.updatedAt).format("HH:MM MM DD,YYYY")}
         action={
@@ -49,9 +49,14 @@ export default function Post({ post }) {
         <Typography variant="h5" color="textPrimary">
           {post.title}
         </Typography>
-        <Typography variant="body2" component="p" color="textSecondary">
-          {post.content}
-        </Typography>
+        <Typography
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${post.content}`,
+          }}
+        ></Typography>
       </CardContent>
 
       <CardActions>
