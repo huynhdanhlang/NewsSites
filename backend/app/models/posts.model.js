@@ -17,6 +17,14 @@ const Post = mongoose.model(
         ref: "User",
         required: true,
       },
+      approved: {
+        type: Boolean,
+        default: false,
+      },
+      canceled: {
+        type: Boolean,
+        default: false,
+      },
       attachment: String,
       likeCount: {
         type: Number,
