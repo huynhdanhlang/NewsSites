@@ -1,2 +1,3 @@
 - [Authentication & Authorization using expressjs and reactjs](https://www.bezkoder.com/react-node-mongodb-auth/)
 - [An excellent WYSIWYG editor written in pure TypeScript without the use of additional libraries](https://xdsoft.net/jodit/doc/)
+- [React components for faster and easier web development](https://material-ui.com/)
