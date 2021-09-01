@@ -22,7 +22,7 @@ export default function PostsList() {
   return (
     <Grid container spacing={2} alignItems="stretch">
       {posts.map((post) => (
-        <Grid key={post._id} item xs={12} sm={4}>
+        <Grid key={post._id} item xs={12} sm={3}>
           <Post post={post} />
         </Grid>
       ))}

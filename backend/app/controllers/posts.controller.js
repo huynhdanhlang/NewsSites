@@ -28,6 +28,7 @@ exports.createPost = async (req, res) => {
 
 exports.updatePost = async (req, res) => {
   try {
+    db.mongoose.set("useFindAndModify", false);
     const updtatePost = req.body;
 
     const post = await Post.findOneAndUpdate(
