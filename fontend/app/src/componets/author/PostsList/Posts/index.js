@@ -50,11 +50,12 @@ export default function Post({ post }) {
           {post.title}
         </Typography>
         <Typography
+          style={{ wordWrap: "break-word" }}
           variant="body2"
           component="p"
           color="textSecondary"
           dangerouslySetInnerHTML={{
-            __html: `${post.content}`,
+            __html: `${post.content.substring(0,150)} ...`,
           }}
         ></Typography>
       </CardContent>
