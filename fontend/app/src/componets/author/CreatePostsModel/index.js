@@ -20,7 +20,6 @@ function CreatePostsModel() {
     placeholder: "Nội dung...",
     enableDragAndDropFileToEditor: true,
     uploader: { insertImageAsBase64URI: true },
-    editHTMLDocumentMode: true,
     toolbar: true,
   };
 
@@ -63,14 +62,16 @@ function CreatePostsModel() {
           value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
         />
-        <JoditEditor
+       <div className={classes.outer}>
+       <JoditEditor
           ref={editor}
           value={data.content}
           config={config}
-          tabIndex={1} // tabIndex of textarea
+          tabIndex={-1} // tabIndex of textarea
           onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
           onChange={(newContent) => {}}
         />
+       </div>
         <FileBase64
           accept="image/*"
           multiple={false}
@@ -97,9 +98,7 @@ function CreatePostsModel() {
   return (
     <div>
       <Modal
-        disablePortal
         disableEnforceFocus
-        disableAutoFocus
         open={isShow}
         onClose={onClose}
       >
