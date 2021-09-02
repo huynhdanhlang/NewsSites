@@ -1,5 +1,8 @@
 const db = require("../models/index");
 const Post = db.post;
+
+const mongoose = require("mongoose");
+
 exports.getPosts = async (req, res) => {
   try {
     console.log(req.params.author);
@@ -19,8 +22,13 @@ exports.createPost = async (req, res) => {
     const newPost = req.body;
 
     const post = new Post(newPost);
+
+    const reNews = post
+      .populate("author")
+      .populate({ path: "author", select: "fullname" }, function (err) {});
+
     await post.save();
-    res.status(200).json(post);
+    res.status(200).json(reNews);
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -39,7 +47,10 @@ exports.updatePost = async (req, res) => {
       {
         new: true,
       }
-    );
+    )
+      .populate("author")
+      .populate({ path: "author", select: "fullname" });
+
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ error: error });
