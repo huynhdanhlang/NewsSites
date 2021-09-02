@@ -1,28 +1,23 @@
-import axios from "axios";
-import authHeader from "./auth-header";
-
-const API_URL = "http://localhost:8080/api/test/";
+import api from "./api";
 
 const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+  return api.get("/test/all");
 };
 
 const getUserBoard = () => {
-  return axios.get(API_URL + "user", {
-    headers: authHeader(),
-  });
+  return api.get("/test/user");
 };
 
 const getAuthorBoard = () => {
-  return axios.get(API_URL + "author", { headers: authHeader() });
+  return api.get("/test/author");
 };
 
 const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
+  return api.get("/test/mod");
 };
 
 const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
+  return api.get("/test/admin");
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

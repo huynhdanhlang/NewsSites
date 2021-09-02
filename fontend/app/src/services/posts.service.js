@@ -1,17 +1,16 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL = "http://localhost:8080/api/posts/";
 
 const getPosts = (payload) => {
-  return axios.get(API_URL + "all/" + payload);
+  return api.get("/posts/all/" + payload);
 };
 
 const createPost = (payload) => {
-  return axios.post(API_URL + "create", payload);
+  return api.post("/posts/create", payload);
 };
 
 const updatePost = (payload) => {
-  return axios.post(API_URL + "update", payload);
+  return api.post("/posts/update", payload);
 };
 
 export { getPosts, createPost, updatePost };
