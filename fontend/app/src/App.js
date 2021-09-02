@@ -13,8 +13,8 @@ import BoardUser from "./componets/user/BoardUser";
 import BoardModerator from "./componets/mod/BoardModerator";
 import BoardAdmin from "./componets/admin/BoardAdmin";
 import SimpleBottomNavigation from "./componets/author/NavAuthor"
-import { logout } from "./redux/actions/auth";
-import { clearMessage } from "./redux/actions/message";
+import { logout } from "./redux/actions/thunk/auth";
+import { clearMessage } from "./redux/actions/thunk/message";
 
 import { history } from "./helpers/history";
 

@@ -7,7 +7,7 @@ import Header from "./Header/index";
 import PostsList from "./PostsList/index";
 import useStyles from "./Styles/style";
 import { useDispatch } from "react-redux";
-import { showModal } from "../../redux/actions/posts";
+import { showModal } from "../../redux/actions/saga/posts";
 import CreatePostsModel from "./CreatePostsModel/index";
 
 const BoardAuthor = () => {

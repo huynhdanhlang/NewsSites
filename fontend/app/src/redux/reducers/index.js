@@ -2,11 +2,11 @@
 
 import { combineReducers } from "redux";
 
-import auth from "./auth";
+import auth from "./thunk/auth";
 
-import message from "./message";
-import posts from "./posts";
-import modal from "./postsmodal";
+import message from "./thunk/message";
+import posts from "./saga/posts";
+import modal from "./saga/postsmodal";
 
 export default combineReducers({
   auth,

@@ -2,11 +2,12 @@ import React from "react";
 
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { userState$ } from "../../redux/selector/index";
 
 const Profile = () => {
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector(userState$);
 
-  console.log("[currentUser]",currentUser);
+  console.log("[currentUser]", currentUser);
   if (!currentUser) {
     return <Redirect to="/login" />;
   }
@@ -38,7 +39,7 @@ const Profile = () => {
       <strong>Authorities:</strong>
       <ul>
         {currentUser.roles &&
-        currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
       </ul>
     </div>
   );
