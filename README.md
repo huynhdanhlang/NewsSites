@@ -6,11 +6,11 @@ Trang tin cho phép đăng bài, xét duyệt và phân quyền người dùng.
 
 **Yêu cầu:** Nodejs 
 
-# Install dependences
+### Install dependences
 
 Server & Client : npm install
 
-### Run project
+## Run project
 
 Server : node server (npm start if using nodemon)
 
