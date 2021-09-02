@@ -30,6 +30,7 @@ const setup = (store) => {
         if (err.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
 
+          //Khi người dùng đăng nhập thì refresh token mới
           try {
             const refresh = await axiosInstance.post("/auth/refreshToken", {
               refreshToken: TokenService.getLocalRefreshToken(),
