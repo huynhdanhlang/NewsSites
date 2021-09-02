@@ -1,8 +1,6 @@
 const db = require("../models/index");
 const Post = db.post;
 
-const mongoose = require("mongoose");
-
 exports.getPosts = async (req, res) => {
   try {
     console.log(req.params.author);
