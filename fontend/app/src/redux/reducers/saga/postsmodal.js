@@ -1,4 +1,4 @@
-import { getTypes, showModal, hideModal } from "../actions/posts";
+import { getTypes, showModal, hideModal } from "../../actions/saga/posts";
 import { initialState } from "./const";
 
 export default function modalReducers(state = initialState.modal, action) {

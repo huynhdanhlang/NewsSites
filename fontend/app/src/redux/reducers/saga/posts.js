@@ -1,4 +1,4 @@
-import { getTypes, getPosts, createPosts, updatePosts } from "../actions/posts";
+import { getTypes, getPosts, createPosts, updatePosts } from "../../actions/saga/posts";
 import { initialState } from "./const";
 
 export default function postsReducers(state = initialState.posts, action) {

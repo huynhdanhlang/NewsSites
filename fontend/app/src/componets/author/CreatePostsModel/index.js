@@ -5,14 +5,15 @@ import { modalState$ } from "../../../redux/selector/index";
 import useStyles from "./style";
 import { TextField, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
-import { hideModal, createPosts } from "../../../redux/actions/posts";
+import { hideModal, createPosts } from "../../../redux/actions/saga/posts";
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
+import { userState$ } from "../../../redux/selector/index";
 
 function CreatePostsModel() {
   const classes = useStyles();
   const dispatch = useDispatch(modalState$);
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector(userState$);
   const editor = useRef(null);
 
   const config = {

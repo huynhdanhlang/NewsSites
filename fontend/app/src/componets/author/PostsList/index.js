@@ -3,13 +3,13 @@ import { Grid } from "@material-ui/core";
 import Post from "./Posts/index";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../redux/actions/posts";
+import * as actions from "../../../redux/actions/saga/posts";
 
-import { postsState$ } from "../../../redux/selector/index";
+import { postsState$, userState$ } from "../../../redux/selector/index";
 
 export default function PostsList() {
   const dispatch = useDispatch();
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector(userState$);
 
   const posts = useSelector(postsState$);
 
@@ -17,7 +17,7 @@ export default function PostsList() {
 
   React.useEffect(() => {
     dispatch(actions.getPosts.getPostsRequest(currentUser.id));
-  }, [dispatch,currentUser]);
+  }, [dispatch, currentUser]);
 
   return (
     <Grid container spacing={2} alignItems="stretch">
