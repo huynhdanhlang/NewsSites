@@ -49,13 +49,18 @@ export default function Post({ post }) {
         <Typography variant="h5" color="textPrimary">
           {post.title}
         </Typography>
+        {console.log(post.content.length)}
         <Typography
           style={{ wordWrap: "break-word" }}
           variant="body2"
           component="p"
           color="textSecondary"
           dangerouslySetInnerHTML={{
-            __html: `${post.content.substring(0,150)} ...`,
+            __html: `${
+              post.content.length <= 150
+                ? post.content
+                : post.content.substring(0, 150) + "..."
+            }`,
           }}
         ></Typography>
       </CardContent>

@@ -1,9 +1,8 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:8080/api/auth/";
+import api from "./api";
+import TokenService from "../services/token.service";
 
 const register = (fullname, username, email, password) => {
-  return axios.post(API_URL + "signup", {
+  return api.post("/auth/signup", {
     fullname,
     username,
     email,
@@ -12,26 +11,30 @@ const register = (fullname, username, email, password) => {
 };
 
 const login = (username, password) => {
-  return axios
-    .post(API_URL + "signin", {
+  return api
+    .post("/auth/signin", {
       username,
       password,
     })
     .then((response) => {
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        TokenService.setUser(response.data);
       }
       return response.data;
     });
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  TokenService.removeUser();
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
+const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem("user"));
+};
+
 export default {
   register,
   login,
   logout,
+  getCurrentUser,
 };
