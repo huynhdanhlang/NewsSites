@@ -7,12 +7,12 @@ const Role = db.role;
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
-    return res.status(403).send({ message: "No token provided" });
+    return res.status(403).send({ message: "Chưa có token được cung cấp" });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      return res.status(401).send({ message: "Unauthorized!" });
+      return res.status(401).send({ message: "Chưa xác thực!" });
     }
     console.log(req.userId);
     req.userId = decoded.id;
@@ -43,7 +43,7 @@ isAdmin = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Require Admin Role!" });
+        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );
@@ -73,7 +73,7 @@ isModerator = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Require Moderator Role!" });
+        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );
@@ -103,7 +103,7 @@ isAuthor = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Require Author Role!" });
+        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );

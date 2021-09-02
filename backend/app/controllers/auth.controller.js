@@ -21,7 +21,7 @@ exports.singup = (req, res) => {
     }
 
     // console.log(req.body.roles);
-
+    //Nếu người dùng có vai trò trong request đăng ký thì tìm các và trò đó và gán vào roles người dùng
     if (req.body.roles) {
       Role.find(
         {
@@ -38,11 +38,13 @@ exports.singup = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-            res.send({ message: "User was registered successfully!" });
+            res.send({ message: "Người dùng đã được tạo thành công!" });
           });
         }
       );
     } else {
+      //Nếu người đăng ký chưa có vai trò trong request thì mặc định là vai trò user
+      // Tìm vai trò có tên "user" và gán nó cho roles của người dùng
       Role.findOne({ name: "user" }, (err, role) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -54,7 +56,7 @@ exports.singup = (req, res) => {
             res.status(500).send({ message: err });
             return;
           }
-          res.send({ message: "User was registered successfully!" });
+          res.send({ message: "Người dùng đã được tạo thành công!" });
         });
       });
     }
@@ -73,7 +75,7 @@ exports.signin = (req, res) => {
       }
 
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: "Người dùng không tồn tại" });
       }
 
       var passIsValid = bycrypt.compareSync(req.body.password, user.password);
@@ -81,7 +83,7 @@ exports.signin = (req, res) => {
       if (!passIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password",
+          message: "Mật khẩu không chính xác!",
         });
       }
 
