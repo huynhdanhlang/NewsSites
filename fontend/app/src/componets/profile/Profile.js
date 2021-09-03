@@ -15,10 +15,11 @@ const Profile = () => {
   return (
     <div className="container bootstrap snippet">
       <div className="row">
-        <div className="col-sm-10">
+        &nbsp;
+        {/* <div className="col-sm-10">
           <h1>User name</h1>
-        </div>
-        <div className="col-sm-2">
+        </div> */}
+        {/* <div className="col-sm-2">
           <a href="/users" className="pull-right">
             <img
               title="profile image"
@@ -26,7 +27,7 @@ const Profile = () => {
               src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"
             ></img>
           </a>
-        </div>
+        </div> */}
       </div>
       <div className="row">
         <div className="col-sm-3">
@@ -36,22 +37,22 @@ const Profile = () => {
               className="avatar img-circle img-thumbnail"
               alt="avatar"
             ></img>
-            <h6>Upload a different photo...</h6>
+            <h6>Đổi avatar</h6>
             <input
               type="file"
               className="text-center center-block file-upload"
             />
           </div>
 
-          <div className="panel panel-default">
+          {/* <div className="panel panel-default">
             <div className="panel-heading">
               Website <i className="fa fa-link fa-1x"></i>
             </div>
             <div className="panel-body">
               <a href="http://bootnipets.com">bootnipets.com</a>
             </div>
-          </div>
-
+          </div> */}
+          {/* 
           <ul className="list-group">
             <li className="list-group-item text-muted">
               Activity <i className="fa fa-dashboard fa-1x"></i>
@@ -91,11 +92,9 @@ const Profile = () => {
               <i className="fa fa-pinterest fa-2x"></i>{" "}
               <i className="fa fa-google-plus fa-2x"></i>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="col-sm-9">
-        
-
           <div className="tab-content">
             <div className="tab-pane active" id="home">
               <form
@@ -106,105 +105,59 @@ const Profile = () => {
               >
                 <div className="form-group">
                   <div className="col-xs-6">
-                    <label for="first_name">
-                      <h4>Username</h4>
+                    <label htmlFor="first_name">
+                      <h4>Họ và tên</h4>
                     </label>
                     <input
+                      readOnly
                       type="text"
                       className="form-control"
                       name="first_name"
                       id="first_name"
-                      placeholder="first name"
-                      title="enter your first name if any."
+                      value={currentUser.fullname}
                     />
                   </div>
                 </div>
                 <div className="form-group">
                   <div className="col-xs-6">
-                    <label for="last_name">
-                      <h4>Fullname</h4>
+                    <label htmlFor="last_name">
+                      <h4>Tên người dùng</h4>
                     </label>
                     <input
+                      readOnly
                       type="text"
                       className="form-control"
                       name="last_name"
                       id="last_name"
-                      placeholder="last name"
-                      title="enter your last name if any."
+                      value={currentUser.username}
                     />
                   </div>
                 </div>
-
-                {/* <div className="form-group">
-                  <div className="col-xs-6">
-                    <label for="phone">
-                      <h4>Phone</h4>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="phone"
-                      id="phone"
-                      placeholder="enter phone"
-                      title="enter your phone number if any."
-                    />
-                  </div>
-                </div> */}
-
-                {/* <div className="form-group">
-                  <div className="col-xs-6">
-                    <label for="mobile">
-                      <h4>Mobile</h4>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="mobile"
-                      id="mobile"
-                      placeholder="enter mobile number"
-                      title="enter your mobile number if any."
-                    />
-                  </div>
-                </div> */}
                 <div className="form-group">
                   <div className="col-xs-6">
-                    <label for="email">
+                    <label htmlFor="email">
                       <h4>Email</h4>
                     </label>
                     <input
+                      readOnly
                       type="email"
                       className="form-control"
                       name="email"
                       id="email"
-                      placeholder="you@email.com"
-                      title="enter your email."
+                      value={currentUser.email}
                     />
                   </div>
                 </div>
-                {/* <div className="form-group">
-                  <div className="col-xs-6">
-                    <label for="email">
-                      <h4>Location</h4>
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="location"
-                      placeholder="somewhere"
-                      title="enter a location"
-                    />
-                  </div>
-                </div> */}
-                
-                <br/>
+
+                <br />
                 <div className="form-group">
                   <div className="col-xs-12">
-                  
                     <button className="btn btn-lg btn-success" type="submit">
-                      <i className="glyphicon glyphicon-ok-sign"></i> Save
+                      <i className="glyphicon glyphicon-ok-sign"></i> Lưu
                     </button>
-                    <button className="btn btn-lg" type="reset">
-                      <i className="glyphicon glyphicon-repeat"></i> Reset
+                    &nbsp;
+                    <button className="btn btn-lg btn-warning" type="reset">
+                      <i className="glyphicon glyphicon-repeat"></i> Chỉnh sửa
                     </button>
                   </div>
                 </div>
@@ -237,5 +190,35 @@ const Profile = () => {
     </div>
   );
 };
-
+{
+  /* <div className="container">
+      <header className="jumbotron">
+        <h3>
+          Welcome <strong>{currentUser.fullname}</strong>
+        </h3>
+      </header>
+      <p>
+        <strong>Token:</strong>
+        {currentUser.accessToken.substring(0, 20)} ...{" "}
+        {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+      </p>
+      <p>
+        <strong>Id:</strong>
+        {currentUser.id}
+      </p>
+      <p>
+        <strong>Username:</strong>
+        {currentUser.username}
+      </p>
+      <p>
+        <strong>Email:</strong>
+        {currentUser.email}
+      </p>
+      <strong>Authorities:</strong>
+      <ul>
+        {currentUser.roles &&
+          currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+      </ul>
+    </div> */
+}
 export default Profile;
