@@ -109,6 +109,7 @@ const Profile = () => {
                       <h4>Họ và tên</h4>
                     </label>
                     <input
+                      readOnly
                       type="text"
                       className="form-control"
                       name="first_name"
@@ -123,6 +124,7 @@ const Profile = () => {
                       <h4>Tên người dùng</h4>
                     </label>
                     <input
+                      readOnly
                       type="text"
                       className="form-control"
                       name="last_name"
@@ -137,6 +139,7 @@ const Profile = () => {
                       <h4>Email</h4>
                     </label>
                     <input
+                      readOnly
                       type="email"
                       className="form-control"
                       name="email"
@@ -150,11 +153,12 @@ const Profile = () => {
                 <div className="form-group">
                   <div className="col-xs-12">
                     <button className="btn btn-lg btn-success" type="submit">
-                      <i className="glyphicon glyphicon-ok-sign"></i> Save
+                      <i className="glyphicon glyphicon-ok-sign"></i> Lưu
                     </button>
-                    {/* <button className="btn btn-lg" type="reset">
-                      <i className="glyphicon glyphicon-repeat"></i> Reset
-                    </button> */}
+                    &nbsp;
+                    <button className="btn btn-lg btn-warning" type="reset">
+                      <i className="glyphicon glyphicon-repeat"></i> Chỉnh sửa
+                    </button>
                   </div>
                 </div>
               </form>
