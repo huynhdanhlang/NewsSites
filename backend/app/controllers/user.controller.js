@@ -1,21 +1,20 @@
-
 exports.allAcess = (req, res) => {
-  res.status(200).send("Public content");
+  res.status(200).send("Trang người dùng khách");
 };
 
 exports.userBoard = (req, res) => {
-  console.log("userId",req.userId);
-  res.status(200).send("User content");
+  console.log("userId", req.userId);
+  res.status(200).send("Trang người dùng");
 };
 
 exports.authorBoard = (req, res) => {
-  res.status(200).send("Author content");
+  res.status(200).send("Trang tác giả");
 };
 
 exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin content");
+  res.status(200).send("Trang quản trị");
 };
 
 exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator content");
+  res.status(200).send("Trang kiểm duyệt");
 };
