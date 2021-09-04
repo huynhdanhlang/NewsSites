@@ -23,6 +23,8 @@ function CreatePostsModel() {
     uploader: { insertImageAsBase64URI: true },
     toolbar: true,
     editorCssClass: "jodit-workplace",
+    allowTabNavigation: true,
+    askBeforePasteHTML:false,
   };
 
   const [data, setData] = useState({
