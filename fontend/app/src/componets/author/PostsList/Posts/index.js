@@ -27,19 +27,31 @@ export default function Post({ post }) {
     );
   }, [dispatch, post]);
 
+  const [h2state, seth2State] = React.useState(null);
+
+  React.useEffect(() => {
+    try {
+      const h2Element = document.createElement("span");
+      const h2 = post.content;
+      h2Element.innerHTML = h2;
+      const h2Get = h2Element.querySelector("h2");
+      console.log(h2Get.outerHTML);
+      seth2State(h2Get.outerHTML);
+    } catch (error) {}
+  }, []);
+
   return (
     <Card>
       <CardHeader
         avatar={<Avatar src="" />}
         title={post.author.fullname}
-        subheader={moment(post.updatedAt).format("HH:MM MM DD,YYYY")}
+        subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
         action={
           <IconButton>
             <MoreVertIcon />
           </IconButton>
         }
       />
-
       <CardMedia
         image={post.attachment}
         title={post.title}
@@ -56,15 +68,10 @@ export default function Post({ post }) {
           component="p"
           color="textSecondary"
           dangerouslySetInnerHTML={{
-            __html: `${
-              post.content.length <= 150
-                ? post.content
-                : post.content.substring(0, 150) + "..."
-            }`,
+            __html: `${h2state}`,
           }}
         ></Typography>
       </CardContent>
-
       <CardActions>
         <IconButton onClick={onLikeButtonClick}>
           <FavoriteIcon />

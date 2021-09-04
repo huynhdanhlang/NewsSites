@@ -45,7 +45,7 @@ const BoardAuthor = () => {
     //     <h3>{content}</h3>
     //   </header>
     // </div>
-    <Container maxWidth="lg" className="container">
+    <Container maxWidth={false} className="container">
       <Header />
       <CreatePostsModel />
       <PostsList />
