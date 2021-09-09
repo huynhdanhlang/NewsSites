@@ -3,9 +3,9 @@ import { Grid } from "@material-ui/core";
 import Post from "./Posts/index";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../redux/actions/saga/posts";
+import * as actions from "../../../../redux/actions/saga/posts";
 
-import { postsState$, userState$ } from "../../../redux/selector/index";
+import { postsState$, userState$ } from "../../../../redux/selector/index";
 
 export default function PostsList() {
   const dispatch = useDispatch();

@@ -1,14 +1,13 @@
 import React from "react";
 import { Modal } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { modalState$ } from "../../../redux/selector/index";
 import useStyles from "./style";
 import { TextField, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
-import { hideModal, createPosts } from "../../../redux/actions/saga/posts";
+import { hideModal, createPosts } from "../../../../redux/actions/saga/posts";
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
-import { userState$ } from "../../../redux/selector/index";
+import { userState$,modalState$ } from "../../../../redux/selector/index";
 
 function CreatePostsModel() {
   const classes = useStyles();

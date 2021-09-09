@@ -1,7 +1,7 @@
 import React from "react";
 import useStyles from "./style";
 import { useDispatch } from "react-redux";
-import { updatePosts } from "../../../../redux/actions/saga/posts";
+import { updatePosts } from "../../../../../redux/actions/saga/posts";
 
 import {
   Avatar,

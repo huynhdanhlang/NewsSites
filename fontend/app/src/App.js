@@ -12,7 +12,7 @@ import Profile from "./componets/profile/Profile";
 import BoardUser from "./componets/user/BoardUser";
 import BoardModerator from "./componets/mod/BoardModerator";
 import BoardAdmin from "./componets/admin/BoardAdmin";
-import SimpleBottomNavigation from "./componets/author/NavAuthor"
+import SimpleBottomNavigation from "./componets/author/index"
 import { logout } from "./redux/actions/thunk/auth";
 import { clearMessage } from "./redux/actions/thunk/message";
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import UserService from "../../services/user.service";
+import UserService from "../../../services/user.service";
 import { Container, Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import Header from "./Header/index";
 import PostsList from "./PostsList/index";
 import useStyles from "./Styles/style";
 import { useDispatch } from "react-redux";
-import { showModal } from "../../redux/actions/saga/posts";
+import { showModal } from "../../../redux/actions/saga/posts";
 import CreatePostsModel from "./CreatePostsModel/index";
 
 const BoardAuthor = () => {
