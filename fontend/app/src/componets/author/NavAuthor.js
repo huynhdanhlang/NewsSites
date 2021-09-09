@@ -6,7 +6,14 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import CategoryIcon from "@material-ui/icons/Category";
 import BoardAuthor from "./BoardAuthor";
-import { Link, withRouter, Switch, Route } from "react-router-dom";
+import TopicAuthor from "./TopicAuthor";
+import { useDispatch } from "react-redux";
+
+import { Link, withRouter, Switch, Route, Router } from "react-router-dom";
+
+import { clearMessage } from "../../redux/actions/thunk/message";
+
+import { history } from "../../helpers/history";
 
 const useStyles = makeStyles({
   root: {
@@ -21,29 +28,49 @@ const SimpleBottomNavigation = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
+  const dispatch = useDispatch();
+  const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    history.listen((location) => {
+      dispatch(clearMessage()); //clear message when changing location
+    });
+    inputRef.current.click();
+  }, [dispatch]);
+
   return (
-    <Grid container justifyContent="center">
-      <BottomNavigation
-        className={classes.stickToBottom}
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        showLabels
-        className={classes.root}
-      >
-        <BottomNavigationAction
-          label="Tin tức"
-          icon={<PostAddIcon />}
-          component={Link}
-          to={"/author"}
-        />
-        <BottomNavigationAction label="Chủ đề" icon={<CategoryIcon />} />
-      </BottomNavigation>
-      <Switch>
-        <Route path="/author" component={BoardAuthor} />
-      </Switch>
-    </Grid>
+    <Router history={history}>
+      <Grid container justifyContent="center">
+        <BottomNavigation
+          className={classes.stickToBottom}
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          showLabels
+          className={classes.root}
+        >
+          <BottomNavigationAction
+            ref={inputRef}
+            onClick={() => console.log("")}
+            label="Tin tức"
+            icon={<PostAddIcon />}
+            component={Link}
+            to={"/author/posts"}
+          />
+          <BottomNavigationAction
+            label="Chủ đề"
+            icon={<CategoryIcon />}
+            component={Link}
+            to={"/author/topic"}
+          />
+        </BottomNavigation>
+        <Switch>
+          <Route path="/author/posts" component={BoardAuthor} />
+          <Route path="/author/topic" component={TopicAuthor} />
+        </Switch>
+      </Grid>
+    </Router>
   );
 };
 export default withRouter(SimpleBottomNavigation);
