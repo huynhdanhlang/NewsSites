@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 
 import { Link, withRouter, Switch, Route, Router } from "react-router-dom";
 
-import { clearMessage } from "../../redux/actions/thunk/message";
 
 import { history } from "../../helpers/history";
 
@@ -32,11 +31,8 @@ const SimpleBottomNavigation = () => {
   const inputRef = React.useRef(null);
 
   React.useEffect(() => {
-    history.listen((location) => {
-      dispatch(clearMessage()); //clear message when changing location
-    });
     inputRef.current.click();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Router history={history}>
