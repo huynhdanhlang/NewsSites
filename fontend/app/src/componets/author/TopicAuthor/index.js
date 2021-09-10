@@ -3,7 +3,7 @@ import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Dropdown } from "react-bootstrap";
 import { history } from "../../../helpers/history";
-import { clearMessage } from "../../../redux/actions/thunk/message";
+// import { clearMessage } from "../../../redux/actions/thunk/message";
 import { useDispatch } from "react-redux";
 
 import ChildTopic from "./ChildTopic/index";
@@ -11,12 +11,6 @@ import ParentTopic from "./ParentTopic/index";
 
 export default function TopicAuthor() {
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    history.listen((location) => {
-      dispatch(clearMessage()); //clear message when changing location
-    });
-  }, [dispatch]);
 
   return (
     <Router history={history}>
@@ -55,7 +49,7 @@ export default function TopicAuthor() {
                       Thêm chủ đề
                     </Link>
                     <Link
-                      to="/author/topic/listChildTopic"
+                      to="/author/topic/listChildTopic/:id"
                       className="nav-link"
                     >
                       Danh sách chủ đề
@@ -85,7 +79,7 @@ export default function TopicAuthor() {
                     </Link>
 
                     <Link
-                      to="/author/topic/listParentTopic"
+                      to="/author/topic/listParentTopic/:id"
                       className="nav-link"
                     >
                       Danh sách chủ đề
@@ -100,7 +94,7 @@ export default function TopicAuthor() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/author/topic/listTotalTopic" className="nav-link">
+                <Link to="/author/topic/levelTopic" className="nav-link">
                   Nhập chủ đề
                 </Link>
               </li>
@@ -135,6 +129,8 @@ export default function TopicAuthor() {
             path="/author/topic/listParentTopic/:id"
             component={ParentTopic.EditParentTopic}
           />
+          {/* <Route path="/author/topic/listTotalTopic" component={{}} />
+          <Route path="/author/topic/levelTopic" component={{}} /> */}
         </Switch>
       </div>
     </Router>
