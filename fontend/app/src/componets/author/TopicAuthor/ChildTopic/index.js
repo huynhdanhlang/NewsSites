@@ -1,6 +1,6 @@
-import AddChildTopic from "./AddTopic/";
-import ListChildTopic from "./ListTopic";
-import EditChildTopic from "./EditTopic";
+import AddChildTopic from "./AddTopic/index";
+import ListChildTopic from "./ListTopic/index";
+import EditChildTopic from "./EditTopic/index";
 
 export default {
   AddChildTopic,

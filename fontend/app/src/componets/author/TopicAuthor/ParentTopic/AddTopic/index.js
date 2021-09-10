@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ListTopic() {
+export default function AddTopic() {
     return (
         <div>
-            alert("sskkkkkkk")
+            kkko
         </div>
     )
 }
