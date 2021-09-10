@@ -7,10 +7,7 @@ import { clearMessage } from "../../../redux/actions/thunk/message";
 import { useDispatch } from "react-redux";
 
 import ChildTopic from "./ChildTopic/index";
-
-// import AddParentTopic from "./AddTopic";
-// import ListParentTopics from "./ListTopics";
-// import EditParentTopic from "./EditTopic";
+import ParentTopic from "./ParentTopic/index";
 
 export default function TopicAuthor() {
   const dispatch = useDispatch();
@@ -47,28 +44,63 @@ export default function TopicAuthor() {
                     variant="secondary btn-sm"
                     id="dropdown-basic"
                   >
-                    Tùy chọn
+                    Chủ đề con
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu variant="dark" style={{ backgroundColor: "#73a47" }}>
-                    <Link to="./topic/listChildTopic" className="nav-link">
+                  <Dropdown.Menu
+                    variant="dark"
+                    style={{ backgroundColor: "#73a47" }}
+                  >
+                    <Link to="/author/topic/addChildTopic" className="nav-link">
+                      Thêm chủ đề
+                    </Link>
+                    <Link
+                      to="/author/topic/listChildTopic"
+                      className="nav-link"
+                    >
                       Danh sách chủ đề
                     </Link>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </li>
+              &nbsp;
+              <li className="nav-item dropup">
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="secondary btn-sm"
+                    id="dropdown-basic"
+                  >
+                    Chủ đề cha
+                  </Dropdown.Toggle>
 
-                    <Link to="./listTotalTopic" className="nav-link">
-                      Nhập chủ đề
+                  <Dropdown.Menu
+                    variant="dark"
+                    style={{ backgroundColor: "#73a47" }}
+                  >
+                    <Link
+                      to="/author/topic/addParentTopic"
+                      className="nav-link"
+                    >
+                      Thêm chủ đề
+                    </Link>
+
+                    <Link
+                      to="/author/topic/listParentTopic"
+                      className="nav-link"
+                    >
+                      Danh sách chủ đề
                     </Link>
                   </Dropdown.Menu>
                 </Dropdown>
               </li>
               &nbsp;
               <li className="nav-item">
-                <Link to="./listTotalTopic" className="nav-link">
+                <Link to="/author/topic/listTotalTopic" className="nav-link">
                   Danh sách chủ đề
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="./listTotalTopic" className="nav-link">
+                <Link to="/author/topic/listTotalTopic" className="nav-link">
                   Nhập chủ đề
                 </Link>
               </li>
@@ -78,9 +110,31 @@ export default function TopicAuthor() {
       </nav>
       <div className="container-fluid !direction !spacing">
         <Switch>
-          <Route path="./topic/listChildTopic" component={ChildTopic.ListChildTopic} />
-          <Route path="/addChildTopic" component={ChildTopic.AddChildTopic} />
-          <Route path="/editChildTopic" component={ChildTopic.EditChildTopic} />
+          <Route
+            path="/author/topic/listChildTopic"
+            component={ChildTopic.ListChildTopic}
+          />
+          <Route
+            path="/author/topic/addChildTopic"
+            component={ChildTopic.AddChildTopic}
+          />
+          <Route
+            path="/author/topic/listChildTopic/:id"
+            component={ChildTopic.EditChildTopic}
+          />
+          <Route
+            path="/author/topic/listParentTopic"
+            component={ParentTopic.ListParentTopic}
+          />
+          <Route
+            path="/author/topic/addParentTopic"
+            component={ParentTopic.AddParentTopic}
+          />
+
+          <Route
+            path="/author/topic/listParentTopic/:id"
+            component={ParentTopic.EditParentTopic}
+          />
         </Switch>
       </div>
     </Router>
