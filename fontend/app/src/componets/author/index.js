@@ -62,7 +62,7 @@ const SimpleBottomNavigation = () => {
           />
         </BottomNavigation>
         <Switch>
-          <Route path="/author/posts" component={BoardAuthor} />
+          <Route exact path="/author/posts" component={BoardAuthor} />
           <Route path="/author/topic" component={TopicAuthor} />
         </Switch>
       </Grid>

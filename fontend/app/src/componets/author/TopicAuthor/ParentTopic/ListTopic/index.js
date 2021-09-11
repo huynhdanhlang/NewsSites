@@ -21,8 +21,9 @@ export default function ListTopic() {
   }, []);
 
   const onChangeSearchName = (e) => {
-    const SearchName = e.target.value;
-    setSearchName(SearchName);
+    const searchName = e.target.value;
+    setSearchName(searchName);
+    
   };
 
   const refreshData = () => {
@@ -52,6 +53,7 @@ export default function ListTopic() {
   };
 
   return (
+    
     <div className="list row">
       <div className="col-md-8">
         <div className="input-group mb-3">

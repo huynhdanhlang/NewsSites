@@ -16,8 +16,10 @@ export default function ListTopic() {
   const childTopic = useSelector(childTopic$);
   const dispatch = useDispatch();
 
+  console.log(childTopic);
   React.useEffect(() => {
     dispatch(retrieveChildTopic());
+
   }, []);
 
   const onChangeSearchName = (e) => {
@@ -33,6 +35,7 @@ export default function ListTopic() {
   const setActiveChildTopic = (child, index) => {
     setCurrentChildTopic(child);
     setCurrentIndex(index);
+    // console.log(['lllll'],currnentChildTopic);
   };
 
   const removeAllChildtopic = () => {
@@ -69,8 +72,8 @@ export default function ListTopic() {
               className="btn btn-outline-secondary"
               href="#"
               role="button"
-            >Tìm kiếm
-              {" "}
+            >
+              Tìm kiếm{" "}
             </a>
           </div>
         </div>
@@ -80,19 +83,18 @@ export default function ListTopic() {
         <h4>Danh sách chủ đề</h4>
         <ul className="list-group">
           {childTopic &&
-            childTopic.map((child, index) => {
+            childTopic.map((child, index) => (
               <li
                 className={
-                  "list-group-item" + (index === currentIndex ? "active" : "")
+                  "list-group-item" + (index === currentIndex ? " active" : "")
                 }
                 onClick={() => setActiveChildTopic(child, index)}
                 key={index}
               >
-                {child.name}
-              </li>;
-            })}
+                {child.name_topic_child}
+              </li>
+            ))}&nbsp;
         </ul>
-
         <a
           onClick={removeAllChildtopic}
           className="btn btn-danger btn-sm "
@@ -108,13 +110,13 @@ export default function ListTopic() {
           <div>
             <h4>Chủ đề</h4>
             <div>
-              <label htmlFor="name">
+              <label>
                 <strong>Tên :</strong>
               </label>
-              {currnentChildTopic.name}
+              {currnentChildTopic.name_topic_child}
             </div>
             <Link
-              to={"/author/topic/listChildTopic/" + currnentChildTopic.id}
+              to={"/author/topic/childTopic/" + currnentChildTopic._id}
               className="bage bage-warning"
             >
               Chỉnh sửa

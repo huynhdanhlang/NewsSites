@@ -45,13 +45,10 @@ export default function TopicAuthor() {
                     variant="dark"
                     style={{ backgroundColor: "#73a47" }}
                   >
-                    <Link to="/author/topic/addChildTopic" className="nav-link">
+                    <Link to="/author/topic/add" className="nav-link">
                       Thêm chủ đề
                     </Link>
-                    <Link
-                      to="/author/topic/listChildTopic/:id"
-                      className="nav-link"
-                    >
+                    <Link to="/author/topic/childTopic" className="nav-link">
                       Danh sách chủ đề
                     </Link>
                   </Dropdown.Menu>
@@ -71,17 +68,11 @@ export default function TopicAuthor() {
                     variant="dark"
                     style={{ backgroundColor: "#73a47" }}
                   >
-                    <Link
-                      to="/author/topic/addParentTopic"
-                      className="nav-link"
-                    >
+                    <Link to="/author/topic/add" className="nav-link">
                       Thêm chủ đề
                     </Link>
 
-                    <Link
-                      to="/author/topic/listParentTopic/:id"
-                      className="nav-link"
-                    >
+                    <Link to="/author/topic/parentTopic" className="nav-link">
                       Danh sách chủ đề
                     </Link>
                   </Dropdown.Menu>
@@ -105,28 +96,33 @@ export default function TopicAuthor() {
       <div className="container-fluid !direction !spacing">
         <Switch>
           <Route
-            path="/author/topic/listChildTopic"
+            exact
+            path="/author/topic/childTopic"
             component={ChildTopic.ListChildTopic}
           />
           <Route
-            path="/author/topic/addChildTopic"
+            exact
+            path="/author/topic/add"
             component={ChildTopic.AddChildTopic}
           />
           <Route
-            path="/author/topic/listChildTopic/:id"
+            exact
+            path="/author/topic/childTopic/:id"
             component={ChildTopic.EditChildTopic}
           />
           <Route
-            path="/author/topic/listParentTopic"
+            exact
+            path="/author/topic/parentTopic"
             component={ParentTopic.ListParentTopic}
           />
           <Route
-            path="/author/topic/addParentTopic"
+            exact
+            path="/author/topic/add"
             component={ParentTopic.AddParentTopic}
           />
 
           <Route
-            path="/author/topic/listParentTopic/:id"
+            path="/author/topic/parentTopic/:id"
             component={ParentTopic.EditParentTopic}
           />
           {/* <Route path="/author/topic/listTotalTopic" component={{}} />
