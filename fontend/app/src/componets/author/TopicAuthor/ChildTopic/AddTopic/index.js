@@ -4,7 +4,7 @@ import { createcChildTopic } from "../../../../../redux/actions/thunk/childTopic
 
 export default function AddTopic() {
   const initialChildTopicState = {
-    _id: null,
+    id: null,
     name_topic_child: "",
   };
 
@@ -61,15 +61,16 @@ export default function AddTopic() {
             <label htmlFor="name">Tên chủ đề</label>
             <input
               type="text"
-              name="name"
-              id="name"
+              name="name_topic_child"
+              id="name_topic_child"
               required
-              value={childTopic.name}
+              value={childTopic.name_topic_child}
               className="form-control"
               onChange={handleInputChange}
-            />&nbsp;
+            />
+            &nbsp;
           </div>
-          
+
           <a
             onClick={saveChildTopic}
             className="btn btn-success btn-sm "
@@ -83,4 +84,3 @@ export default function AddTopic() {
     </div>
   );
 }
-

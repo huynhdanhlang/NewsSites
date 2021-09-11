@@ -83,8 +83,9 @@ export const deleteAllChildtopic = () => async (dispatch) => {
 
 export const findByNameChildTopic = (name) => async (dispatch) => {
   try {
+    console.log("dbfsbhfsb",name);
     const res = await ChildTopicService.findByName(name);
-
+    console.log(["oooooo"],res);
     dispatch({
       type: RETRIEVE_CHILTOPIC,
       payload: res.data,
