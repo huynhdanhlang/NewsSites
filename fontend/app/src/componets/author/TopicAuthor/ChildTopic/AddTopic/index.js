@@ -8,7 +8,7 @@ export default function AddTopic() {
     name_topic_child: "",
   };
 
-  const [childTopic, setChildTopic] = React.useState(initialChildTopicState);
+  const [childTopic, setChildTopic] = React.useState([initialChildTopicState]);
   const [submited, setSubmited] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ export default function AddTopic() {
     <div className="submit-form">
       {submited ? (
         <div>
-          <h4>You submitted successfully</h4>
+          <h4>Bạn đã thêm chủ đề thành công!</h4>
           <a
             className="btn btn-success btn-sm "
             href="#"
@@ -77,7 +77,7 @@ export default function AddTopic() {
             href="#"
             role="button"
           >
-            Gửi
+            Thêm
           </a>
         </div>
       )}

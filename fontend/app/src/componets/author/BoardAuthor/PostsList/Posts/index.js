@@ -2,6 +2,7 @@ import React from "react";
 import useStyles from "./style";
 import { useDispatch } from "react-redux";
 import { updatePosts } from "../../../../../redux/actions/saga/posts";
+import { Menu, MenuItem } from "@material-ui/core";
 
 import {
   Avatar,
@@ -17,6 +18,11 @@ import {
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import moment from "moment";
+
+const options = ["Xóa", "Chỉnh sửa"];
+const ITEM_HEIGHT = 48;
+
+
 export default function Post({ post }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -40,6 +46,18 @@ export default function Post({ post }) {
     } catch (error) {}
   }, []);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleOnclick = (event) => {
+    setAnchorEl(event.currentTarget);
+    console.log(anchorEl);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Card>
       <CardHeader
@@ -47,11 +65,36 @@ export default function Post({ post }) {
         title={post.author.fullname}
         subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
         action={
-          <IconButton>
+          <IconButton onClick={handleOnclick}>
             <MoreVertIcon />
           </IconButton>
         }
       />
+
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: "20ch",
+          },
+        }}
+      >
+        {options.map((option) => (
+          <MenuItem
+            key={option}
+            // selected={option === "Chỉnh sửa"}
+            onClick={handleClose}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
       <CardMedia
         image={post.attachment}
         title={post.title}

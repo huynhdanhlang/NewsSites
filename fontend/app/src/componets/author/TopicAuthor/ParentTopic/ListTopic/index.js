@@ -16,14 +16,14 @@ export default function ListTopic() {
   const parentTopic = useSelector(parentTopic$);
   const dispatch = useDispatch();
 
+  console.log(parentTopic);
   React.useEffect(() => {
     dispatch(retrieveParentTopic());
   }, []);
 
   const onChangeSearchName = (e) => {
-    const searchName = e.target.value;
-    setSearchName(searchName);
-    
+    const SearchName = e.target.value;
+    setSearchName(SearchName);
   };
 
   const refreshData = () => {
@@ -34,6 +34,7 @@ export default function ListTopic() {
   const setActiveParentTopic = (parent, index) => {
     setCurrentParentTopic(parent);
     setCurrentIndex(index);
+    // console.log(['lllll'],currnentParentTopic);
   };
 
   const removeAllParenttopic = () => {
@@ -53,7 +54,6 @@ export default function ListTopic() {
   };
 
   return (
-    
     <div className="list row">
       <div className="col-md-8">
         <div className="input-group mb-3">
@@ -82,19 +82,19 @@ export default function ListTopic() {
         <h4>Danh sách chủ đề</h4>
         <ul className="list-group">
           {parentTopic &&
-            parentTopic.map((parent, index) => {
+            parentTopic.map((parent, index) => (
               <li
                 className={
-                  "list-group-item" + (index === currentIndex ? "active" : "")
+                  "list-group-item" + (index === currentIndex ? " active" : "")
                 }
                 onClick={() => setActiveParentTopic(parent, index)}
                 key={index}
               >
-                {parent.name}
-              </li>;
-            })}
+                {parent.name_topic_parent}
+              </li>
+            ))}
+          &nbsp;
         </ul>
-
         <a
           onClick={removeAllParenttopic}
           className="btn btn-danger btn-sm "
@@ -110,38 +110,13 @@ export default function ListTopic() {
           <div>
             <h4>Chủ đề</h4>
             <div>
-              <label htmlFor="name_topic_parent">
+              <label>
                 <strong>Tên :</strong>
               </label>
-              {currnentParentTopic.name_topic_child}
-            </div>
-            <div>
-              <label htmlFor="name_topic_child">Chủ đề con:</label>
               {currnentParentTopic.name_topic_parent}
             </div>
-            {currnentParentTopic.approved === "true" &&
-              currnentParentTopic.canceled === "true" && (
-                <div>
-                  <label htmlFor="approved">Trạng thái:</label>
-                  Đã duyệt
-                </div>
-              )}
-            {currnentParentTopic.approved === "false" &&
-              currnentParentTopic.canceled === "false" && (
-                <div>
-                  <label htmlFor="approved">Trạng thái:</label>
-                  Không được duyệt
-                </div>
-              )}
-            {currnentParentTopic.approved === "true" &&
-              currnentParentTopic.canceled === "false" && (
-                <div>
-                  <label htmlFor="approved">Trạng thái:</label>
-                  Đang chờ duyệt
-                </div>
-              )}
             <Link
-              to={"/author/topic/listParentTopic/" + currnentParentTopic.id}
+              to={"/author/topic/topicParent/" + currnentParentTopic._id}
               className="bage bage-warning"
             >
               Chỉnh sửa

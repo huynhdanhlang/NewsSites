@@ -9,7 +9,7 @@ import Login from "./componets/login/Login";
 import Register from "./componets/register/Register";
 import Home from "./componets/home/Home";
 import Profile from "./componets/profile/Profile";
-import BoardUser from "./componets/user/BoardUser";
+// import BoardUser from "./componets/user/BoardUser";
 import BoardModerator from "./componets/mod/BoardModerator";
 import BoardAdmin from "./componets/admin/BoardAdmin";
 import SimpleBottomNavigation from "./componets/author/index"
@@ -66,13 +66,13 @@ const App = () => {
                   </Link>
                 </li>
               )}
-              {currentUser && (
+              {/* {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
                     Trang chủ
                   </Link>
                 </li>
-              )}
+              )} */}
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -132,7 +132,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/user" component={BoardUser} />
+            {/* <Route path="/user" component={BoardUser} /> */}
             <Route path="/author" component={SimpleBottomNavigation} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
