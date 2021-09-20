@@ -49,8 +49,15 @@ checkRolesExisted = (req, res, next) => {
       }
     }
   }
+  else{
+    res.status(400).send({
+      message: `Chưa thiết lập vai trò!`,
+    });
+  }
   next();
 };
+
+
 
 const verifySignUp = {
   checkDuplicateUsernameorEmail,

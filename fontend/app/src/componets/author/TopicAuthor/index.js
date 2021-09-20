@@ -1,99 +1,56 @@
 import React from "react";
 import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Dropdown } from "react-bootstrap";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { history } from "../../../helpers/history";
-// import { clearMessage } from "../../../redux/actions/thunk/message";
-import { useDispatch } from "react-redux";
 
 import ChildTopic from "./ChildTopic/index";
 import ParentTopic from "./ParentTopic/index";
 
 export default function TopicAuthor() {
-  const dispatch = useDispatch();
-
   return (
     <Router history={history}>
-      <nav className="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Chủ đề
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+      <Navbar variant="dark" fixed="bottom" bg="dark" expand="lg">
+        <Navbar.Brand href="#">Chủ đề</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <DropdownButton
+            as={ButtonGroup}
+            id={`dropdown-button-drop-up`}
+            drop="up"
+            variant="secondary"
+            menuVariant="dark"
+            title={` Chủ đề con `}
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarCollapse">
-            <ul className="navbar-nav">
-              <li className="nav-item dropup">
-                <Dropdown>
-                  <Dropdown.Toggle
-                    variant="secondary btn-sm"
-                    id="dropdown-basic"
-                  >
-                    Chủ đề con
-                  </Dropdown.Toggle>
+            <Link to="/author/topic/addChild" className="nav-link">
+              Thêm chủ đề
+            </Link>
+            <Link to="/author/topic/childTopic" className="nav-link">
+              Danh sách chủ đề
+            </Link>
+          </DropdownButton>
+          &nbsp;
+          <DropdownButton
+            as={ButtonGroup}
+            key="up"
+            id={`dropdown-button-drop-up`}
+            drop="up"
+            variant="secondary"
+            menuVariant="dark"
+            title={` Chủ đề cha `}
+          >
+            <Link to="/author/topic/addParent" className="nav-link">
+              Thêm chủ đề
+            </Link>{" "}
+            <Link to="/author/topic/topicParent" className="nav-link">
+              Danh sách chủ đề
+            </Link>
+          </DropdownButton>
+        </Navbar.Collapse>
+      </Navbar>
 
-                  <Dropdown.Menu
-                    variant="dark"
-                    style={{ backgroundColor: "#73a47" }}
-                  >
-                    <Link to="/author/topic/add" className="nav-link">
-                      Thêm chủ đề
-                    </Link>
-                    <Link to="/author/topic/childTopic" className="nav-link">
-                      Danh sách chủ đề
-                    </Link>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </li>
-              &nbsp;
-              <li className="nav-item dropup">
-                <Dropdown>
-                  <Dropdown.Toggle
-                    variant="secondary btn-sm"
-                    id="dropdown-basic"
-                  >
-                    Chủ đề cha
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu
-                    variant="dark"
-                    style={{ backgroundColor: "#73a47" }}
-                  >
-                    <Link to="/author/topic/add" className="nav-link">
-                      Thêm chủ đề
-                    </Link>
-
-                    <Link to="/author/topic/parentTopic" className="nav-link">
-                      Danh sách chủ đề
-                    </Link>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </li>
-              &nbsp;
-              <li className="nav-item">
-                <Link to="/author/topic/listTotalTopic" className="nav-link">
-                  Danh sách chủ đề
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/author/topic/levelTopic" className="nav-link">
-                  Nhập chủ đề
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div className="container-fluid !direction !spacing">
+      <div className="container">
         <Switch>
           <Route
             exact
@@ -102,7 +59,7 @@ export default function TopicAuthor() {
           />
           <Route
             exact
-            path="/author/topic/add"
+            path="/author/topic/addChild"
             component={ChildTopic.AddChildTopic}
           />
           <Route
@@ -112,21 +69,20 @@ export default function TopicAuthor() {
           />
           <Route
             exact
-            path="/author/topic/parentTopic"
+            path="/author/topic/topicParent"
             component={ParentTopic.ListParentTopic}
           />
           <Route
             exact
-            path="/author/topic/add"
+            path="/author/topic/addParent"
             component={ParentTopic.AddParentTopic}
           />
 
           <Route
-            path="/author/topic/parentTopic/:id"
+            exact
+            path="/author/topic/topicParent/:id"
             component={ParentTopic.EditParentTopic}
           />
-          {/* <Route path="/author/topic/listTotalTopic" component={{}} />
-          <Route path="/author/topic/levelTopic" component={{}} /> */}
         </Switch>
       </div>
     </Router>

@@ -1,11 +1,11 @@
 exports.allAcess = (req, res) => {
-  res.status(200).send("Trang người dùng khách");
-};
-
-exports.userBoard = (req, res) => {
-  console.log("userId", req.userId);
   res.status(200).send("Trang người dùng");
 };
+
+// exports.userBoard = (req, res) => {
+//   console.log("userId", req.userId);
+//   res.status(200).send("Trang người dùng");
+// };
 
 exports.authorBoard = (req, res) => {
   res.status(200).send("Trang tác giả");

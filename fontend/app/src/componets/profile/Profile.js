@@ -3,14 +3,34 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userState$ } from "../../redux/selector/index";
+import { handleActions } from "redux-actions";
 
 const Profile = () => {
   const { user: currentUser } = useSelector(userState$);
+
+  const [state, setState] = React.useState(true);
+  const edit = Boolean(state);
+
+  const initialState = {
+    fullname: currentUser.fullname,
+    email: currentUser.email,
+    username: currentUser.username,
+  };
+
+  const [values, setValues] = React.useState(initialState);
 
   console.log("[currentUser]", currentUser);
   if (!currentUser) {
     return <Redirect to="/login" />;
   }
+
+  const handleClick = (event) => {
+    setState(false);
+  };
+
+  const handleOnChange = (event) => {
+    setValues(event.target.value);
+  };
 
   return (
     <div className="container bootstrap snippet">
@@ -109,12 +129,13 @@ const Profile = () => {
                       <h4>Họ và tên</h4>
                     </label>
                     <input
-                      readOnly
+                      onChange={handleOnChange}
+                      readOnly={edit}
                       type="text"
                       className="form-control"
                       name="first_name"
                       id="first_name"
-                      value={currentUser.fullname}
+                      value={values.fullname}
                     />
                   </div>
                 </div>
@@ -124,12 +145,13 @@ const Profile = () => {
                       <h4>Tên người dùng</h4>
                     </label>
                     <input
-                      readOnly
+                      onChange={handleOnChange}
+                      readOnly={edit}
                       type="text"
                       className="form-control"
                       name="last_name"
                       id="last_name"
-                      value={currentUser.username}
+                      value={values.username}
                     />
                   </div>
                 </div>
@@ -139,12 +161,13 @@ const Profile = () => {
                       <h4>Email</h4>
                     </label>
                     <input
-                      readOnly
+                      onChange={handleOnChange}
+                      readOnly={edit}
                       type="email"
                       className="form-control"
                       name="email"
                       id="email"
-                      value={currentUser.email}
+                      value={values.email}
                     />
                   </div>
                 </div>
@@ -156,7 +179,11 @@ const Profile = () => {
                       <i className="glyphicon glyphicon-ok-sign"></i> Lưu
                     </button>
                     &nbsp;
-                    <button className="btn btn-lg btn-warning" type="reset">
+                    <button
+                      onClick={handleClick}
+                      className="btn btn-lg btn-warning"
+                      type="reset"
+                    >
                       <i className="glyphicon glyphicon-repeat"></i> Chỉnh sửa
                     </button>
                   </div>
