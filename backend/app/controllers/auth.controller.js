@@ -42,24 +42,28 @@ exports.singup = (req, res) => {
           });
         }
       );
-    } else {
-      //Nếu người đăng ký chưa có vai trò trong request thì mặc định là vai trò user
-      // Tìm vai trò có tên "user" và gán nó cho roles của người dùng
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-        user.roles = [role._id];
-        user.save((err) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-          res.send({ message: "Người dùng đã được tạo thành công!" });
-        });
-      });
     }
+    // else {
+    //   res.send({ message: "Người dùng không có vai trò!" });
+    //Nếu người đăng ký chưa có vai trò trong request thì mặc định là vai trò user
+    // Tìm vai trò có tên "user" và gán nó cho roles của người dùng
+    // Role.findOne({ name: "user" }, (err, role) => {
+    //   if (err) {
+    //     res.status(500).send({ message: err });
+    //     return;
+    //   }
+    //   user.roles = [role._id];
+    //   user.save((err) => {
+    //     if (err) {
+    //       res
+    //         .status(500)
+    //         .send({ message: err + });
+    //       return;
+    //     }
+    //     res.send({ message: "Người dùng đã được tạo thành công!" });
+    //   });
+    // });
+    // }
   });
 };
 
@@ -88,7 +92,7 @@ exports.signin = (req, res) => {
       }
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400,
+        expiresIn: 36400,
       });
 
       var authorities = [];

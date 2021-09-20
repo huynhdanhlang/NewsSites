@@ -5,7 +5,7 @@ const dbConfig = require("./app/config/db.config");
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:8081","http://127.0.0.1:8081"],
+  origin: ["http://localhost:8081", "http://127.0.0.1:8081"],
 };
 
 app.use(cors(corsOptions));
@@ -29,6 +29,7 @@ require("./app/routes/auth.route")(app);
 require("./app/routes/user.route")(app);
 require("./app/routes/posts.route")(app);
 require("./app/routes/childTopic.route")(app);
+require("./app/routes/parentTopic.route")(app);
 
 //set port,listen for requests
 const PORT = process.env.PORT || 8080;
@@ -57,14 +58,14 @@ db.mongoose
 function initial() {
   Role.estimatedDocumentCount((err, docCount) => {
     if (!err && docCount === 0) {
-      new Role({
-        name: "user",
-      }).save((err) => {
-        if (err) {
-          console.log("error: " + err);
-        }
-        console.log("added 'user' to roles collection");
-      });
+      // new Role({
+      //   name: "user",
+      // }).save((err) => {
+      //   if (err) {
+      //     console.log("error: " + err);
+      //   }
+      //   console.log("added 'user' to roles collection");
+      // });
 
       new Role({
         name: "author",
