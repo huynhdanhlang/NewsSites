@@ -9,7 +9,7 @@ export default function AddTopic() {
   //ChildTopic
   const childTopic = useSelector(childTopic$);
   const [selectedOption, setSelectedOption] = React.useState([]);
-
+  const [inputList, setInputList] = React.useState([{ id: null, topic: "" }]);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -17,10 +17,11 @@ export default function AddTopic() {
     // console.log(childTopic);
     setParentTopic({
       ...parentTopic,
-      name_topic_child: selectedOption,
+      name_topic_parent: selectedOption.label,
+      name_topic_child: inputList,
     });
     console.log("jjsjjs", selectedOption);
-  }, [selectedOption]);
+  }, [selectedOption.label, inputList]);
 
   const options = childTopic.map((topic, index) => {
     return {
@@ -50,15 +51,29 @@ export default function AddTopic() {
   const [parentTopic, setParentTopic] = React.useState(inittialParentTopic);
   const [submited, setSubmited] = React.useState(false);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event, index) => {
     const { name, value } = event.target;
-    setParentTopic({ ...parentTopic, [name]: value });
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+    console.log(["parentTopic"], parentTopic);
+  };
+
+  // handle click event of the Remove button
+  const handleRemoveClick = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setInputList([...inputList, { id: null, topic: "" }]);
   };
 
   const handleOnchange = (e) => {
     console.log(e);
-    setSelectedOption(Array.isArray(e) ? e.map((x) => x.value) : []);
-
+    setSelectedOption(e);
   };
 
   const saveParentTopic = () => {
@@ -89,6 +104,7 @@ export default function AddTopic() {
   const handleClick = () => {
     setSelectedOption([]);
     setParentTopic(inittialParentTopic);
+    setInputList([{ id: null, topic: "" }]);
   };
 
   return (
@@ -108,38 +124,68 @@ export default function AddTopic() {
       ) : (
         <div>
           <div className="form-group">
-            <label htmlFor="name_parent">Chủ đề:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name_topic_parent"
-              required
-              value={parentTopic.name_topic_parent}
-              onChange={handleInputChange}
-              name="name_topic_parent"
-            />
-          </div>
-          <label htmlFor="tag_select">Thẻ chủ đề:</label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Select
-              classNamePrefix="select"
-              className="basic-single"
-              isMulti
-              value={options.filter((obj) =>
-                selectedOption.includes(obj.value)
-              )}
-              isClearable={false}
-              onChange={handleOnchange}
-              options={options}
-              name="colors"
-              styles={customStyles}
-            />
+            <label htmlFor="tag_select">Chủ đề:</label>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Select
+                classNamePrefix="select"
+                className="basic-single"
+                isMulti={false}
+                value={selectedOption}
+                isClearable={false}
+                onChange={handleOnchange}
+                options={options}
+                name="colors"
+                styles={customStyles}
+              />
+            </div>
+            <label htmlFor="name_parent">Thẻ chủ đề:</label>
+            {inputList.map((topic, i) => {
+              return (
+                <div>
+                  &nbsp;
+                  <input
+                    key={i}
+                    type="text"
+                    className="form-control"
+                    id="name_topic_child"
+                    required
+                    value={topic.topic}
+                    onChange={(e) => handleInputChange(e, i)}
+                    name="topic"
+                  />
+                  <div>
+                    {inputList.length !== 1 && (
+                      <a
+                        onClick={() => handleRemoveClick(i)}
+                        className="btn btn-danger btn-sm "
+                        href="#"
+                        role="button"
+                      >
+                        Xóa
+                      </a>
+                    )}
+                    &nbsp;
+                    {inputList.length - 1 === i && (
+                      <a
+                        onClick={handleAddClick}
+                        className="btn btn-primary btn-sm "
+                        href="#"
+                        role="button"
+                      >
+                        Thêm{" "}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
           </div>
           <p></p>
           <a
