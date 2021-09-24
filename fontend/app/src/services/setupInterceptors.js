@@ -32,7 +32,7 @@ const setup = (store) => {
 
           //Khi người dùng đăng nhập thì refresh token mới
           try {
-            const refresh = await axiosInstance.post("/auth/refreshToken", {
+            const refresh = await axiosInstance.post("/auth/refreshtoken", {
               refreshToken: TokenService.getLocalRefreshToken(),
             });
 

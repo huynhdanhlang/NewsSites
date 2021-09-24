@@ -3,6 +3,17 @@ const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const { TokenExpiredError } = jwt;
+
+const catchError = (err, res) => {
+  if (err instanceof TokenExpiredError) {
+    return res
+      .status(401)
+      .send({ message: "Chưa xác thực!! Truy cập hết hạn!" });
+  }
+
+  return res.sendStatus(401).send({ message: "Chưa xác thực!" });
+};
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -12,7 +23,7 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      return res.status(401).send({ message: "Chưa xác thực!" });
+      return catchError(err, res);
     }
     console.log(req.userId);
     req.userId = decoded.id;
@@ -43,7 +54,9 @@ isAdmin = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
+        res
+          .status(403)
+          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );
@@ -73,7 +86,9 @@ isModerator = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
+        res
+          .status(403)
+          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );
@@ -103,7 +118,9 @@ isAuthor = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Bạn không có quyền truy cập vào trang này!" });
+        res
+          .status(403)
+          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
         return;
       }
     );

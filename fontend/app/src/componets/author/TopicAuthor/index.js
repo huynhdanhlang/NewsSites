@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route, Link, withRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
@@ -8,7 +8,7 @@ import { history } from "../../../helpers/history";
 import ChildTopic from "./ChildTopic/index";
 import ParentTopic from "./ParentTopic/index";
 
-export default function TopicAuthor() {
+function TopicAuthor() {
   return (
     <Router history={history}>
       <Navbar variant="dark" fixed="bottom" bg="dark" expand="lg">
@@ -79,7 +79,6 @@ export default function TopicAuthor() {
           />
 
           <Route
-            exact
             path="/author/topic/topicParent/:id"
             component={ParentTopic.EditParentTopic}
           />
@@ -88,3 +87,5 @@ export default function TopicAuthor() {
     </Router>
   );
 }
+
+export default withRouter(TopicAuthor);

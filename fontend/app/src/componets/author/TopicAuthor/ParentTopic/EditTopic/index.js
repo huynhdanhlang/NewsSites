@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateParentTopic,
   deleteParentTopic,
 } from "../../../../../redux/actions/thunk/parentTopic";
 import ParentTopicDataService from "../../../../../services/parentTopic.service";
+import Select from "react-select";
+import { childTopic$ } from "../../../../../redux/selector/index";
+import { retrieveChildTopic } from "../../../../../redux/actions/thunk/childTopic";
 
 const ParentTopic = (props) => {
   const initialParentTopicState = {
@@ -15,6 +18,8 @@ const ParentTopic = (props) => {
     canceled: false,
   };
 
+  const childTopic = useSelector(childTopic$);
+  const [selectedOption, setSelectedOption] = useState([]);
   const [currentParentTopic, setCurrentParentTopic] = useState(
     initialParentTopicState
   );
@@ -22,26 +27,91 @@ const ParentTopic = (props) => {
 
   const dispatch = useDispatch();
 
-  const getParentTopic = (id) => {
-    console.log(["id fggfgfgfg"], id);
-    ParentTopicDataService.get(id)
-      .then((response) => {
-        setCurrentParentTopic(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const getParentTopic = async (id) => {
+  //   // console.log(["id fggfgfgfg"], id);
+  //   await ParentTopicDataService.get(id)
+  //     .then((response) => {
+  //       console.log(["response.data"], response.data);
+  //       setCurrentParentTopic(response.data);
+  //       localStorage.setItem(
+  //         "name_topic_child",
+  //         JSON.stringify(response.data.name_topic_child)
+  //       );
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getParentTopic(props.match.params.id);
+  // }, [props.match.params.id]);
+
+  const getTopic = JSON.parse(localStorage.getItem("name_topic_child"));
 
   useEffect(() => {
     // console.log(["iiiiii"], props.match.params.id);
-    getParentTopic(props.match.params.id);
-  }, [props.match.params.id]);
+    dispatch(retrieveChildTopic());
+
+    // setCurrentParentTopic(getTopic);
+    setCurrentParentTopic({
+      ...getTopic,
+      name_topic_child: selectedOption,
+    });
+  }, [selectedOption]);
+
+  const parentValueSelected = getTopic["name_topic_child"].map(
+    (topic, index) => {
+      return {
+        label: topic.name_topic_child,
+        value: topic._id,
+        key: index,
+      };
+    }
+  );
+
+  // // This will run for only during the first render.
+  const defaultSelectedValue = React.useMemo(() => {
+    // to update the local state
+    setSelectedOption(getTopic["name_topic_child"]);
+    // console.log(["selectedOption"], selectedOption);
+    return parentValueSelected;
+  }, []);
+  console.log(["selectedOption"], selectedOption);
+  // console.log(["parentValueSelected"],parentValueSelected);
+  // useEffect(() => {
+
+  // }, []);
+
+  const options = childTopic.map((topic, index) => {
+    return {
+      label: topic.name_topic_child,
+      value: topic._id,
+      key: index,
+    };
+  });
+
+  // const handleOnchange = (e) => {
+  //   console.log(["e"], e);
+  //   setSelectedOption(Array.isArray(e) ? e.map((x) => x.value) : []);
+  // };
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      width: 300,
+    }),
+    multiValueRemove: (base) => ({ ...base, display: "none" }),
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCurrentParentTopic({ ...currentParentTopic, [name]: value });
   };
+
+  // const handleClick = () => {
+  //   // setSelectedOption([]);
+  //   // setCurrentParentTopic(initialParentTopicState);
+  // };
 
   //   const updateStatus = (status) => {
   //   const data = {
@@ -64,14 +134,17 @@ const ParentTopic = (props) => {
   const updateContent = () => {
     dispatch(updateParentTopic(currentParentTopic._id, currentParentTopic))
       .then((response) => {
-        console.log(response);
-
+        // console.log(response);
         setMessage("The parentTopic was updated successfully!");
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
+  //   options.filter((obj) =>
+  //   selectedOption.includes(obj.value)
+  // )
 
   const removeParentTopic = () => {
     dispatch(deleteParentTopic(currentParentTopic._id))
@@ -101,6 +174,19 @@ const ParentTopic = (props) => {
               />
             </div>
             &nbsp;
+            <Select
+              classNamePrefix="select"
+              className="basic-single"
+              isMulti
+              defaultValue={defaultSelectedValue}
+              // value={selectedOption}
+              isClearable={false}
+              onChange={(e) => setSelectedOption(e.map((item) => item.value))}
+              options={options}
+              name="colors"
+              styles={customStyles}
+            />
+            &nbsp;
           </form>
           <a
             className="btn btn-danger btn-sm "
@@ -119,6 +205,15 @@ const ParentTopic = (props) => {
           >
             Cập nhật
           </a>
+          {/* &nbsp;
+          <a
+            onClick={handleClick}
+            className="btn btn-warning btn-sm "
+            href="#"
+            role="button"
+          >
+            Reset selection
+          </a> */}
           <p>{message}</p>
         </div>
       ) : (

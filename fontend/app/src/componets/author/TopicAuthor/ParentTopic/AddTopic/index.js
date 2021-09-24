@@ -14,8 +14,13 @@ export default function AddTopic() {
 
   React.useEffect(() => {
     dispatch(retrieveChildTopic());
-    console.log(childTopic);
-  }, []);
+    // console.log(childTopic);
+    setParentTopic({
+      ...parentTopic,
+      name_topic_child: selectedOption,
+    });
+    console.log("jjsjjs", selectedOption);
+  }, [selectedOption]);
 
   const options = childTopic.map((topic, index) => {
     return {
@@ -52,13 +57,8 @@ export default function AddTopic() {
 
   const handleOnchange = (e) => {
     console.log(e);
-
     setSelectedOption(Array.isArray(e) ? e.map((x) => x.value) : []);
-    console.log("jjsjjs", selectedOption);
-    setParentTopic({
-      ...parentTopic,
-      name_topic_child: selectedOption,
-    });
+
   };
 
   const saveParentTopic = () => {

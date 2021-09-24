@@ -77,6 +77,8 @@ exports.findOne = (req, res) => {
   console.log(["id", id]);
 
   TopicParent.findById(id)
+    .populate("name_topic_child")
+    .populate({ path: "name_topic_child", select: "name_topic_child" })
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Không tìm thấy chủ đề với id=" + id });
@@ -94,7 +96,7 @@ exports.update = (req, res) => {
   }
 
   const id = req.params.id;
-
+  console.log(["idgghhgh"], id);
   TopicParent.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
@@ -106,7 +108,9 @@ exports.update = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).send({ message: "Lỗi cập nhật chủ đề với id=" + id });
+      res
+        .status(500)
+        .send({ message: "Lỗi cập nhật chủ đề với id=" + id + err });
     });
 };
 

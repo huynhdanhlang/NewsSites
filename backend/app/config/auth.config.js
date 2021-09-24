@@ -1,3 +1,5 @@
-module.exports={
-    secret:"danhlang_secret_key"
+module.exports = {
+  secret: "danhlang_secret_key",
+  jwtExpiration: 3600, // 1 hour
+  jwtRefreshExpiration: 86400, // 24 hours
 };
