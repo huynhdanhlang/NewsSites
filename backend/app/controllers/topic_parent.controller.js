@@ -124,6 +124,10 @@ exports.update = (req, res) => {
           return;
         }
       });
+    } else {
+      TopicList.findByIdAndUpdate(topic._id, topic, {
+        useFindAndModify: false,
+      });
     }
   });
   console.log(["req.body"], req.body);
@@ -165,8 +169,6 @@ exports.delete = async (req, res) => {
 
   await TopicList.deleteMany({ _id: { $in: listTopic } });
   console.log(["listTopic"], listTopic);
-
-
 };
 
 // Delete all TopicParent from the database.
