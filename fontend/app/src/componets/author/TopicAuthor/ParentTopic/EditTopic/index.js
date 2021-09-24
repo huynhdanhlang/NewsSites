@@ -35,7 +35,7 @@ const ParentTopic = (props) => {
 
     // setCurrentParentTopic(getTopic);
     setCurrentParentTopic({
-      ...getTopic,
+      ...currentParentTopic,
       name_topic_child: inputList,
     });
   }, [inputList]);
