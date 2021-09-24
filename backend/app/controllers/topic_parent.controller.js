@@ -147,18 +147,26 @@ exports.update = (req, res) => {
 };
 
 // Delete a TopicParent with the specified id in the request
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  TopicParent.findByIdAndRemove(id).then((data) => {
+  const listTopic = await TopicParent.findByIdAndRemove(id, {
+    useFindAndModify: false,
+  }).then((data) => {
     if (!data) {
       res.status(400).send({
         message: `Không thể xóa chủ đề với id=${id}. Có thể chủ đề không tìm thấy`,
       });
     } else {
       res.send({ message: "Chủ đề đã xóa thành công" });
+      return data["name_topic_child"];
     }
   });
+
+  await TopicList.deleteMany({ _id: { $in: listTopic } });
+  console.log(["listTopic"], listTopic);
+
+
 };
 
 // Delete all TopicParent from the database.

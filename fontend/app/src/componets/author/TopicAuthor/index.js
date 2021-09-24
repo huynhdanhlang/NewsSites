@@ -21,7 +21,7 @@ function TopicAuthor() {
             drop="up"
             variant="secondary"
             menuVariant="dark"
-            title={` Chủ đề con `}
+            title={` Chủ đề `}
           >
             <Link to="/author/topic/addChild" className="nav-link">
               Thêm chủ đề
@@ -38,13 +38,13 @@ function TopicAuthor() {
             drop="up"
             variant="secondary"
             menuVariant="dark"
-            title={` Chủ đề cha `}
+            title={` Chủ đề và thẻ `}
           >
             <Link to="/author/topic/addParent" className="nav-link">
-              Thêm chủ đề
+              Thêm chủ đề và thẻ
             </Link>{" "}
             <Link to="/author/topic/topicParent" className="nav-link">
-              Danh sách chủ đề
+              Danh sách chủ đề và thẻ
             </Link>
           </DropdownButton>
         </Navbar.Collapse>
