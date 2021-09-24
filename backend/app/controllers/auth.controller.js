@@ -147,7 +147,7 @@ exports.refreshToken = async (req, res) => {
       return;
     }
 
-    let newAccessToken = jwt.sign({ id: refreshToken._id }, config.secret, {
+    let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
       expiresIn: config.jwtExpiration,
     });
 

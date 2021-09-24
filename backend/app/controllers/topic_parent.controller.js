@@ -2,9 +2,25 @@ const db = require("../models");
 
 const TopicParent = db.topic_parent;
 const ChildTopic = db.topic_child;
+const TopicList = db.topicList;
 // Create and Save a new TopicParent
 exports.create = (req, res) => {
-  console.log(req.body);
+  console.log(["req.body"], req.body);
+
+  const topicId = [];
+  req.body.name_topic_child.map((topic) => {
+    const child_topic = new TopicList({
+      topic: topic.topic,
+    });
+    topicId.push(child_topic._id);
+    child_topic.save((err, child_topic) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+    });
+  });
+  console.log(["topicId"], topicId);
   const topic_parent = new TopicParent({
     name_topic_parent: req.body.name_topic_parent,
   });
@@ -17,10 +33,10 @@ exports.create = (req, res) => {
 
     // console.log(req.body.roles);
     //Nếu người dùng có vai trò trong request đăng ký thì tìm các và trò đó và gán vào roles người dùng
-    if (req.body.name_topic_child) {
-      ChildTopic.find(
+    if (topicId) {
+      TopicList.find(
         {
-          _id: { $in: req.body.name_topic_child },
+          _id: { $in: topicId },
         },
         (err, name_topic_child) => {
           if (err) {
@@ -78,7 +94,7 @@ exports.findOne = (req, res) => {
 
   TopicParent.findById(id)
     .populate("name_topic_child")
-    .populate({ path: "name_topic_child", select: "name_topic_child" })
+    .populate({ path: "name_topic_child", select: "topic" })
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Không tìm thấy chủ đề với id=" + id });
@@ -95,8 +111,24 @@ exports.update = (req, res) => {
     return res.status(400).send({ message: "Dữ liệu cập nhật bị rỗng" });
   }
 
+  req.body["name_topic_child"].map((topic, index) => {
+    console.log(["req.body"], req.body);
+    if (topic._id === null) {
+      const child_topic = new TopicList({
+        topic: topic.topic,
+      });
+      req.body["name_topic_child"][index]._id = child_topic._id;
+      child_topic.save((err, child_topic) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+      });
+    }
+  });
+  console.log(["req.body"], req.body);
   const id = req.params.id;
-  console.log(["idgghhgh"], id);
+
   TopicParent.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {

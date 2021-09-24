@@ -11,7 +11,7 @@ const TopicParent = mongoose.model(
       name_topic_child: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "TopicChild",
+          ref: "TopicList",
         },
       ],
       approved: {

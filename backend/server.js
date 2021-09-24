@@ -10,12 +10,12 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 //parser requests of content-type - application/json
-app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.json({ limit: "5mb" }));
 //parser requests of content-type - application/x-www-form-urlencoded
 app.use(
   bodyParser.urlencoded({
-    limit: "50mb",
-    parameterLimit: 100000,
+    limit: "5mb",
+    parameterLimit: 5000,
     extended: true,
   })
 );
