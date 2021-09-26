@@ -1,12 +1,26 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Select from "react-select";
+
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import { register } from "../../redux/actions/thunk/auth";
+
+const optionsS = ["Tác giả","Kiểm duyệt viên","Quản trị viên"];
+const customStyles = {
+  control: (base) => ({
+    ...base,
+    width: 300,
+  }),
+  multiValueRemove: (base) => ({ ...base, display: "none" }),
+};
+//const [selectedOption, setSelectedOption] = React.useState([]);
+
 
 const required = (value) => {
   if (!value) {
@@ -166,8 +180,33 @@ const Register = () => {
                 />
               </div>
               &nbsp;
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Đăng ký</button>
+              <div className="form-group"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+                  <Select 
+                // value={optionsS.filter((obj) =>
+                //   selectedOption.includes(obj.value)
+                //  )}
+                classNamePrefix="select"
+                className="basic-single"
+                isClearable={false}
+               options={optionsS}
+              name="colors"
+             styles={customStyles}
+            />
+                
+              </div>
+              &nbsp;
+              <div className="form-group"
+                style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}> 
+                <button className="btn btn-primary btn-block">Xác nhận</button>
               </div>
             </div>
           )}

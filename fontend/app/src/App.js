@@ -117,11 +117,11 @@ const App = () => {
                   Đăng nhập
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to={"/register"} className="nav-link">
                   Đăng ký
                 </Link>
-              </li>
+              </li> */}
             </div>
           )}
         </nav>
