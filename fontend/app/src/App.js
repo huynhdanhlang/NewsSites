@@ -89,7 +89,7 @@ const App = () => {
               )}
               {showAuthorBoard && (
                 <li className="nav-item">
-                  <Link to={"/author"} className="nav-link">
+                  <Link to={"/author/posts"} className="nav-link">
                     Tác giả
                   </Link>
                 </li>

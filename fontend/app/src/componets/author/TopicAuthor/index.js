@@ -9,6 +9,8 @@ import ChildTopic from "./ChildTopic/index";
 import ParentTopic from "./ParentTopic/index";
 
 function TopicAuthor() {
+
+
   return (
     <Router history={history}>
       <Navbar variant="dark" fixed="bottom" bg="dark" expand="lg">
@@ -21,7 +23,7 @@ function TopicAuthor() {
             drop="up"
             variant="secondary"
             menuVariant="dark"
-            title={` Chủ đề con `}
+            title={` Chủ đề `}
           >
             <Link to="/author/topic/addChild" className="nav-link">
               Thêm chủ đề
@@ -34,17 +36,21 @@ function TopicAuthor() {
           <DropdownButton
             as={ButtonGroup}
             key="up"
-            id={`dropdown-button-drop-up`}
+            id={`dropdown-button-drop-up-click`}
             drop="up"
             variant="secondary"
             menuVariant="dark"
-            title={` Chủ đề cha `}
+            title={` Chủ đề và thẻ `}
           >
-            <Link to="/author/topic/addParent" className="nav-link">
-              Thêm chủ đề
+            <Link
+              to="/author/topic/addParent"
+              className="nav-link"
+              id="check-lick"
+            >
+              Thêm chủ đề và thẻ
             </Link>{" "}
             <Link to="/author/topic/topicParent" className="nav-link">
-              Danh sách chủ đề
+              Danh sách chủ đề và thẻ
             </Link>
           </DropdownButton>
         </Navbar.Collapse>
@@ -88,4 +94,4 @@ function TopicAuthor() {
   );
 }
 
-export default withRouter(TopicAuthor);
+export default TopicAuthor;

@@ -7,10 +7,8 @@ import PostAddIcon from "@material-ui/icons/PostAdd";
 import CategoryIcon from "@material-ui/icons/Category";
 import BoardAuthor from "./BoardAuthor";
 import TopicAuthor from "./TopicAuthor";
-import { useDispatch } from "react-redux";
 
-import { Link, withRouter, Switch, Route, Router } from "react-router-dom";
-
+import { Link, Switch, Route, Router } from "react-router-dom";
 
 import { history } from "../../helpers/history";
 
@@ -27,13 +25,6 @@ const SimpleBottomNavigation = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
-
-  React.useEffect(() => {
-    inputRef.current.click();
-  }, []);
-
   return (
     <Router history={history}>
       <Grid container justifyContent="center">
@@ -47,8 +38,6 @@ const SimpleBottomNavigation = () => {
           className={classes.root}
         >
           <BottomNavigationAction
-            ref={inputRef}
-            onClick={() => console.log("")}
             label="Tin tức"
             icon={<PostAddIcon />}
             component={Link}
@@ -69,4 +58,4 @@ const SimpleBottomNavigation = () => {
     </Router>
   );
 };
-export default withRouter(SimpleBottomNavigation);
+export default SimpleBottomNavigation;

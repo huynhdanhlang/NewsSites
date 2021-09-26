@@ -13,5 +13,6 @@ db.post = require("./posts.model");
 db.topic_child = require("./topic_child.model");
 db.topic_parent = require("./topic_parent.model");
 db.refreshToken = require("./refreshToken.model");
+db.topicList = require("./topicList.model");
 
 module.exports = db;

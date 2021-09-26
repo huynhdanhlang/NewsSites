@@ -25,105 +25,119 @@ verifyToken = (req, res, next) => {
     if (err) {
       return catchError(err, res);
     }
-    console.log(req.userId);
     req.userId = decoded.id;
     next();
   });
 };
 
 isAdmin = (req, res, next) => {
+  console.log(["isAdmin"], req.userId);
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
-
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
-            next();
+    console.log(["userId", user]);
+    try {
+      Role.find(
+        {
+          _id: { $in: user.roles },
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({ message: err });
             return;
           }
+
+          for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name === "admin") {
+              next();
+              return;
+            }
+          }
+          res
+            .status(403)
+            .send({ message: "Bạn không có quyền truy cập vào trang này!" });
+          return;
         }
-        res
-          .status(403)
-          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
-        return;
-      }
-    );
+      );
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
   });
 };
 
 isModerator = (req, res, next) => {
+  console.log(["isModerator"], req.userId);
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
-            next();
+    try {
+      Role.find(
+        {
+          _id: { $in: user.roles },
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({ message: err });
             return;
           }
+          console.log(["roles"], roles);
+          for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name === "moderator") {
+              next();
+              return;
+            }
+          }
+          res
+            .status(403)
+            .send({ message: "Bạn không có quyền truy cập vào trang này!" });
+          return;
         }
-        res
-          .status(403)
-          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
-        return;
-      }
-    );
+      );
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
   });
 };
 
 isAuthor = (req, res, next) => {
+  console.log(["isAuthor"], req.userId);
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "author") {
-            next();
+    try {
+      Role.find(
+        {
+          _id: { $in: user.roles },
+        },
+        (err, roles) => {
+          if (err) {
+            res.status(500).send({ message: err });
             return;
           }
+
+          for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name === "author") {
+              next();
+              return;
+            }
+          }
+          res
+            .status(403)
+            .send({ message: "Bạn không có quyền truy cập vào trang này!" });
+          return;
         }
-        res
-          .status(403)
-          .send({ message: "Bạn không có quyền truy cập vào trang này!" });
-        return;
-      }
-    );
+      );
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
   });
 };
 
