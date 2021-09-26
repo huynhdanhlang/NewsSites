@@ -1,7 +1,6 @@
 const db = require("../models");
 
 const TopicParent = db.topic_parent;
-const ChildTopic = db.topic_child;
 const TopicList = db.topicList;
 // Create and Save a new TopicParent
 exports.create = (req, res) => {
@@ -111,7 +110,7 @@ exports.update = (req, res) => {
     return res.status(400).send({ message: "Dữ liệu cập nhật bị rỗng" });
   }
 
-  req.body["name_topic_child"].map((topic, index) => {
+  req.body["name_topic_child"].map(async (topic, index) => {
     console.log(["req.body"], req.body);
     if (topic._id === null) {
       const child_topic = new TopicList({
@@ -125,7 +124,8 @@ exports.update = (req, res) => {
         }
       });
     } else {
-      TopicList.findByIdAndUpdate(topic._id, topic, {
+      console.log(["topic"], topic);
+      await TopicList.findByIdAndUpdate(topic._id, topic, {
         useFindAndModify: false,
       });
     }

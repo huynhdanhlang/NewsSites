@@ -30,6 +30,7 @@ require("./app/routes/user.route")(app);
 require("./app/routes/posts.route")(app);
 require("./app/routes/childTopic.route")(app);
 require("./app/routes/parentTopic.route")(app);
+require("./app/routes/listTopic.route")(app);
 
 //set port,listen for requests
 const PORT = process.env.PORT || 8080;
