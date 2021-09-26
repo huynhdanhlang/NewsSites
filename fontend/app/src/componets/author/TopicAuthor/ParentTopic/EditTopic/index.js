@@ -8,6 +8,7 @@ import {
 import { deleteTopicTag } from "../../../../../redux/actions/thunk/listTopic";
 import { retrieveChildTopic } from "../../../../../redux/actions/thunk/childTopic";
 import ParentTopicDataService from "../../../../../services/parentTopic.service";
+import { Grid } from "@material-ui/core";
 
 const ParentTopic = (props) => {
   // const initialParentTopicState = {
@@ -92,7 +93,7 @@ const ParentTopic = (props) => {
         // console.log(response);
         setMessage("The parentTopic was updated successfully!");
         await getParentTopic(currentParentTopic._id);
-        setTimeout(window.location.reload(true), 1000);
+        setTimeout(window.location.reload(true), 1500);
       })
       .catch((e) => {
         console.log(e);
@@ -135,47 +136,56 @@ const ParentTopic = (props) => {
               />
             </div>
             &nbsp;
-            <label htmlFor="name_parent">Thẻ chủ đề:</label>
-            {inputList.map((topic, i) => {
-              return (
-                <div>
-                  &nbsp;
-                  <input
-                    key={i}
-                    type="text"
-                    className="form-control"
-                    id="name_topic_child"
-                    required
-                    value={topic.topic}
-                    onChange={(e) => handleInputChangeTopic(e, i)}
-                    name="topic"
-                  />
+            <div
+              style={{
+                overflow: "auto",
+                height: 200,
+                display: "block",
+                maxWidth: 300,
+              }}
+            >
+              <label htmlFor="name_parent">Thẻ chủ đề:</label>
+              {inputList.map((topic, i) => {
+                return (
                   <div>
-                    {inputList.length !== 1 && (
-                      <a
-                        onClick={() => handleRemoveClick(i)}
-                        className="btn btn-danger btn-sm "
-                        href="#"
-                        role="button"
-                      >
-                        Xóa
-                      </a>
-                    )}
                     &nbsp;
-                    {inputList.length - 1 === i && (
-                      <a
-                        onClick={handleAddClick}
-                        className="btn btn-primary btn-sm "
-                        href="#"
-                        role="button"
-                      >
-                        Thêm{" "}
-                      </a>
-                    )}
+                    <input
+                      key={i}
+                      type="text"
+                      className="form-control"
+                      id="name_topic_child"
+                      required
+                      value={topic.topic}
+                      onChange={(e) => handleInputChangeTopic(e, i)}
+                      name="topic"
+                    />
+                    <div>
+                      {inputList.length !== 1 && (
+                        <a
+                          onClick={() => handleRemoveClick(i)}
+                          className="btn btn-danger btn-sm "
+                          href="#"
+                          role="button"
+                        >
+                          Xóa
+                        </a>
+                      )}
+                      &nbsp;
+                      {inputList.length - 1 === i && (
+                        <a
+                          onClick={handleAddClick}
+                          className="btn btn-primary btn-sm "
+                          href="#"
+                          role="button"
+                        >
+                          Thêm{" "}
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
             <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
             &nbsp;
           </form>
