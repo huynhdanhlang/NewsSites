@@ -106,7 +106,7 @@ const ParentTopic = (props) => {
                 className="form-control"
                 id="name_topic_parent"
                 name="name_topic_parent"
-                value={currentParentTopic.name_topic_parent}
+                value={getTopic.name_topic_parent}
                 onChange={handleInputChange}
               />
             </div>
