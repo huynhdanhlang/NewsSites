@@ -13,6 +13,16 @@ function* getPostsSaga(action) {
   }
 }
 
+function* getPostsAllSaga(action) {
+  try {
+    const posts = yield call(api.getPostsAll); //excute function
+    console.log("[getPostsSaga - All posts]", posts);
+    yield put(actions.getPostsAll.getPostsASuccess(posts.data));
+  } catch (error) {
+    console.error(error);
+    yield put(actions.getPostsAll.getPostsAFailure(error));
+  }
+}
 function* createPostsSaga(action) {
   try {
     const posts = yield call(api.createPost, action.payload); //excute function
@@ -39,6 +49,7 @@ function* mySaga() {
   yield takeLatest(actions.getPosts.getPostsRequest, getPostsSaga);
   yield takeLatest(actions.createPosts.createPostsRequest, createPostsSaga);
   yield takeLatest(actions.updatePosts.updatePostsRequest, updatePostsSaga);
+  yield takeLatest(actions.getPostsAll.getPostsARequest, getPostsAllSaga);
 }
 
 export default mySaga;

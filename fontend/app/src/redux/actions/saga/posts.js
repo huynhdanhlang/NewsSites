@@ -10,7 +10,11 @@ const getPosts = createActions({
   getPostsSuccess: (payload) => payload,
   getPostsFailure: (error) => error,
 });
-
+const getPostsAll = createActions({
+  getPostsARequest: undefined,
+  getPostsASuccess: (payload) => payload,
+  getPostsAFailure: (error) => error,
+});
 //Cac ham trong createActions la obj tra ve dang:
 
 /*
@@ -39,4 +43,4 @@ const updatePosts = createActions({
   updatePostsFailure: (error) => error,
 });
 
-export { getPosts, createPosts, updatePosts, getTypes, hideModal, showModal };
+export { getPosts, createPosts, updatePosts, getTypes, hideModal, showModal, getPostsAll };

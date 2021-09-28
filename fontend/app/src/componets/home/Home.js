@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-
+import { Grid } from "@material-ui/core";
 import UserService from "../../services/user.service";
+import PostAll from "./getPost/index";
 
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../redux/actions/saga/posts";
+
+import { postsState$, userState$ } from "../../redux/selector/index";
 const Home = () => {
   const [content, setContent] = useState("");
 
@@ -21,13 +26,33 @@ const Home = () => {
       }
     );
   }, []);
+  const dispatch = useDispatch();
+  //const { user: currentUser } = useSelector(userState$);
+
+  const posts = useSelector(postsState$);
+
+  console.log(["PostsList - All posts"], posts);
+
+ 
+    React.useEffect(() => {
+    dispatch(actions.getPostsAll.getPostsARequest());
+  }, [dispatch]);
 
   return (
-    <div className="container">
-      <header className="jumbotron">
-        <h3>{content}</h3>
-      </header>
-    </div>
+    <Grid container spacing={2} alignItems="stretch">
+    {posts.map((post) => (
+      // <Grid item xs={12}>
+      //    {post.approved && ( 
+         <Grid key={post._id} item xs={12} sm={4}>
+        
+         <PostAll post={post} />
+        
+         </Grid>
+      //    )}
+      //  </Grid>
+    ))}
+      
+  </Grid>
   );
 };
 

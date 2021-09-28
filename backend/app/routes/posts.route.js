@@ -6,4 +6,6 @@ module.exports = function (app) {
   app.post("/api/posts/create", controller.createPost);
 
   app.post("/api/posts/update", controller.updatePost);
+
+  app.get("api/post/postall", controller.getPostsAll);
 };

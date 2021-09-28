@@ -14,7 +14,15 @@ exports.getPosts = async (req, res) => {
     res.status(500).json({ error: error });
   }
 };
-
+exports.getPostsAll = async (req, res) => {
+  try {
+    //console.log(req.params.author);
+    const posts = await PostAll.find()
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
 exports.createPost = async (req, res) => {
   try {
     const newPost = req.body;
