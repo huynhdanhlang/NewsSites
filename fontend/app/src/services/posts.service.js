@@ -1,8 +1,10 @@
 import api from "./api";
 
-
 const getPosts = (payload) => {
   return api.get("/posts/all/" + payload);
+};
+const getPostsId = (payload) => {
+  return api.get("/posts/postsId/" + payload);
 };
 const getPostsAll = () => {
   return api.get("/posts/postall/");
@@ -16,4 +18,16 @@ const updatePost = (payload) => {
   return api.post("/posts/update", payload);
 };
 
-export { getPosts, createPost, updatePost, getPostsAll };
+const deletePost = (payload) => {
+  console.log(["delete_payload"], payload);
+  return api.post("/posts/delete", payload);
+};
+
+export default {
+  getPosts,
+  getPostsId,
+  createPost,
+  updatePost,
+  getPostsAll,
+  deletePost,
+};

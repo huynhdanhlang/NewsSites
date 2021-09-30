@@ -1,4 +1,12 @@
-import { getTypes, getPosts, createPosts, updatePosts, getPostsAll } from "../../actions/saga/posts";
+import {
+  getTypes,
+  getPosts,
+  createPosts,
+  updatePosts,
+  getPostsAll,
+  deletePosts,
+  getPostsId
+} from "../../actions/saga/posts";
 import { initialState } from "./const";
 
 export default function postsReducers(state = initialState.posts, action) {
@@ -20,23 +28,40 @@ export default function postsReducers(state = initialState.posts, action) {
         ...state,
         isLoading: false,
       };
-      case getTypes(getPostsAll.getPostsARequest):
-        return {
-          ...state,
-          isLoading: true,
-        };
-      case getTypes(getPostsAll.getPostsASuccess):
-        console.log(action.payload);
-        return {
-          ...state,
-          isLoading: false,
-          data: action.payload,
-        };
-      case getTypes(getPostsAll.getPostsAFailure):
-        return {
-          ...state,
-          isLoading: false,
-        };
+    case getTypes(getPostsId.getPostsIdRequest):
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case getTypes(getPostsId.getPostsIdSuccess):
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload,
+      };
+    case getTypes(getPostsId.getPostsIdFailure):
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case getTypes(getPostsAll.getPostsARequest):
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case getTypes(getPostsAll.getPostsASuccess):
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload,
+      };
+    case getTypes(getPostsAll.getPostsAFailure):
+      return {
+        ...state,
+        isLoading: false,
+      };
     case getTypes(createPosts.createPostsSuccess):
       return {
         ...state,
@@ -48,6 +73,12 @@ export default function postsReducers(state = initialState.posts, action) {
         data: state.data.map((post) =>
           post._id === action.payload._id ? action.payload : post
         ),
+      };
+    case getTypes(deletePosts.deletePostsSuccess):
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload,
       };
     default:
       return state;

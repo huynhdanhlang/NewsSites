@@ -6,4 +6,7 @@ export const initialState = {
   modal: {
     isShow: false,
   },
+  modaledit: {
+    isShowEdit: false,
+  },
 };

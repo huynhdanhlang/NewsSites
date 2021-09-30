@@ -7,6 +7,7 @@ import auth from "./thunk/auth";
 import message from "./thunk/message";
 import posts from "./saga/posts";
 import modal from "./saga/postsmodal";
+import modaledit from "./saga/postmodaledit";
 import childTopic from "./thunk/childTopic";
 import parentTopic from "./thunk/parentTopic";
 
@@ -15,6 +16,7 @@ export default combineReducers({
   message,
   posts,
   modal,
+  modaledit,
   childTopic,
   parentTopic,
 });

@@ -41,8 +41,7 @@ export default function PostAll({ post }) {
   }, []);
 
   return (
-    
-      <Card>
+    <Card>
       <CardHeader
         avatar={<Avatar src="" />}
         title={post.author.fullname}

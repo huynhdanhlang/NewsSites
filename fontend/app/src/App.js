@@ -66,13 +66,13 @@ const App = () => {
                   </Link>
                 </li>
               )}
-              {/* {currentUser && (
+              {currentUser && (
                 <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
+                  <Link to={"/home"} className="nav-link">
                     Trang chủ
                   </Link>
                 </li>
-              )} */}
+              )}
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -128,7 +128,7 @@ const App = () => {
 
         <div className="container-fluid !direction !spacing">
           <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path={["/home", "/"]} component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />

@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./style";
 import { TextField, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
-import { hideModal, createPosts } from "../../../../redux/actions/saga/posts";
+import {
+  hideModalEdit,
+  updatePosts,
+} from "../../../../../../redux/actions/saga/posts";
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
-import { userState$,modalState$ } from "../../../../redux/selector/index";
+import { modalEditState$ } from "../../../../../../redux/selector/index";
 
-function CreatePostsModel() {
+function EditPostsModel({ post }) {
   const classes = useStyles();
-  const dispatch = useDispatch(modalState$);
-  const { user: currentUser } = useSelector(userState$);
+  const dispatch = useDispatch(modalEditState$);
+  //   const { user: currentUser } = useSelector(userState$);
   const editor = useRef(null);
 
   const config = {
@@ -23,38 +26,23 @@ function CreatePostsModel() {
     toolbar: true,
     editorCssClass: "jodit-workplace",
     allowTabNavigation: true,
-    askBeforePasteHTML:false,
+    askBeforePasteHTML: false,
   };
 
-  const [data, setData] = useState({
-    title: "",
-    content: "",
-    attachment: "",
-    author: currentUser.id,
-  });
+  // const post = JSON.parse(sessionStorage.getItem("postId"));
+  console.log(['post', post]);
+  const [data, setData] = useState(post);
 
+  console.log(["data"], data);
   const onClose = React.useCallback(() => {
-    dispatch(hideModal());
+    dispatch(hideModalEdit());
   }, [dispatch]);
 
-  const onSubmit = React.useCallback(() => {
-    dispatch(createPosts.createPostsRequest(data));
-    setTimeout(window.location.reload(true),2000);
-    // setData({
-    //   title: "",
-    //   content: "",
-    //   attachment: "",
-    // });
+  const onSubmit = React.useCallback(async () => {
+    await dispatch(updatePosts.updatePostsRequest(data));
+    // setTimeout(window.location.reload(true), 2000);
   }, [dispatch, data]);
 
-  //   <TextareaAutosize
-  //   className={classes.textarea}
-  //   minRows={10}
-  //   maxRows={15}
-  //   placeholder="Nội dung...."
-  //   value={data.content}
-  //   onChange={(e) => setData({ ...data, content: e.target.value })}
-  // />
   const body = (
     <div className={classes.paper} id="simple-modal-title">
       <h2>Thêm tin mới</h2>
@@ -83,6 +71,7 @@ function CreatePostsModel() {
           value={data.attachment}
           onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
         />
+
         <div className={classes.footer}>
           <Button
             variant="contained"
@@ -91,21 +80,21 @@ function CreatePostsModel() {
             fullwidth="true"
             onClick={onSubmit}
           >
-            Thêm
+            Cập nhật
           </Button>
         </div>
       </form>
     </div>
   );
-  const { isShow } = useSelector(modalState$);
+  const { isShowEdit } = useSelector(modalEditState$);
 
   return (
     <div>
-      <Modal disableEnforceFocus open={isShow} onClose={onClose}>
+      <Modal disableEnforceFocus open={isShowEdit} onClose={onClose}>
         {body}
       </Modal>
     </div>
   );
 }
 
-export default CreatePostsModel;
+export default EditPostsModel;

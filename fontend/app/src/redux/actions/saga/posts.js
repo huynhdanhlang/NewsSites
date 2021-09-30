@@ -10,6 +10,13 @@ const getPosts = createActions({
   getPostsSuccess: (payload) => payload,
   getPostsFailure: (error) => error,
 });
+
+const getPostsId = createActions({
+  getPostsIdRequest: (payload) => payload,
+  getPostsIdSuccess: (payload) => payload,
+  getPostsIdFailure: (error) => error,
+});
+
 const getPostsAll = createActions({
   getPostsARequest: undefined,
   getPostsASuccess: (payload) => payload,
@@ -31,6 +38,9 @@ const getPostsAll = createActions({
 const showModal = createAction("SHOW_CREATE_POST_MODAL");
 const hideModal = createAction("HIDE_CREATE_POST_MODAL");
 
+const showModalEdit = createAction("SHOW_EDIT_POST_MODAL");
+const hideModalEdit = createAction("HIDE_EDIT_POST_MODAL");
+
 const createPosts = createActions({
   createPostsRequest: (payload) => payload,
   createPostsSuccess: (payload) => payload,
@@ -43,4 +53,22 @@ const updatePosts = createActions({
   updatePostsFailure: (error) => error,
 });
 
-export { getPosts, createPosts, updatePosts, getTypes, hideModal, showModal, getPostsAll };
+const deletePosts = createActions({
+  deletePostsRequest: (payload) => payload,
+  deletePostsSuccess: (payload) => payload,
+  deletePostsFailure: (error) => error,
+});
+
+export {
+  getPosts,
+  getPostsId,
+  createPosts,
+  updatePosts,
+  getPostsAll,
+  deletePosts,
+  getTypes,
+  hideModal,
+  showModal,
+  hideModalEdit,
+  showModalEdit,
+};
