@@ -10,6 +10,7 @@ import TopicAuthor from "./TopicAuthor";
 import { Link, Switch, Route, Router } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { history } from "../../helpers/history";
+import { showAuthorTutorial } from "../../redux/actions/saga/posts";
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +24,12 @@ const useStyles = makeStyles({
 const SimpleBottomNavigation = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
 
+  const onClick = React.useCallback(() => {
+    dispatch(showAuthorTutorial());
+  }, [dispatch]);
+  
   return (
     <Router history={history}>
       <Grid container justifyContent="center">
@@ -37,6 +43,7 @@ const SimpleBottomNavigation = () => {
           className={classes.root}
         >
           <BottomNavigationAction
+            onClick={onClick}
             label="Chủ đề"
             icon={<CategoryIcon />}
             component={Link}

@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 const Profile = () => {
   const { user: currentUser } = useSelector(userState$);
 
-  const [state, setState] = React.useState(true);
-  const edit = Boolean(state);
+  // const [state, setState] = React.useState(true);
+  // const edit = Boolean(state);
 
   const initialState = {
     fullname: currentUser.fullname,
@@ -24,9 +24,9 @@ const Profile = () => {
     return <Redirect to="/login" />;
   }
 
-  const handleClick = (event) => {
-    setState(false);
-  };
+  // const handleClick = (event) => {
+  //   setState(false);
+  // };
 
   const handleOnChange = (event) => {
     setValues(event.target.value);
@@ -43,11 +43,11 @@ const Profile = () => {
               className="avatar img-circle img-thumbnail"
               alt="avatar"
             ></img>
-            <h6>Đổi avatar</h6>
-            <input
+            {/* <h6>Đổi avatar</h6> */}
+            {/* <input
               type="file"
               className="text-center center-block file-upload"
-            />
+            /> */}
           </div>
         </div>
         <div className="col-sm-9">
@@ -66,7 +66,7 @@ const Profile = () => {
                     </label>
                     <input
                       onChange={handleOnChange}
-                      readOnly={edit}
+                      readOnly={true}
                       type="text"
                       className="form-control"
                       name="first_name"
@@ -82,7 +82,7 @@ const Profile = () => {
                     </label>
                     <input
                       onChange={handleOnChange}
-                      readOnly={edit}
+                      readOnly={true}
                       type="text"
                       className="form-control"
                       name="last_name"
@@ -98,7 +98,7 @@ const Profile = () => {
                     </label>
                     <input
                       onChange={handleOnChange}
-                      readOnly={edit}
+                      readOnly={true}
                       type="email"
                       className="form-control"
                       name="email"
@@ -109,7 +109,7 @@ const Profile = () => {
                 </div>
 
                 <br />
-                <div className="form-group">
+                {/* <div className="form-group">
                   <div className="col-xs-12">
                     <button className="btn btn-lg btn-success" type="submit">
                       <i className="glyphicon glyphicon-ok-sign"></i> Lưu
@@ -123,7 +123,7 @@ const Profile = () => {
                       <i className="glyphicon glyphicon-repeat"></i> Chỉnh sửa
                     </button>
                   </div>
-                </div>
+                </div> */}
               </form>
             </div>
             <div className="tab-pane" id="messages">
