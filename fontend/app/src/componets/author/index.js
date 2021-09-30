@@ -7,9 +7,8 @@ import PostAddIcon from "@material-ui/icons/PostAdd";
 import CategoryIcon from "@material-ui/icons/Category";
 import BoardAuthor from "./BoardAuthor";
 import TopicAuthor from "./TopicAuthor";
-
 import { Link, Switch, Route, Router } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { history } from "../../helpers/history";
 
 const useStyles = makeStyles({
@@ -38,21 +37,21 @@ const SimpleBottomNavigation = () => {
           className={classes.root}
         >
           <BottomNavigationAction
-            label="Tin tức"
-            icon={<PostAddIcon />}
-            component={Link}
-            to={"/author/posts"}
-          />
-          <BottomNavigationAction
             label="Chủ đề"
             icon={<CategoryIcon />}
             component={Link}
             to={"/author/topic"}
           />
+          <BottomNavigationAction
+            label="Tin tức"
+            icon={<PostAddIcon />}
+            component={Link}
+            to={"/author/posts"}
+          />
         </BottomNavigation>
         <Switch>
-          <Route exact path="/author/posts" component={BoardAuthor} />
           <Route path="/author/topic" component={TopicAuthor} />
+          <Route exact path="/author/posts" component={BoardAuthor} />
         </Switch>
       </Grid>
     </Router>

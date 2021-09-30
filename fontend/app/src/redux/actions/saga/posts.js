@@ -41,6 +41,9 @@ const hideModal = createAction("HIDE_CREATE_POST_MODAL");
 const showModalEdit = createAction("SHOW_EDIT_POST_MODAL");
 const hideModalEdit = createAction("HIDE_EDIT_POST_MODAL");
 
+const showAuthorTutorial = createAction("SHOW_TUTORIAL");
+const hideAuthorTutorial = createAction("HIDE_TUTORIAL");
+
 const createPosts = createActions({
   createPostsRequest: (payload) => payload,
   createPostsSuccess: (payload) => payload,
@@ -71,4 +74,6 @@ export {
   showModal,
   hideModalEdit,
   showModalEdit,
+  showAuthorTutorial,
+  hideAuthorTutorial,
 };

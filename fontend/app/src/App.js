@@ -15,6 +15,7 @@ import BoardAdmin from "./componets/admin/BoardAdmin";
 import SimpleBottomNavigation from "./componets/author/index"
 import { logout } from "./redux/actions/thunk/auth";
 import { clearMessage } from "./redux/actions/thunk/message";
+import { showAuthorTutorial } from "./redux/actions/saga/posts";
 
 import { history } from "./helpers/history";
 
@@ -49,6 +50,11 @@ const App = () => {
     dispatch(logout());
     
   };
+
+
+  const onClick = React.useCallback(() => {
+    dispatch(showAuthorTutorial());
+  }, [dispatch]);
 
   return (
     <Router history={history}>
@@ -89,7 +95,7 @@ const App = () => {
               )}
               {showAuthorBoard && (
                 <li className="nav-item">
-                  <Link to={"/author/posts"} className="nav-link">
+                  <Link onClick={onClick} to={"/author/topic"} className="nav-link">
                     Tác giả
                   </Link>
                 </li>

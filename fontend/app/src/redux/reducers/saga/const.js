@@ -9,4 +9,7 @@ export const initialState = {
   modaledit: {
     isShowEdit: false,
   },
+  authortutorial: {
+    isShowTutorial: false,
+  },
 };

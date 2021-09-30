@@ -6,7 +6,8 @@ import PostAll from "./getPost/index";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../redux/actions/saga/posts";
 import { Container } from "@material-ui/core";
-import { postsState$, userState$ } from "../../redux/selector/index";
+import { postsState$ } from "../../redux/selector/index";
+
 const Home = () => {
   const [content, setContent] = useState("");
 
@@ -39,6 +40,7 @@ const Home = () => {
 
   return (
     <Container maxWidth={false} className="container">
+      <div style={{ marginTop: 100 }}></div>
       <Grid container spacing={2} alignItems="stretch">
       {posts.map((post) => (
         // <Grid item xs={12}>

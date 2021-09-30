@@ -4,6 +4,8 @@ export const modalState$ = (state) => state.modal;
 
 export const modalEditState$ = (state) => state.modaledit;
 
+export const authorTutorial$ = (state) => state.authortutorial;
+
 export const userState$ = (state) => state.auth;
 
 export const childTopic$ = (state) => state.childTopic;

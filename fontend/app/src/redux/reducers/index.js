@@ -10,6 +10,7 @@ import modal from "./saga/postsmodal";
 import modaledit from "./saga/postmodaledit";
 import childTopic from "./thunk/childTopic";
 import parentTopic from "./thunk/parentTopic";
+import authortutorial from "./saga/authortutorial";
 
 export default combineReducers({
   auth,
@@ -17,6 +18,7 @@ export default combineReducers({
   posts,
   modal,
   modaledit,
+  authortutorial,
   childTopic,
   parentTopic,
 });
