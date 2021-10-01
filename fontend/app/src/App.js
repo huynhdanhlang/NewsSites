@@ -10,9 +10,9 @@ import Register from "./componets/register/Register";
 import Home from "./componets/home/Home";
 import Profile from "./componets/profile/Profile";
 // import BoardUser from "./componets/user/BoardUser";
-import BoardModerator from "./componets/mod/BoardModerator";
+import ModeraterBottomNavigation from "./componets/mod/BoardModerator";
 import BoardAdmin from "./componets/admin/BoardAdmin";
-import SimpleBottomNavigation from "./componets/author/index"
+import SimpleBottomNavigation from "./componets/author/index";
 import { logout } from "./redux/actions/thunk/auth";
 import { clearMessage } from "./redux/actions/thunk/message";
 import { showAuthorTutorial } from "./redux/actions/saga/posts";
@@ -40,17 +40,15 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setShowAdminBoard(currentUser.roles.includes("ROLE_MODERATOR"));
-      setShowModeratorBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
       setShowAuthorBoard(currentUser.roles.includes("ROLE_AUTHOR"));
     }
   }, [currentUser]);
 
   const logOut = () => {
     dispatch(logout());
-    
   };
-
 
   const onClick = React.useCallback(() => {
     dispatch(showAuthorTutorial());
@@ -68,7 +66,7 @@ const App = () => {
               {!currentUser && (
                 <li className="nav-item active">
                   <Link to={"/home"} className="nav-link">
-                    Trang chủ
+                    Báo Sinh viên
                   </Link>
                 </li>
               )}
@@ -88,14 +86,18 @@ const App = () => {
               )}
               {showModeratorBoard && (
                 <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
+                  <Link to={"/mod/topic"} className="nav-link">
                     Người kiểm duyệt
                   </Link>
                 </li>
               )}
               {showAuthorBoard && (
                 <li className="nav-item">
-                  <Link onClick={onClick} to={"/author/topic"} className="nav-link">
+                  <Link
+                    onClick={onClick}
+                    to={"/author/topic"}
+                    className="nav-link"
+                  >
                     Tác giả
                   </Link>
                 </li>
@@ -140,7 +142,7 @@ const App = () => {
             <Route exact path="/profile" component={Profile} />
             {/* <Route path="/user" component={BoardUser} /> */}
             <Route path="/author" component={SimpleBottomNavigation} />
-            <Route path="/mod" component={BoardModerator} />
+            <Route path="/mod" component={ModeraterBottomNavigation} />
             <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>

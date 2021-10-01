@@ -8,7 +8,6 @@ exports.getPosts = async (req, res) => {
     const posts = await Post.find({ author: author })
       .populate("author")
       .populate({ path: "author", select: "fullname" });
-
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -59,7 +58,7 @@ exports.updatePost = async (req, res) => {
   try {
     db.mongoose.set("useFindAndModify", false);
     const updtatePost = req.body;
-    
+
     const post = await Post.findOneAndUpdate(
       {
         _id: updtatePost._id,

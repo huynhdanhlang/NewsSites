@@ -72,11 +72,13 @@ exports.findAll = (req, res) => {
       }
     : {};
 
-  TopicParent.find(condition);
-  const topic = TopicParent.find(condition)
+  // TopicParent.find(condition);
+  // const topic = 
+  TopicParent.find(condition)
     .populate("name_topic_child")
-    .populate({ path: "name_topic_child", select: "name_topic_child" })
+    .populate({ path: "name_topic_child", select: "approved topic" })
     .then((data) => {
+      console.log(["data"], data);
       res.send(data);
     })
     .catch((err) => {
@@ -93,7 +95,7 @@ exports.findOne = (req, res) => {
 
   TopicParent.findById(id)
     .populate("name_topic_child")
-    .populate({ path: "name_topic_child", select: "topic" })
+    .populate({ path: "name_topic_child", select: "approved topic" })
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Không tìm thấy chủ đề với id=" + id });

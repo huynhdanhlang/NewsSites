@@ -7,6 +7,10 @@ const TopicList = mongoose.model(
       type: String,
       required: true,
     },
+    approved: {
+      type: Boolean,
+      default: false,
+    },
   })
 );
 
