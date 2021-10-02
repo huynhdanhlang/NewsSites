@@ -4,7 +4,7 @@ const TopicParent = mongoose.model(
   "TopicParent",
   mongoose.Schema(
     {
-      name_topic_parent: {
+      name_topic: {
         type: String,
         required: true,
       },
@@ -14,9 +14,13 @@ const TopicParent = mongoose.model(
           ref: "TopicList",
         },
       ],
-      approved: {
+      isChecked: {
         type: Boolean,
         default: false,
+      },
+      isExpanded:{
+        type: Boolean,
+        default: true,
       },
       canceled: {
         type: Boolean,

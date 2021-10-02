@@ -17,7 +17,7 @@ const Post = mongoose.model(
         ref: "User",
         required: true,
       },
-      approved: {
+      isChecked: {
         type: Boolean,
         default: false,
       },

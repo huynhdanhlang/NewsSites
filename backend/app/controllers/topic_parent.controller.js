@@ -9,7 +9,7 @@ exports.create = (req, res) => {
   const topicId = [];
   req.body.name_topic_child.map((topic) => {
     const child_topic = new TopicList({
-      topic: topic.topic,
+      name_topic: topic.name_topic,
     });
     topicId.push(child_topic._id);
     child_topic.save((err, child_topic) => {
@@ -21,7 +21,7 @@ exports.create = (req, res) => {
   });
   console.log(["topicId"], topicId);
   const topic_parent = new TopicParent({
-    name_topic_parent: req.body.name_topic_parent,
+    name_topic: req.body.name_topic,
   });
 
   topic_parent.save((err, topic_parent) => {
@@ -62,11 +62,11 @@ exports.create = (req, res) => {
 // Retrieve all TopicParent from the database.
 exports.findAll = (req, res) => {
   console.log(["sfbjsbs"], req.query.name);
-  const name_topic_parent = req.query.name;
-  var condition = name_topic_parent
+  const name_topic = req.query.name;
+  var condition = name_topic
     ? {
-        name_topic_parent: {
-          $regex: new RegExp(name_topic_parent),
+        name_topic: {
+          $regex: new RegExp(name_topic),
           $options: "i",
         },
       }
@@ -76,7 +76,7 @@ exports.findAll = (req, res) => {
   // const topic = 
   TopicParent.find(condition)
     .populate("name_topic_child")
-    .populate({ path: "name_topic_child", select: "approved topic" })
+    .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
       console.log(["data"], data);
       res.send(data);
@@ -95,7 +95,7 @@ exports.findOne = (req, res) => {
 
   TopicParent.findById(id)
     .populate("name_topic_child")
-    .populate({ path: "name_topic_child", select: "approved topic" })
+    .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
       if (!data)
         res.status(404).send({ message: "Không tìm thấy chủ đề với id=" + id });
@@ -116,7 +116,7 @@ exports.update = (req, res) => {
     console.log(["req.body"], req.body);
     if (topic._id === null) {
       const child_topic = new TopicList({
-        topic: topic.topic,
+        name_topic: topic.name_topic,
       });
       req.body["name_topic_child"][index]._id = child_topic._id;
       child_topic.save((err, child_topic) => {
