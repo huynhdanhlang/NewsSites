@@ -4,6 +4,7 @@ import Select from "react-select";
 import { childTopic$ } from "../../../../../redux/selector/index";
 import { retrieveChildTopic } from "../../../../../redux/actions/thunk/childTopic";
 import { createcParentTopic } from "../../../../../redux/actions/thunk/parentTopic";
+import { userState$ } from "../../../../../redux/selector/index";
 
 export default function AddTopic() {
   //ChildTopic
@@ -13,6 +14,7 @@ export default function AddTopic() {
     { id: null, name_topic: "", isChecked: false },
   ]);
   const dispatch = useDispatch();
+  const { user: currentUser } = useSelector(userState$);
 
   React.useEffect(() => {
     dispatch(retrieveChildTopic());
@@ -46,6 +48,7 @@ export default function AddTopic() {
     id: null,
     name_topic: "",
     name_topic_child: [],
+    author: currentUser.id,
     isChecked: false,
     canceled: false,
     isExpanded: true,

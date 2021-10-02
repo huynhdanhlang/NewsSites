@@ -42,13 +42,13 @@ const ModeraterBottomNavigation = () => {
         >
           <BottomNavigationAction
             // onClick={onClick}
-            label="Chủ đề"
+            label="Xét duyệt chủ đề"
             icon={<CategoryIcon />}
             component={Link}
             to={"/mod/topic"}
           />
           <BottomNavigationAction
-            label="Tin tức"
+            label="Xét duyệt tin tức"
             icon={<PostAddIcon />}
             component={Link}
             to={"/mod/posts"}

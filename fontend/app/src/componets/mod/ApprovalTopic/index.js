@@ -16,10 +16,20 @@ export default function ListTopic() {
   const parentTopic = useSelector(parentTopic$);
   const dispatch = useDispatch();
 
-  console.log(["parentTopic"], parentTopic);
+  // console.log(["parentTopic"], parentTopic);
 
   React.useEffect(async () => {
-    getParentTopic();
+    await getParentTopic();
+
+    document.querySelectorAll("input").forEach((each) => {
+      // console.log(["each"], each);
+      each.setAttribute("disabled", "disabled");
+    });
+
+    document.querySelectorAll("a").forEach((each) => {
+      console.log(["a"], each);
+      each.setAttribute("disabled", "disabled");
+    });
   }, []);
 
   const getParentTopic = async () => {
@@ -48,7 +58,7 @@ export default function ListTopic() {
       });
   };
 
-  console.log(["data_update"], data);
+  // console.log(["data_update"], data);
   React.useEffect(() => {
     data.map((topic) => {
       console.log(["topic_update"], topic);
@@ -63,10 +73,64 @@ export default function ListTopic() {
         dispatch(updateParentTopic(topic._id, topic));
       }
     });
+
+    const treeview = document.getElementsByClassName(
+      "super-treeview-node-content"
+    );
+
+    for (let i = 0; i < treeview.length; i++) {
+      var input = document.createElement("input");
+      input.type = "text";
+      input.className = "css-class-name"; // set the CSS class
+      var a = document.createElement("a");
+      {
+        /* <a class="btn btn-info btn-sm " href="#" role="button"> </a> */
+      }
+      a.className = "btn btn-info btn-sm";
+      a.href = "javascript:void";
+      a.role = "button";
+      a.innerText = "Gửi";
+      var label = document.createElement("label");
+      label.innerText = "Nội dung: ";
+      label.appendChild(input);
+      label.appendChild(a);
+      for (let j = 0; j < data.length; j++) {
+        console.log(["data"], data);
+        if (data[j].name_topic === treeview[i].innerText) {
+          treeview[i].appendChild(label);
+        }
+      }
+    }
+    console.log(["trêview"], treeview);
   }, [data, data["name_topic_child"]]);
+
+  const handleClickSend = () => {
+    document.querySelectorAll("input").forEach((each) => {
+      // console.log(["each"], each);
+      if (each.hasAttribute("disabled")) {
+        each.removeAttribute("disabled");
+      } else {
+        each.setAttribute("disabled", "disabled");
+      }
+    });
+    document.querySelectorAll("a").forEach((each) => {
+      // console.log(["each"], each);
+      if (each.hasAttribute("disabled")) {
+        each.removeAttribute("disabled");
+        document.querySelectorAll("a.btn-danger")[0].innerText =
+          "Đóng xét duyệt";
+      } else {
+        each.setAttribute("disabled", "disabled");
+        document.querySelectorAll("a.btn-danger")[0].innerText = "Mở xét duyệt";
+      }
+    });
+  };
 
   return (
     <Container maxWidth={false} className="container">
+      <div>
+        <h3 style={{ textAlign: "center" }}>Xét duyệt chủ đề</h3>
+      </div>
       <div
         style={{
           display: "flex",
@@ -85,7 +149,14 @@ export default function ListTopic() {
             height: "100%",
           }}
         >
-          <div className="list row">
+          <div
+            // style={{
+            //   display: "flex",
+            //   justifyContent: "center",
+            //   alignItems: "center",
+            // }}
+            className="list row"
+          >
             <div className="col-md-8">
               <div className="input-group mb-3">
                 <input
@@ -110,6 +181,15 @@ export default function ListTopic() {
             </div>
           </div>
           &nbsp;
+          <a
+            onClick={handleClickSend}
+            class="btn btn-danger btn-sm "
+            href="#"
+            role="button"
+          >
+            {" "}
+            Mở xét duyệt
+          </a>
           <SuperTreeView
             keywordChildren={"name_topic_child"}
             keywordLabel={"name_topic"}
@@ -117,6 +197,16 @@ export default function ListTopic() {
             data={data}
             onUpdateCb={(updatedData) => {
               setData(updatedData);
+            }}
+            isDeletable={(node, depth) => {
+              // Only show Delete button on root level
+              // which is depth = 0
+              // NOTE: The highest/root depth is 0, node children are depth+1
+              // if (depth==0 || depth==1) {
+              //   return true;
+              // } else {
+              //   return false;
+              // }
             }}
             onCheckToggleCb={(nodes) => {
               const checkState = nodes[0].isChecked;
