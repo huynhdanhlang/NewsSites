@@ -3,10 +3,24 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dbConfig = require("./app/config/db.config");
 const app = express();
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 var corsOptions = {
   origin: ["http://localhost:8081", "http://127.0.0.1:8081"],
 };
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.EMAIL,
+    pass: process.env.WORD,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+  },
+ });
 
 app.use(cors(corsOptions));
 //parser requests of content-type - application/json
@@ -55,6 +69,27 @@ db.mongoose
     console.log("Connection error: " + err);
     process.exit();
   });
+
+  transporter.verify((err, success) => {
+    err
+      ? console.log(err)
+      : console.log(`=== Server is ready to take messages: ${success} ===`);
+   });
+
+  //  let mailOptions = {
+  //   // from: "test@gmail.com",
+  //   to: "danhlangbmvl@gmail.com",
+  //   subject: "Nodemailer API",
+  //   text: "Hi from your nodemailer API",
+  //  };
+
+  //  transporter.sendMail(mailOptions, function (err, data) {
+  //   if (err) {
+  //     console.log("Error " + err);
+  //   } else {
+  //     console.log("Email sent successfully");
+  //   }
+  //  });
 
 function initial() {
   Role.estimatedDocumentCount((err, docCount) => {

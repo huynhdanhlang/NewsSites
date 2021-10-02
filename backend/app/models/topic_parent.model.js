@@ -14,6 +14,11 @@ const TopicParent = mongoose.model(
           ref: "TopicList",
         },
       ],
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
       isChecked: {
         type: Boolean,
         default: false,
