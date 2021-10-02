@@ -46,7 +46,7 @@ export default function ListTopic() {
       .then((response) => {
         console.log(id, response.data);
         localStorage.setItem(
-          "name_topic_child",
+          "name_topic",
           JSON.stringify(response.data)
         );
       })
@@ -114,7 +114,7 @@ export default function ListTopic() {
                   onClick={() => setActiveParentTopic(parent, index)}
                   key={index}
                 >
-                  {parent.name_topic_parent}
+                  {parent.name_topic}
                 </li>
               ))}
             &nbsp;
@@ -137,7 +137,7 @@ export default function ListTopic() {
                 <label>
                   <strong>Tên :</strong>
                 </label>
-                {currnentParentTopic.name_topic_parent}
+                {currnentParentTopic.name_topic}
               </div>
               <Link
                 to={"/author/topic/topicParent/" + currnentParentTopic._id}

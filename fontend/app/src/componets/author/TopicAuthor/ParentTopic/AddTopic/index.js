@@ -9,7 +9,9 @@ export default function AddTopic() {
   //ChildTopic
   const childTopic = useSelector(childTopic$);
   const [selectedOption, setSelectedOption] = React.useState([]);
-  const [inputList, setInputList] = React.useState([{ id: null, topic: "" }]);
+  const [inputList, setInputList] = React.useState([
+    { id: null, name_topic: "", isChecked: false },
+  ]);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -17,7 +19,7 @@ export default function AddTopic() {
     // console.log(childTopic);
     setParentTopic({
       ...parentTopic,
-      name_topic_parent: selectedOption.label,
+      name_topic: selectedOption.label,
       name_topic_child: inputList,
     });
     console.log("jjsjjs", selectedOption);
@@ -42,10 +44,11 @@ export default function AddTopic() {
   //ParentTopic
   const inittialParentTopic = {
     id: null,
-    name_topic_parent: "",
+    name_topic: "",
     name_topic_child: [],
-    approved: false,
+    isChecked: false,
     canceled: false,
+    isExpanded: true,
   };
 
   const [parentTopic, setParentTopic] = React.useState(inittialParentTopic);
@@ -68,7 +71,10 @@ export default function AddTopic() {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { id: null, topic: "" }]);
+    setInputList([
+      ...inputList,
+      { id: null, name_topic: "", isChecked: false },
+    ]);
   };
 
   const handleOnchange = (e) => {
@@ -77,13 +83,13 @@ export default function AddTopic() {
   };
 
   const saveParentTopic = () => {
-    const { name_topic_parent, name_topic_child } = parentTopic;
+    const { name_topic, name_topic_child } = parentTopic;
 
-    dispatch(createcParentTopic(name_topic_parent, name_topic_child))
+    dispatch(createcParentTopic(name_topic, name_topic_child))
       .then((data) => {
         setParentTopic({
           id: data.id,
-          name_topic_parent: data.name_topic_parent,
+          name_topic: data.name_topic,
           name_topic_child: data.name_topic_child,
         });
 
@@ -104,7 +110,7 @@ export default function AddTopic() {
   const handleClick = () => {
     setSelectedOption([]);
     setParentTopic(inittialParentTopic);
-    setInputList([{ id: null, topic: "" }]);
+    setInputList([{ id: null, name_topic: "", isChecked: false }]);
   };
 
   return (
@@ -161,11 +167,11 @@ export default function AddTopic() {
                       key={i}
                       type="text"
                       className="form-control"
-                      id="name_topic_child"
+                      id="name_topic"
                       required
-                      value={topic.topic}
+                      value={topic.name_topic}
                       onChange={(e) => handleInputChange(e, i)}
-                      name="topic"
+                      name="name_topic"
                     />
                     <div>
                       {inputList.length !== 1 && (

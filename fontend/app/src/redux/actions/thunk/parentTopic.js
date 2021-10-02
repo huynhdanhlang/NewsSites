@@ -9,11 +9,11 @@ import {
 import ParentTopicService from "../../../services/parentTopic.service";
 
 export const createcParentTopic =
-  (name_topic_parent, name_topic_child) =>
+  (name_topic, name_topic_child) =>
   async (dispatch) => {
     try {
       const res = await ParentTopicService.create({
-        name_topic_parent,
+        name_topic,
         name_topic_child,
       });
 

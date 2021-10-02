@@ -1,170 +1,140 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parentTopic$ } from "../../../redux/selector/index";
-import {
-  retrieveParentTopic,
-  findByNameParentTopic,
-  deleteAllParenttopic,
-} from "../../../redux/actions/thunk/parentTopic";
-import { Link, Router } from "react-router-dom";
-import { history } from "../../../helpers/history";
+import { findByNameParentTopic } from "../../../redux/actions/thunk/parentTopic";
+
 import ParentTopicDataService from "../../../services/parentTopic.service";
 import { Container } from "@material-ui/core";
+import SuperTreeView from "react-super-treeview";
+import "react-super-treeview/dist/style.css";
+import { updateParentTopic } from "../../../redux/actions/thunk/parentTopic";
 
 export default function ListTopic() {
-  const [currnentParentTopic, setCurrentParentTopic] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState("");
+  const [data, setData] = useState([]);
 
   const parentTopic = useSelector(parentTopic$);
   const dispatch = useDispatch();
 
-  // console.log(parentTopic);
-  React.useEffect(() => {
-    dispatch(retrieveParentTopic());
+  console.log(["parentTopic"], parentTopic);
+
+  React.useEffect(async () => {
+    getParentTopic();
   }, []);
 
+  const getParentTopic = async () => {
+    await ParentTopicDataService.getAll()
+      .then((response) => {
+        console.log(["id"], response.data);
+        setData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const onChangeSearchName = (e) => {
     const SearchName = e.target.value;
     setSearchName(SearchName);
   };
 
-  const refreshData = () => {
-    setCurrentParentTopic(null);
-    setCurrentIndex(-1);
-  };
-
-  const setActiveParentTopic = (parent, index) => {
-    setCurrentParentTopic(parent);
-    setCurrentIndex(index);
-    getParentTopic(parent._id);
-    // console.log(['lllll'],currnentParentTopic);
-  };
-
-  const getParentTopic = async (id) => {
-    // console.log(["id fggfgfgfg"], id);
-    await ParentTopicDataService.get(id)
+  const findByName = async () => {
+    await ParentTopicDataService.findByName(searchName)
       .then((response) => {
-        console.log(id, response.data);
-        localStorage.setItem("name_topic_child", JSON.stringify(response.data));
+        console.log(["searchName"], response.data);
+        setData(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  // React.useEffect(() => {
-  //   getParentTopic(currnentParentTopic._id);
-  // }, [currnentParentTopic._id]);
-
-//   const removeAllParenttopic = () => {
-//     dispatch(deleteAllParenttopic())
-//       .then((response) => {
-//         // console.log(response);
-//         refreshData();
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-
-  const findByName = () => {
-    refreshData();
-    dispatch(findByNameParentTopic(searchName));
-  };
+  console.log(["data_update"], data);
+  React.useEffect(() => {
+    data.map((topic) => {
+      console.log(["topic_update"], topic);
+      if (
+        topic.isChecked ||
+        (topic.isChecked && topic.isExpanded) ||
+        (topic.isExpanded && !topic.isChecked) ||
+        (topic.isExpanded &&
+          !topic.isChecked &&
+          !topic["name_topic_child"].isChecked)
+      ) {
+        dispatch(updateParentTopic(topic._id, topic));
+      }
+    });
+  }, [data, data["name_topic_child"]]);
 
   return (
     <Container maxWidth={false} className="container">
-      <Router history={history}>
-        <div className="list row">
-          <div className="col-md-8">
-            <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Tìm kiếm theo tên"
-                value={searchName}
-                onChange={onChangeSearchName}
-              />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            //   minWidth: "165px",
+            width: "50%",
+            height: "fit-content",
+            background: "white",
+            padding: "3%",
+            marginTop: "20px",
+            height: "100%",
+          }}
+        >
+          <div className="list row">
+            <div className="col-md-8">
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Tìm kiếm theo tên"
+                  value={searchName}
+                  onChange={onChangeSearchName}
+                />
 
-              <div className="input-group-append">
-                <a
-                  onClick={findByName}
-                  className="btn btn-outline-secondary"
-                  href="#"
-                  role="button"
-                >
-                  Tìm kiếm{" "}
-                </a>
+                <div className="input-group-append">
+                  <a
+                    onClick={findByName}
+                    className="btn btn-outline-secondary"
+                    href="#"
+                    role="button"
+                  >
+                    Tìm kiếm{" "}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+          &nbsp;
+          <SuperTreeView
+            keywordChildren={"name_topic_child"}
+            keywordLabel={"name_topic"}
+            keywordKey={"_id"}
+            data={data}
+            onUpdateCb={(updatedData) => {
+              setData(updatedData);
+            }}
+            onCheckToggleCb={(nodes) => {
+              const checkState = nodes[0].isChecked;
 
-          <div className="col-md-6">
-            <h4>Danh sách chủ đề</h4>
-            <ul className="list-group">
-              {parentTopic &&
-                parentTopic.map((parent, index) => (
-                  <li
-                    style={{ display: "flex", flexDirection: "row" }}
-                    className={
-                      "list-group-item" +
-                      (index === currentIndex ? " active" : "")
-                    }
-                    onClick={() => setActiveParentTopic(parent, index)}
-                    key={index}
-                  >
-                    {parent.name_topic_parent}
-                    &nbsp;
-                    {parent.name_topic_child.map((topic) => {
-                      return (
-                        <div>
-                          <p style={{ backgroundColor: "lightseagreen" }}>
-                            &nbsp;{topic.topic}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </li>
-                ))}
-              &nbsp;
-            </ul>
-            {/* <a
-            onClick={removeAllParenttopic}
-            className="btn btn-danger btn-sm "
-            href="#"
-            role="button"
-          >
-            Xoá tất cả{" "}
-          </a> */}
-          </div>
+              applyCheckStateTo(nodes);
 
-          <div className="col-md-6">
-            {currnentParentTopic ? (
-              <div>
-                <h4>Chủ đề</h4>
-                <div>
-                  <label>
-                    <strong>Tên :</strong>
-                  </label>
-                  {currnentParentTopic.name_topic_parent}
-                </div>
-                <Link
-                  to={"/author/topic/topicParent/" + currnentParentTopic._id}
-                  className="bage bage-warning"
-                >
-                  Chỉnh sửa
-                </Link>
-              </div>
-            ) : (
-              <div>
-                <br />
-                <p>Xin nhấn vào một chủ đề</p>
-              </div>
-            )}
-          </div>
+              function applyCheckStateTo(nodes) {
+                nodes.forEach((node) => {
+                  node.isChecked = checkState;
+                  if (node.name_topic_child) {
+                    applyCheckStateTo(node.name_topic_child);
+                  }
+                });
+              }
+            }}
+          />
         </div>
-      </Router>
+      </div>
     </Container>
   );
 }

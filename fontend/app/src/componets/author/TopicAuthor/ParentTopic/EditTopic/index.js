@@ -20,7 +20,7 @@ const ParentTopic = (props) => {
   // };
 
   // const [selectedOption, setSelectedOption] = useState([]);
-  const getTopic = JSON.parse(localStorage.getItem("name_topic_child"));
+  const getTopic = JSON.parse(localStorage.getItem("name_topic"));
   const [currentParentTopic, setCurrentParentTopic] = useState(getTopic);
   const [message, setMessage] = useState("");
 
@@ -36,7 +36,7 @@ const ParentTopic = (props) => {
     await ParentTopicDataService.get(id)
       .then((response) => {
         console.log(id, response.data);
-        localStorage.setItem("name_topic_child", JSON.stringify(response.data));
+        localStorage.setItem("name_topic", JSON.stringify(response.data));
       })
       .catch((e) => {
         console.log(e);
@@ -84,7 +84,7 @@ const ParentTopic = (props) => {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { _id: null, topic: "" }]);
+    setInputList([...inputList, { _id: null, name_topic: "",isChecked: false}]);
   };
 
   const updateContent = () => {
@@ -129,9 +129,9 @@ const ParentTopic = (props) => {
               <input
                 type="text"
                 className="form-control"
-                id="name_topic_parent"
-                name="name_topic_parent"
-                value={currentParentTopic.name_topic_parent}
+                id="name_topic"
+                name="name_topic"
+                value={currentParentTopic.name_topic}
                 onChange={handleInputChange}
               />
             </div>
@@ -153,11 +153,11 @@ const ParentTopic = (props) => {
                       key={i}
                       type="text"
                       className="form-control"
-                      id="name_topic_child"
+                      id="name_topic"
                       required
-                      value={topic.topic}
+                      value={topic.name_topic}
                       onChange={(e) => handleInputChangeTopic(e, i)}
-                      name="topic"
+                      name="name_topic"
                     />
                     <div>
                       {inputList.length !== 1 && (
