@@ -1,14 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createcChildTopic } from "../../../../../redux/actions/thunk/childTopic";
+import { userState$ } from "../../../../../redux/selector/index";
 
 export default function AddTopic() {
+  const { user: currentUser } = useSelector(userState$);
+
   const initialChildTopicState = {
     id: null,
     name_topic_child: "",
+    author: currentUser.id,
   };
 
-  const [childTopic, setChildTopic] = React.useState([initialChildTopicState]);
+  const [childTopic, setChildTopic] = React.useState(initialChildTopicState);
   const [submited, setSubmited] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -19,13 +23,14 @@ export default function AddTopic() {
   };
 
   const saveChildTopic = () => {
-    const { name_topic_child } = childTopic;
-
-    dispatch(createcChildTopic(name_topic_child))
+    const { name_topic_child, author } = childTopic;
+    console.log(["childTopic"], childTopic);
+    dispatch(createcChildTopic(name_topic_child, author))
       .then((data) => {
         setChildTopic({
           _id: data._id,
           name_topic_child: data.name_topic_child,
+          author: data.author,
         });
 
         setSubmited(true);

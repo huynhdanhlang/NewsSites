@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import { childTopic$ } from "../../../../../redux/selector/index";
-import { retrieveChildTopic } from "../../../../../redux/actions/thunk/childTopic";
+import { retrieveChildTopicAuthor } from "../../../../../redux/actions/thunk/childTopic";
 import { createcParentTopic } from "../../../../../redux/actions/thunk/parentTopic";
 import { userState$ } from "../../../../../redux/selector/index";
 
@@ -17,7 +17,7 @@ export default function AddTopic() {
   const { user: currentUser } = useSelector(userState$);
 
   React.useEffect(() => {
-    dispatch(retrieveChildTopic());
+    dispatch(retrieveChildTopicAuthor(currentUser.id));
     // console.log(childTopic);
     setParentTopic({
       ...parentTopic,
@@ -86,14 +86,15 @@ export default function AddTopic() {
   };
 
   const saveParentTopic = () => {
-    const { name_topic, name_topic_child } = parentTopic;
+    const { name_topic, name_topic_child, author } = parentTopic;
 
-    dispatch(createcParentTopic(name_topic, name_topic_child))
+    dispatch(createcParentTopic(name_topic, name_topic_child, author))
       .then((data) => {
         setParentTopic({
           id: data.id,
           name_topic: data.name_topic,
           name_topic_child: data.name_topic_child,
+          author: data.author,
         });
 
         setSubmited(true);

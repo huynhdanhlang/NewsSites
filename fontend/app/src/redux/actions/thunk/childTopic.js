@@ -4,26 +4,29 @@ import {
   UPDATE_CHILDTOPIC,
   DELETE_CHILDTOPIC,
   DELETE_ALL_CHILDTOPIC,
+  RETRIEVE_CHILDTOPICAUTHOR,
 } from "./types";
 
 import ChildTopicService from "../../../services/childTopic.service";
 
-export const createcChildTopic = (name_topic_child) => async (dispatch) => {
-  try {
-    const res = await ChildTopicService.create({
-      name_topic_child
-    });
+export const createcChildTopic =
+  (name_topic_child, author) => async (dispatch) => {
+    try {
+      const res = await ChildTopicService.create({
+        name_topic_child,
+        author,
+      });
 
-    dispatch({
-      type: CREATE_CHILDTOPIC,
-      payload: res.data,
-    });
+      dispatch({
+        type: CREATE_CHILDTOPIC,
+        payload: res.data,
+      });
 
-    return Promise.resolve(res.data);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+      return Promise.resolve(res.data);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
 
 export const retrieveChildTopic = () => async (dispatch) => {
   try {
@@ -31,6 +34,19 @@ export const retrieveChildTopic = () => async (dispatch) => {
 
     dispatch({
       type: RETRIEVE_CHILTOPIC,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const retrieveChildTopicAuthor = (author) => async (dispatch) => {
+  try {
+    const res = await ChildTopicService.getTopic(author);
+
+    dispatch({
+      type: RETRIEVE_CHILDTOPICAUTHOR,
       payload: res.data,
     });
   } catch (error) {
@@ -83,9 +99,9 @@ export const deleteAllChildtopic = () => async (dispatch) => {
 
 export const findByNameChildTopic = (name) => async (dispatch) => {
   try {
-    console.log("dbfsbhfsb",name);
+    console.log("dbfsbhfsb", name);
     const res = await ChildTopicService.findByName(name);
-    console.log(["oooooo"],res);
+    console.log(["oooooo"], res);
     dispatch({
       type: RETRIEVE_CHILTOPIC,
       payload: res.data,

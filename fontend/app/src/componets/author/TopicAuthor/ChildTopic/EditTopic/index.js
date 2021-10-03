@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateChildTopic,
   deleteChildTopic,
 } from "../../../../../redux/actions/thunk/childTopic";
 import ChildTopicDataService from "../../../../../services/childTopic.service";
+import { userState$ } from "../../../../../redux/selector/index";
 
 const ChildTopic = (props) => {
+  const { user: currentUser } = useSelector(userState$);
+
   const initialChildTopicState = {
     id: null,
     name_topic_child: "",
+    author: currentUser.id,
   };
   const [currentChildTopic, setCurrentChildTopic] = useState(
     initialChildTopicState
@@ -38,24 +42,6 @@ const ChildTopic = (props) => {
     const { name, value } = event.target;
     setCurrentChildTopic({ ...currentChildTopic, [name]: value });
   };
-
-  //   const updateStatus = (status) => {
-  //   const data = {
-  //     id: currentChildTopic._id,
-  //     name_topic_child: currentChildTopic.name_topic_child,
-  //   };
-
-  //   dispatch(updateChildTopic(currentChildTopic._id, data))
-  //     .then((response) => {
-  //       console.log(["kkkkkk"],response);
-
-  //       setCurrentChildTopic({ ...currentChildTopic });
-  //       setMessage("The status was updated successfully!");
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  //   };
 
   const updateContent = () => {
     dispatch(updateChildTopic(currentChildTopic._id, currentChildTopic))

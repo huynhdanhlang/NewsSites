@@ -4,6 +4,7 @@ import {
   UPDATE_CHILDTOPIC,
   DELETE_CHILDTOPIC,
   DELETE_ALL_CHILDTOPIC,
+  RETRIEVE_CHILDTOPICAUTHOR,
 } from "../../actions/thunk/types";
 
 const initialState = [];
@@ -14,6 +15,8 @@ export default function (childTopic = initialState, action) {
       return [...childTopic, action.payload];
 
     case RETRIEVE_CHILTOPIC:
+      return action.payload;
+    case RETRIEVE_CHILDTOPICAUTHOR:
       return action.payload;
 
     case UPDATE_CHILDTOPIC:

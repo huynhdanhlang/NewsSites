@@ -4,17 +4,18 @@ import {
   RETRIEVE_PARENTTOPIC,
   DELETE_PARENTTOPIC,
   DELETE_ALL_PARENTTOPIC,
+  RETRIEVE_PARENTTOPICAUTHOR,
 } from "./types";
 
 import ParentTopicService from "../../../services/parentTopic.service";
 
 export const createcParentTopic =
-  (name_topic, name_topic_child) =>
-  async (dispatch) => {
+  (name_topic, name_topic_child, author) => async (dispatch) => {
     try {
       const res = await ParentTopicService.create({
         name_topic,
         name_topic_child,
+        author,
       });
 
       dispatch({
@@ -34,6 +35,19 @@ export const retrieveParentTopic = () => async (dispatch) => {
 
     dispatch({
       type: RETRIEVE_PARENTTOPIC,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const retrieveParentTopicAuthor = (author) => async (dispatch) => {
+  try {
+    const res = await ParentTopicService.getTopic(author);
+
+    dispatch({
+      type: RETRIEVE_PARENTTOPICAUTHOR,
       payload: res.data,
     });
   } catch (error) {

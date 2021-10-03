@@ -78,6 +78,7 @@ export default function ListTopic() {
       "super-treeview-node-content"
     );
 
+    console.log(["data_topic"], data);
     for (let i = 0; i < treeview.length; i++) {
       var input = document.createElement("input");
       input.type = "text";

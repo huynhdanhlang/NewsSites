@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { childTopic$ } from "../../../../../redux/selector/index";
 import {
-  retrieveChildTopic,
+  retrieveChildTopicAuthor,
   findByNameChildTopic,
   deleteAllChildtopic,
 } from "../../../../../redux/actions/thunk/childTopic";
 import { Link, Router } from "react-router-dom";
 import { history } from "../../../../../helpers/history";
+import { userState$ } from "../../../../../redux/selector/index";
+
 export default function ListTopic() {
   const [currnentChildTopic, setCurrentChildTopic] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState("");
-
+  const { user: currentUser } = useSelector(userState$);
   const childTopic = useSelector(childTopic$);
   const dispatch = useDispatch();
 
   console.log(childTopic);
   React.useEffect(() => {
-    dispatch(retrieveChildTopic());
+    dispatch(retrieveChildTopicAuthor(currentUser.id));
   }, []);
 
   const onChangeSearchName = (e) => {

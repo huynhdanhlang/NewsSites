@@ -2,25 +2,26 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parentTopic$ } from "../../../../../redux/selector/index";
 import {
-  retrieveParentTopic,
+  retrieveParentTopicAuthor,
   findByNameParentTopic,
   deleteAllParenttopic,
 } from "../../../../../redux/actions/thunk/parentTopic";
 import { Link, Router } from "react-router-dom";
 import { history } from "../../../../../helpers/history";
 import ParentTopicDataService from "../../../../../services/parentTopic.service";
+import { userState$ } from "../../../../../redux/selector/index";
 
 export default function ListTopic() {
   const [currnentParentTopic, setCurrentParentTopic] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState("");
-
+  const { user: currentUser } = useSelector(userState$);
   const parentTopic = useSelector(parentTopic$);
   const dispatch = useDispatch();
 
   // console.log(parentTopic);
   React.useEffect(() => {
-    dispatch(retrieveParentTopic());
+    dispatch(retrieveParentTopicAuthor(currentUser.id));
   }, []);
 
   const onChangeSearchName = (e) => {
@@ -45,10 +46,7 @@ export default function ListTopic() {
     await ParentTopicDataService.get(id)
       .then((response) => {
         console.log(id, response.data);
-        localStorage.setItem(
-          "name_topic",
-          JSON.stringify(response.data)
-        );
+        localStorage.setItem("name_topic", JSON.stringify(response.data));
       })
       .catch((e) => {
         console.log(e);

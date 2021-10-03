@@ -4,12 +4,17 @@ const getAll = () => {
   return api.get("/author/topic/childTopic");
 };
 
-const get = id => {
-  console.log(['oooooo'],id);
+const get = (id) => {
+  console.log(["oooooo"], id);
   return api.get(`/author/topic/childTopic/${id}`);
 };
 
-const create = data => {
+const getTopic = (author) => {
+  console.log(["oooooo"], author);
+  return api.get(`/author/topic/childTopic/author/${author}`);
+};
+
+const create = (data) => {
   return api.post("/author/topic/childTopic", data);
 };
 
@@ -17,7 +22,7 @@ const update = (id, data) => {
   return api.put(`/author/topic/childTopic/${id}`, data);
 };
 
-const remove = id => {
+const remove = (id) => {
   return api.delete(`/author/topic/childTopic/${id}`);
 };
 
@@ -25,13 +30,14 @@ const removeAll = () => {
   return api.delete("/author/topic/childTopic");
 };
 
-const findByName = name => {
+const findByName = (name) => {
   return api.get(`/author/topic/childTopic?name=${name}`);
 };
 
 export default {
   getAll,
   get,
+  getTopic,
   create,
   update,
   remove,
