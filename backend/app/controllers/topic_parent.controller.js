@@ -10,6 +10,7 @@ exports.create = (req, res) => {
   req.body.name_topic_child.map((topic) => {
     const child_topic = new TopicList({
       name_topic: topic.name_topic,
+      author: topic.author,
     });
     topicId.push(child_topic._id);
     child_topic.save((err, child_topic) => {
@@ -22,6 +23,7 @@ exports.create = (req, res) => {
   console.log(["topicId"], topicId);
   const topic_parent = new TopicParent({
     name_topic: req.body.name_topic,
+    author: req.body.author,
   });
 
   topic_parent.save((err, topic_parent) => {
@@ -73,9 +75,10 @@ exports.findAll = (req, res) => {
     : {};
 
   // TopicParent.find(condition);
-  // const topic = 
+  // const topic =
   TopicParent.find(condition)
     .populate("name_topic_child")
+    .populate("author")
     .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
       console.log(["data"], data);
@@ -104,6 +107,20 @@ exports.findOne = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: "Lỗi lấy chủ đề với id=" + id });
     });
+};
+
+// Find a single TopicAuthor with an author
+exports.findAllAuthor = async (req, res) => {
+  try {
+    console.log(["req.params.author"],req.params.author);
+    const author = req.params.author;
+    const topicauthor = await TopicParent.find({ author: author })
+      .populate("author")
+      .populate({ path: "author", select: "fullname" });
+    res.status(200).json(topicauthor);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
 };
 
 // Update a TopicParent by the id in the request

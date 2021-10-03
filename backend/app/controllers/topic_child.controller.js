@@ -58,6 +58,20 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find a single TopicChild with an author
+exports.findAllAuthor = async (req, res) => {
+  try {
+    console.log(["req.params.author"],req.params.author);
+    const author = req.params.author;
+    const topicchild = await TopicChild.find({ author: author })
+      .populate("author")
+      .populate({ path: "author", select: "fullname" });
+    res.status(200).json(topicchild);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
 // Update a TopicChild by the id in the request
 exports.update = (req, res) => {
   if (!req.body) {

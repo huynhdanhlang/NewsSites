@@ -15,6 +15,9 @@ module.exports = function (app) {
   // Retrieve a single TopicParent with id
   router.get("/:id", topicParent.findOne);
 
+  // Retrieve a single TopicParent with auhtor
+  router.get("/author/:author", topicParent.findAllAuthor);
+
   // Update a TopicParent with id
   router.put("/:id", topicParent.update);
 
