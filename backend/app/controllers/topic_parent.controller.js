@@ -79,6 +79,7 @@ exports.findAll = (req, res) => {
   TopicParent.find(condition)
     .populate("name_topic_child")
     .populate("author")
+    .populate({ path: "author", select: "email" })
     .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
       console.log(["data"], data);
