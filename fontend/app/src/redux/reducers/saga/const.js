@@ -12,4 +12,7 @@ export const initialState = {
   authortutorial: {
     isShowTutorial: false,
   },
+  sendmail:{
+    isShowPopup: false,
+  }
 };

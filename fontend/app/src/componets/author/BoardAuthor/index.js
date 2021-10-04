@@ -9,7 +9,7 @@ import useStyles from "./Styles/style";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../redux/actions/saga/posts";
 import CreatePostsModel from "./CreatePostsModel/index";
-import EditPost from "./PostsList/Posts/index";
+// import EditPost from "./PostsList/Posts/index";
 
 const BoardAuthor = () => {
   const [content, setContent] = useState("");

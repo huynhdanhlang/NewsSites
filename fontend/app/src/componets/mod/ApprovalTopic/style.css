@@ -1,0 +1,21 @@
+input[type="checkbox"] {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.7); /* IE */
+  -moz-transform: scale(1.7); /* FF */
+  -webkit-transform: scale(1.7); /* Safari and Chrome */
+  -o-transform: scale(1.7); /* Opera */
+  transform: scale(1.7);
+  padding: 10px;
+}
+
+.super-treeview
+  > div
+  > .super-treeview-node
+  > .super-treeview-node-content
+  > label {
+  width: unset !important;
+}
+
+legend{
+    background-color: palegreen;
+}

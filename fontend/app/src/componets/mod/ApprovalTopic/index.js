@@ -1,33 +1,36 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { parentTopic$ } from "../../../redux/selector/index";
-import { findByNameParentTopic } from "../../../redux/actions/thunk/parentTopic";
-
+// import { parentTopic$ } from "../../../redux/selector/index";
+// import { findByNameParentTopic } from "../../../redux/actions/thunk/parentTopic";
+import "./style.css";
 import ParentTopicDataService from "../../../services/parentTopic.service";
 import { Container } from "@material-ui/core";
 import SuperTreeView from "react-super-treeview";
 import "react-super-treeview/dist/style.css";
 import { updateParentTopic } from "../../../redux/actions/thunk/parentTopic";
+import { Modal } from "@material-ui/core";
+import { sendMailPopup$ } from "../../../redux/selector/index";
+
+import {
+  showMailPopup,
+  hideMailPopup,
+} from "../../../redux/actions/saga/topic";
 
 export default function ListTopic() {
   const [searchName, setSearchName] = useState("");
   const [data, setData] = useState([]);
-
-  const parentTopic = useSelector(parentTopic$);
+  const { isShowPopup } = useSelector(sendMailPopup$);
   const dispatch = useDispatch();
+  let indexTopic = 0;
 
   // console.log(["parentTopic"], parentTopic);
+  const openCreatePostsModal = React.useCallback(() => {
+    dispatch(showMailPopup());
+  }, [dispatch]);
 
   React.useEffect(async () => {
     await getParentTopic();
-
-    document.querySelectorAll("input").forEach((each) => {
-      // console.log(["each"], each);
-      each.setAttribute("disabled", "disabled");
-    });
-
-    document.querySelectorAll("a").forEach((each) => {
-      console.log(["a"], each);
+    document.querySelectorAll("input[type=checkbox]").forEach((each) => {
       each.setAttribute("disabled", "disabled");
     });
   }, []);
@@ -42,6 +45,13 @@ export default function ListTopic() {
         console.log(e);
       });
   };
+
+  const [mailerState, setMailerState] = useState({
+    name: "V/v Phản hồi xét duyệt chủ đề",
+    email: "",
+    message: "",
+  });
+
   const onChangeSearchName = (e) => {
     const SearchName = e.target.value;
     setSearchName(SearchName);
@@ -58,63 +68,66 @@ export default function ListTopic() {
       });
   };
 
+  function handleStateChange(e) {
+    setMailerState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  const onClose = React.useCallback(() => {
+    dispatch(hideMailPopup());
+  }, [dispatch]);
+
   // console.log(["data_update"], data);
   React.useEffect(() => {
-    data.map((topic) => {
-      console.log(["topic_update"], topic);
-      if (
-        topic.isChecked ||
-        (topic.isChecked && topic.isExpanded) ||
-        (topic.isExpanded && !topic.isChecked) ||
-        (topic.isExpanded &&
-          !topic.isChecked &&
-          !topic["name_topic_child"].isChecked)
-      ) {
-        dispatch(updateParentTopic(topic._id, topic));
-      }
+    // const treechildview = document.getElementsByClassName(
+    //   "super-treeview-children-container"
+    // );
+
+    document.querySelectorAll(".delete-btn").forEach((child) => {
+      child.remove();
     });
 
-    const treeview = document.getElementsByClassName(
-      "super-treeview-node-content"
-    );
+    const children = document.querySelectorAll(".super-treeview-node-content");
+    console.log(children);
 
-    console.log(["data_topic"], data);
-    for (let i = 0; i < treeview.length; i++) {
-      var input = document.createElement("input");
-      input.type = "text";
-      input.className = "css-class-name"; // set the CSS class
+    for (let i = 0; i < children.length; i++) {
+      var div = document.createElement("div");
+      div.className = "delete-btn";
+
       var a = document.createElement("a");
-      {
-        /* <a class="btn btn-info btn-sm " href="#" role="button"> </a> */
-      }
       a.className = "btn btn-info btn-sm";
-      a.href = "javascript:void";
       a.role = "button";
-      a.innerText = "Gửi";
-      var label = document.createElement("label");
-      label.innerText = "Nội dung: ";
-      label.appendChild(input);
-      label.appendChild(a);
+      a.innerText = "Xét duyệt";
+      const button = document.querySelectorAll(".btn-info");
+      for (let i = 0; i < button.length; i++) {
+        (function (index) {
+          button[i].addEventListener("click", myScript);
+          function myScript() {
+            openCreatePostsModal();
+            indexTopic = index;
+            setMailerState((prevState) => ({
+              ...prevState,
+              ["email"]: data[indexTopic]["author"].email,
+            }));
+          }
+        })(i);
+      }
+      div.appendChild(a);
       for (let j = 0; j < data.length; j++) {
         console.log(["data"], data);
-        if (data[j].name_topic === treeview[i].innerText) {
-          treeview[i].appendChild(label);
+        const x = children[i].innerText.split("\n");
+        console.log(x[0]);
+        if (data[j].name_topic === x[0]) {
+          children[i].appendChild(div);
         }
       }
     }
-    console.log(["trêview"], treeview);
   }, [data, data["name_topic_child"]]);
 
   const handleClickSend = () => {
-    document.querySelectorAll("input").forEach((each) => {
-      // console.log(["each"], each);
-      if (each.hasAttribute("disabled")) {
-        each.removeAttribute("disabled");
-      } else {
-        each.setAttribute("disabled", "disabled");
-      }
-    });
-    document.querySelectorAll("a").forEach((each) => {
+    document.querySelectorAll("input[type=checkbox]").forEach((each) => {
       // console.log(["each"], each);
       if (each.hasAttribute("disabled")) {
         each.removeAttribute("disabled");
@@ -125,6 +138,36 @@ export default function ListTopic() {
         document.querySelectorAll("a.btn-danger")[0].innerText = "Mở xét duyệt";
       }
     });
+  };
+
+  const submitEmail = async (e) => {
+    e.preventDefault();
+    await dispatch(updateParentTopic(data[indexTopic]._id, data[indexTopic]));
+    console.log({ mailerState });
+    const response = await fetch("http://localhost:8080/api/sendmail", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ mailerState }),
+    })
+      .then((res) => res.json())
+      .then(async (res) => {
+        const resData = await res;
+        console.log(resData);
+        if (resData.status === "success") {
+          alert("Message Sent");
+        } else if (resData.status === "fail") {
+          alert("Message failed to send");
+        }
+      })
+      .then(() => {
+        setMailerState({
+          email: "",
+          name: "",
+          message: "",
+        });
+      });
   };
 
   return (
@@ -151,11 +194,11 @@ export default function ListTopic() {
           }}
         >
           <div
-            // style={{
-            //   display: "flex",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            // }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             className="list row"
           >
             <div className="col-md-8">
@@ -184,7 +227,7 @@ export default function ListTopic() {
           &nbsp;
           <a
             onClick={handleClickSend}
-            class="btn btn-danger btn-sm "
+            className="btn btn-danger btn-sm "
             href="#"
             role="button"
           >
@@ -203,7 +246,7 @@ export default function ListTopic() {
               // Only show Delete button on root level
               // which is depth = 0
               // NOTE: The highest/root depth is 0, node children are depth+1
-              // if (depth==0 || depth==1) {
+              // if (depth == 0) {
               //   return true;
               // } else {
               //   return false;
@@ -226,6 +269,48 @@ export default function ListTopic() {
           />
         </div>
       </div>
+      <Modal onClose={onClose} open={isShowPopup}>
+        <form
+          style={{
+            display: "flex",
+            height: "100vh",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onSubmit={submitEmail}
+        >
+          <fieldset
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "50%",
+            }}
+          >
+            <legend style={{ textAlign: "center" }}>Phản hồi tác giả </legend>
+            <input
+              placeholder="Name"
+              onChange={handleStateChange}
+              name="name"
+              value={mailerState.name}
+            />
+            <input
+              placeholder="Email"
+              onChange={handleStateChange}
+              name="email"
+              value={mailerState.email}
+            />
+            <textarea
+              style={{ minHeight: "200px" }}
+              placeholder="Message"
+              onChange={handleStateChange}
+              name="message"
+              value={mailerState.message}
+            />
+            <button>Gửi</button>
+          </fieldset>
+        </form>
+      </Modal>
     </Container>
   );
 }
