@@ -269,7 +269,7 @@ export default function ListTopic() {
           />
         </div>
       </div>
-      <Modal onClose={onClose} open={isShowPopup}>
+      <Modal open={isShowPopup}>
         <form
           style={{
             display: "flex",
@@ -277,7 +277,6 @@ export default function ListTopic() {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onSubmit={submitEmail}
         >
           <fieldset
             style={{
@@ -307,7 +306,24 @@ export default function ListTopic() {
               name="message"
               value={mailerState.message}
             />
-            <button>Gửi</button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <a
+                onClick={submitEmail}
+                className="btn btn-success btn-sm "
+                href="#"
+                role="button"
+              >
+                Gửi{" "}
+              </a>
+              <a
+                onClick={onClose}
+                className="btn btn-warning btn-sm "
+                href="#"
+                role="button"
+              >
+                Đóng{" "}
+              </a>
+            </div>
           </fieldset>
         </form>
       </Modal>
