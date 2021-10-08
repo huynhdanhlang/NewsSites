@@ -1,0 +1,6 @@
+SECRET_KEY ="danhlang_secret_key"
+EMAIL="your_email"
+WORD="your_password"
+OAUTH_CLIENTID="your_oauth_id"
+OAUTH_CLIENT_SECRET="your_secret"
+OAUTH_REFRESH_TOKEN="your_refresh_token"

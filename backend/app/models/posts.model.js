@@ -17,6 +17,16 @@ const Post = mongoose.model(
         ref: "User",
         required: true,
       },
+      name_topic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TopicParent",
+        required: true,
+      },
+      name_topic_child: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TopicList",
+        required: true,
+      },
       isChecked: {
         type: Boolean,
         default: false,

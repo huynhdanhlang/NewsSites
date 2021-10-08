@@ -16,7 +16,7 @@ exports.getPosts = async (req, res) => {
 
 exports.getPostsId = async (req, res) => {
   try {
-    //console.log(req.params.author);
+    console.log(["ksdksjdksjk"], req.body);
     const posts = await Post.findById(req.params.id)
       .populate("author")
       .populate({ path: "author", select: "fullname" });
