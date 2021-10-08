@@ -7,6 +7,8 @@ exports.getPosts = async (req, res) => {
     const author = req.params.author;
     const posts = await Post.find({ author: author })
       .populate("author")
+      .populate({ path: "name_topic", select: "_id name_topic" })
+      .populate({ path: "name_topic_child", select: "_id name_topic" })
       .populate({ path: "author", select: "fullname" });
     res.status(200).json(posts);
   } catch (error) {
@@ -19,6 +21,8 @@ exports.getPostsId = async (req, res) => {
     console.log(["ksdksjdksjk"], req.body);
     const posts = await Post.findById(req.params.id)
       .populate("author")
+      .populate({ path: "name_topic", select: "_id name_topic" })
+      .populate({ path: "name_topic_child", select: "_id name_topic" })
       .populate({ path: "author", select: "fullname" });
     res.status(200).json(posts);
   } catch (error) {
@@ -31,6 +35,8 @@ exports.getPostsAll = async (req, res) => {
     //console.log(req.params.author);
     const posts = await Post.find()
       .populate("author")
+      .populate({ path: "name_topic", select: "_id name_topic" })
+      .populate({ path: "name_topic_child", select: "_id name_topic" })
       .populate({ path: "author", select: "fullname" });
     res.status(200).json(posts);
   } catch (error) {
