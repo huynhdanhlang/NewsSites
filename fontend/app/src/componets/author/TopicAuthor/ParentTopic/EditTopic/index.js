@@ -8,7 +8,7 @@ import {
 import { deleteTopicTag } from "../../../../../redux/actions/thunk/listTopic";
 import { retrieveChildTopic } from "../../../../../redux/actions/thunk/childTopic";
 import ParentTopicDataService from "../../../../../services/parentTopic.service";
-import { Grid } from "@material-ui/core";
+// import { Grid } from "@material-ui/core";
 
 const ParentTopic = (props) => {
   // const initialParentTopicState = {

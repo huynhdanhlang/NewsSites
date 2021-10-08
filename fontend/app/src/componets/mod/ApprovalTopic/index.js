@@ -295,7 +295,8 @@ export default function ListTopic() {
             />
             <input
               placeholder="Email"
-              onChange={handleStateChange}
+              readOnly={true}
+              // onChange={handleStateChange}
               name="email"
               value={mailerState.email}
             />

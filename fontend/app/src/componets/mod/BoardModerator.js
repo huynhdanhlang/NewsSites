@@ -10,6 +10,8 @@ import { Link, Switch, Route, Router } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { history } from "../../helpers/history";
 import { retrieveParentTopic } from "../../redux/actions/thunk/parentTopic";
+import PostsList from "./ApprovalPost/index";
+
 const useStyles = makeStyles({
   root: {
     width: 500,
@@ -55,7 +57,7 @@ const ModeraterBottomNavigation = () => {
           />
         </BottomNavigation>
         <Switch>
-          {/* {/* <Route path="/author/topic" component={TopicAuthor} /> */}
+          <Route path="/mod/posts" component={PostsList} /> 
           <Route exact path="/mod/topic" component={ListTopic} />
         </Switch>
       </Grid>

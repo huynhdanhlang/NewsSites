@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./style";
 import { TextField, Button } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
+
 import {
   hideModalEdit,
   updatePosts,
@@ -11,11 +12,51 @@ import {
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
 import { modalEditState$ } from "../../../../../../redux/selector/index";
+import { retrieveParentTopic } from "../../../../../../redux/actions/thunk/parentTopic";
+import { parentTopic$ } from "../../../../../../redux/selector/index";
+import Select from "react-select";
 
 function EditPostsModel({ post }) {
   const classes = useStyles();
   const dispatch = useDispatch(modalEditState$);
-  //   const { user: currentUser } = useSelector(userState$);
+  const parentTopic = useSelector(parentTopic$);
+
+  console.log(
+    ["parentTopic"],
+    parentTopic[0]["name_topic_child"][0].name_topic
+  );
+
+  var name = [];
+  parentTopic.map((topic) => {
+    if (post.name_topic === topic._id) {
+      name.push({ name: topic.name_topic, _id: topic._id });
+      topic["name_topic_child"].map((child) => {
+        if (post.name_topic_child === child._id) {
+          name.push({
+            name: child.name_topic,
+            _id: child._id,
+          });
+        }
+      });
+    }
+  });
+  console.log(["name"], name);
+
+  const [selectedOption, setSelectedOption] = useState([
+    {
+      label: name[0].name,
+      value: name[0]._id,
+      key: 0,
+    },
+  ]);
+
+  const [selectChild, setSelectChild] = useState([
+    {
+      label: name[1].name,
+      value: name[1]._id,
+      key: 0,
+    },
+  ]);
   const editor = useRef(null);
 
   const config = {
@@ -30,18 +71,67 @@ function EditPostsModel({ post }) {
   };
 
   // const post = JSON.parse(sessionStorage.getItem("postId"));
-  console.log(['post', post]);
+  console.log(["post", post]);
   const [data, setData] = useState(post);
 
-  console.log(["data"], data);
+  React.useEffect(() => {
+    dispatch(retrieveParentTopic());
+    setData({
+      ...data,
+      name_topic: selectedOption.value,
+      name_topic_child: selectChild.value,
+    });
+  }, [dispatch, selectedOption, selectChild]);
+  console.log(["data-post", data]);
+
+  const options = parentTopic.map((topic, index) => {
+    return {
+      label: topic.name_topic,
+      value: topic._id,
+      key: index,
+    };
+  });
+
+  var optionsChild;
+  parentTopic.map((topic) => {
+    if (selectedOption.label === topic.name_topic) {
+      optionsChild = topic["name_topic_child"].map((child, index) => {
+        return {
+          label: child.name_topic,
+          value: child._id,
+          key: index,
+        };
+      });
+    }
+  });
+
+  console.log(["data"], parentTopic);
   const onClose = React.useCallback(() => {
     dispatch(hideModalEdit());
   }, [dispatch]);
 
   const onSubmit = React.useCallback(async () => {
     await dispatch(updatePosts.updatePostsRequest(data));
-    // setTimeout(window.location.reload(true), 2000);
   }, [dispatch, data]);
+
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      width: "100%",
+    }),
+    multiValueRemove: (base) => ({ ...base, display: "none" }),
+  };
+
+  const handleOnchange = (event) => {
+    console.log(["event", event]);
+    setSelectedOption(event);
+    setSelectChild([]);
+  };
+
+  const handleOnchangeChild = (event) => {
+    console.log(["eventChild", event]);
+    setSelectChild(event);
+  };
 
   const body = (
     <div className={classes.paper} id="simple-modal-title">
@@ -54,7 +144,31 @@ function EditPostsModel({ post }) {
           value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
         />
-        {/* <div className={classes.outer}> */}
+        <label htmlFor="parenttopic">Chủ đề:</label>
+        <Select
+          classNamePrefix="select"
+          className="basic-single"
+          isMulti={false}
+          value={selectedOption}
+          isClearable={false}
+          onChange={handleOnchange}
+          options={options}
+          name="colors"
+          styles={customStyles}
+        />
+        <label htmlFor="childtopic">Thẻ chủ đề:</label>
+        <Select
+          classNamePrefix="select"
+          className="basic-single"
+          isMulti={false}
+          value={selectChild}
+          isClearable={false}
+          onChange={handleOnchangeChild}
+          options={optionsChild}
+          name="colors"
+          styles={customStyles}
+        />
+        <label htmlFor="content">Nội dung:</label>
         <JoditEditor
           ref={editor}
           value={data.content}
@@ -63,7 +177,7 @@ function EditPostsModel({ post }) {
           onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
           onChange={(newContent) => {}}
         />
-        {/* </div> */}
+        <label htmlFor="image">Ảnh bản tin:</label>
         <FileBase64
           accept="image/*"
           multiple={false}
@@ -71,7 +185,6 @@ function EditPostsModel({ post }) {
           value={data.attachment}
           onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
         />
-
         <div className={classes.footer}>
           <Button
             variant="contained"
