@@ -25,13 +25,20 @@ function EditPostsModel({ post }) {
     ["parentTopic"],
     parentTopic[0]["name_topic_child"][0].name_topic
   );
+  console.log(["post", post]);
 
   var name = [];
   parentTopic.map((topic) => {
-    if (post.name_topic === topic._id) {
-      name.push({ name: topic.name_topic, _id: topic._id });
+    // console.log(["post"], post);
+
+    if (post["name_topic"]._id === topic._id) {
+      console.log(["topic"],  topic);
+      name.push({
+        name: topic.name_topic,
+        _id: topic._id,
+      });
       topic["name_topic_child"].map((child) => {
-        if (post.name_topic_child === child._id) {
+        if (post["name_topic_child"]._id === child._id) {
           name.push({
             name: child.name_topic,
             _id: child._id,
@@ -71,7 +78,6 @@ function EditPostsModel({ post }) {
   };
 
   // const post = JSON.parse(sessionStorage.getItem("postId"));
-  console.log(["post", post]);
   const [data, setData] = useState(post);
 
   React.useEffect(() => {
@@ -84,25 +90,39 @@ function EditPostsModel({ post }) {
   }, [dispatch, selectedOption, selectChild]);
   console.log(["data-post", data]);
 
-  const options = parentTopic.map((topic, index) => {
-    return {
-      label: topic.name_topic,
-      value: topic._id,
-      key: index,
-    };
+  var options = parentTopic.map((topic, index) => {
+    if (topic.isChecked) {
+      return {
+        label: topic.name_topic,
+        value: topic._id,
+        key: index,
+      };
+    }
   });
 
-  var optionsChild;
+  options = options.filter(function (element) {
+    return element !== undefined;
+  });
+
+  var optionsChild = [];
   parentTopic.map((topic) => {
-    if (selectedOption.label === topic.name_topic) {
-      optionsChild = topic["name_topic_child"].map((child, index) => {
-        return {
-          label: child.name_topic,
-          value: child._id,
-          key: index,
-        };
-      });
+    if (topic.isChecked) {
+      if (selectedOption.label === topic.name_topic) {
+        optionsChild = topic["name_topic_child"].map((child, index) => {
+          if (topic.isChecked) {
+            return {
+              label: child.name_topic,
+              value: child._id,
+              key: index,
+            };
+          }
+        });
+      }
     }
+  });
+
+  optionsChild = optionsChild.filter(function (element) {
+    return element !== undefined;
   });
 
   console.log(["data"], parentTopic);
@@ -110,8 +130,9 @@ function EditPostsModel({ post }) {
     dispatch(hideModalEdit());
   }, [dispatch]);
 
-  const onSubmit = React.useCallback(async () => {
-    await dispatch(updatePosts.updatePostsRequest(data));
+  const onSubmit = React.useCallback(() => {
+    dispatch(updatePosts.updatePostsRequest(data));
+    setTimeout(window.location.reload(true), 5000);
   }, [dispatch, data]);
 
   const customStyles = {

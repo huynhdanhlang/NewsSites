@@ -31,11 +31,6 @@ export default function Post({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const onLikeButtonClick = React.useCallback(() => {
-  //   dispatch(
-  //     updatePosts.updatePostsRequest({ ...post, likeCount: post.likeCount + 1 })
-  //   );
-  // }, [dispatch, post]);
 
   const [h2state, seth2State] = React.useState(null);
 
@@ -167,14 +162,6 @@ export default function Post({ post, index }) {
           }}
         ></Typography>
       </CardContent>
-      {/* <CardActions>
-        <IconButton onClick={onLikeButtonClick}>
-          <FavoriteIcon />
-          <Typography component="span" color="textSecondary">
-            {post.likeCount}
-          </Typography>
-        </IconButton>
-      </CardActions> */}
     </Card>
   );
 }

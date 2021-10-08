@@ -31,12 +31,6 @@ export default function Post({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const onLikeButtonClick = React.useCallback(() => {
-    dispatch(
-      updatePosts.updatePostsRequest({ ...post, likeCount: post.likeCount + 1 })
-    );
-  }, [dispatch, post]);
-
   const [h2state, seth2State] = React.useState(null);
 
   React.useEffect(() => {
@@ -95,11 +89,11 @@ export default function Post({ post, index }) {
   //     });
   // };
 
-  const handleClickItem = async (index, id) => {
+  const handleClickItem = (index, id) => {
     console.log(options[index] === "Xóa", id);
     if (options[index] === "Xóa") {
-      await dispatch(deletePosts.deletePostsRequest({ id }));
-      setTimeout(window.location.reload(true), 1000);
+      dispatch(deletePosts.deletePostsRequest({ id }));
+      setTimeout(window.location.reload(true), 2000);
     }
     if (options[index] === "Chỉnh sửa") {
       openCreatePostsModal();
@@ -107,71 +101,84 @@ export default function Post({ post, index }) {
   };
   console.log(["index"], index);
   localStorage.setItem("postIndex", JSON.stringify(index));
-
+  var status = "";
+  var color = "";
+  if (!post.isChecked && !post.canceled) {
+    status = "Đang chờ duyệt";
+    color = "yellow";
+  }
+  if (post.isChecked && !post.canceled) {
+    status = "Đã duyệt";
+    color = "green";
+  }
+  if (post.canceled) {
+    status = "Không được duyệt";
+    color = "red";
+  }
   return (
-      <Card>
-        <CardHeader
-          avatar={<Avatar src="" />}
-          title={post.author.fullname}
-          subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
-          action={
-            <IconButton onClick={handleOnclick}>
-              <MoreVertIcon />
-            </IconButton>
-          }
-        />
-
-        <Menu
-          id="long-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: "20ch",
-            },
-          }}
-        >
-          {options.map((option, index) => (
-            <MenuItem
-              key={option}
-              onClick={() => handleClickItem(index, post._id)}
-            >
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
-
-        <CardMedia
-          image={post.attachment}
-          title={post.title}
-          className={classes.media}
-        />
-        <CardContent>
-          <Typography variant="h5" color="textPrimary">
-            {post.title}
-          </Typography>
-          {console.log(post.content.length)}
-          <Typography
-            style={{ wordWrap: "break-word" }}
-            variant="body2"
-            component="p"
-            color="textSecondary"
-            dangerouslySetInnerHTML={{
-              __html: `${h2state}`,
-            }}
-          ></Typography>
-        </CardContent>
-        <CardActions>
-          <IconButton onClick={onLikeButtonClick}>
-            <FavoriteIcon />
-            <Typography component="span" color="textSecondary">
-              {post.likeCount}
-            </Typography>
+    <Card>
+      <div
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          backgroundColor: `${color}`,
+        }}
+      >
+        &nbsp;{status}
+      </div>
+      <CardHeader
+        avatar={<Avatar src="" />}
+        title={post.author.fullname}
+        subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
+        action={
+          <IconButton onClick={handleOnclick}>
+            <MoreVertIcon />
           </IconButton>
-        </CardActions>
-      </Card>
+        }
+      />
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: "20ch",
+          },
+        }}
+      >
+        {options.map((option, index) => (
+          <MenuItem
+            key={option}
+            onClick={() => handleClickItem(index, post._id)}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
+      <CardMedia
+        image={post.attachment}
+        title={post.title}
+        className={classes.media}
+      />
+      <CardContent>
+        <Typography variant="h5" color="textPrimary">
+          {post.title}
+        </Typography>
+        {console.log(post.content.length)}
+        <Typography
+          style={{ wordWrap: "break-word" }}
+          variant="body2"
+          component="p"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${h2state}`,
+          }}
+        ></Typography>
+      </CardContent>
+    </Card>
   );
 }

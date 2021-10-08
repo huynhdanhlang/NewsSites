@@ -30,30 +30,41 @@ function CreatePostsModel() {
     });
   }, [dispatch, selectedOption, selectChild]);
 
-  const options = parentTopic.map((topic, index) => {
-    return {
-      label: topic.name_topic,
-      value: topic._id,
-      key: index,
-    };
+  var options = parentTopic.map((topic, index) => {
+    console.log(["test"], topic);
+    if (topic.isChecked) {
+      return {
+        label: topic.name_topic,
+        value: topic._id,
+        key: index,
+      };
+    }
+  });
+  options = options.filter(function (element) {
+    return element !== undefined;
   });
 
-  console.log(["jjj"], parentTopic);
+  console.log(["jjj"], options);
 
-  var optionsChild;
+  var optionsChild=[];
   parentTopic.map((topic) => {
     if (selectedOption.label === topic.name_topic) {
       optionsChild = topic["name_topic_child"].map((child, index) => {
-        return {
-          label: child.name_topic,
-          value: child._id,
-          key: index,
-        };
+        if (child.isChecked) {
+          return {
+            label: child.name_topic,
+            value: child._id,
+            key: index,
+          };
+        }
       });
     }
   });
 
-  // console.log(["selectedOptionChild"], optionsChild);
+  optionsChild = optionsChild.filter(function (element) {
+    return element !== undefined;
+  });
+  console.log(["selectedOptionChild"], optionsChild);
 
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
