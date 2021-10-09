@@ -19,7 +19,7 @@ export default function ListTopic() {
   const parentTopic = useSelector(parentTopic$);
   const dispatch = useDispatch();
 
-  // console.log(parentTopic);
+  console.log(["parentTopic"], parentTopic);
   React.useEffect(() => {
     dispatch(retrieveParentTopicAuthor(currentUser.id));
   }, []);
@@ -34,11 +34,11 @@ export default function ListTopic() {
     setCurrentIndex(-1);
   };
 
-  const setActiveParentTopic = (parent, index) => {
+  const setActiveParentTopic = async (parent, index) => {
+    console.log(["lllll"], parent, index);
     setCurrentParentTopic(parent);
     setCurrentIndex(index);
-    getParentTopic(parent._id);
-    // console.log(['lllll'],currnentParentTopic);
+    await getParentTopic(parent._id);
   };
 
   const getParentTopic = async (id) => {
@@ -67,6 +67,7 @@ export default function ListTopic() {
   //       console.log(error);
   //     });
   // };
+  console.log(["currnentParentTopic"], currnentParentTopic);
 
   const findByName = () => {
     refreshData();
@@ -112,7 +113,7 @@ export default function ListTopic() {
                   onClick={() => setActiveParentTopic(parent, index)}
                   key={index}
                 >
-                  {parent.name_topic}
+                  {parent["name_topic"].name_topic_child}
                 </li>
               ))}
             &nbsp;
@@ -135,7 +136,7 @@ export default function ListTopic() {
                 <label>
                   <strong>Tên :</strong>
                 </label>
-                {currnentParentTopic.name_topic}
+                {currnentParentTopic["name_topic"].name_topic_child}
               </div>
               <Link
                 to={"/author/topic/topicParent/" + currnentParentTopic._id}

@@ -177,7 +177,7 @@ export default function Post({ post, index }) {
         ></Typography>
       </CardContent>
       <div style={{ float: "right", backgroundColor: "lightblue" }}>
-        {post["name_topic"].name_topic}
+        {post["name_topic"].name_topic_child}
       </div>
     </Card>
   );

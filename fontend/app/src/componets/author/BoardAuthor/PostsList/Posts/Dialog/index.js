@@ -28,7 +28,10 @@ export default function AlertDialog() {
     (id) => {
       dispatch(deletePosts.deletePostsRequest({ id }));
       dispatch(hideDialog());
-      setTimeout(window.location.reload(true), 2000);
+      let timer1 = setTimeout(window.location.reload(), 5000);
+      return () => {
+        clearTimeout(timer1);
+      };
     },
     [dispatch]
   );

@@ -63,6 +63,7 @@ const ParentTopic = (props) => {
     const { name, value } = event.target;
     const list = [...inputList];
     list[index][name] = value;
+    console.log(["index_tt"], name, value, index);
     setInputList(list);
   };
 
@@ -84,7 +85,10 @@ const ParentTopic = (props) => {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { _id: null, name_topic: "",isChecked: false}]);
+    setInputList([
+      ...inputList,
+      { _id: null, name_topic: "", isChecked: false },
+    ]);
   };
 
   const updateContent = () => {
@@ -118,6 +122,7 @@ const ParentTopic = (props) => {
     setInputList(getTopic["name_topic_child"]);
   };
 
+  console.log(["inputList"], inputList);
   return (
     <div>
       {currentParentTopic ? (
@@ -131,7 +136,7 @@ const ParentTopic = (props) => {
                 className="form-control"
                 id="name_topic"
                 name="name_topic"
-                value={currentParentTopic.name_topic}
+                value={currentParentTopic["name_topic"].name_topic_child}
                 onChange={handleInputChange}
               />
             </div>
@@ -160,7 +165,7 @@ const ParentTopic = (props) => {
                       name="name_topic"
                     />
                     <div>
-                      {inputList.length !== 1 && (
+                      {inputList.length !== 1 && topic.isChecked === false && (
                         <a
                           onClick={() => handleRemoveClick(i)}
                           className="btn btn-danger btn-sm "

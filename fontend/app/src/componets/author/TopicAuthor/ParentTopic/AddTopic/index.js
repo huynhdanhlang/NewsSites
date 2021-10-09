@@ -21,7 +21,7 @@ export default function AddTopic() {
     // console.log(childTopic);
     setParentTopic({
       ...parentTopic,
-      name_topic: selectedOption.label,
+      name_topic: selectedOption.value,
       name_topic_child: inputList,
     });
     console.log("jjsjjs", selectedOption);
