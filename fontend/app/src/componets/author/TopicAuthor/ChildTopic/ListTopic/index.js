@@ -39,16 +39,16 @@ export default function ListTopic() {
     // console.log(['lllll'],currnentChildTopic);
   };
 
-  const removeAllChildtopic = () => {
-    dispatch(deleteAllChildtopic())
-      .then((response) => {
-        console.log(response);
-        refreshData();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const removeAllChildtopic = () => {
+  //   dispatch(deleteAllChildtopic())
+  //     .then((response) => {
+  //       console.log(response);
+  //       refreshData();
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const findByName = () => {
     refreshData();
@@ -99,14 +99,14 @@ export default function ListTopic() {
               ))}
             &nbsp;
           </ul>
-          <a
+          {/* <a
             onClick={removeAllChildtopic}
             className="btn btn-danger btn-sm "
             href="#"
             role="button"
           >
             Xoá tất cả{" "}
-          </a>
+          </a> */}
         </div>
 
         <div className="col-md-6">

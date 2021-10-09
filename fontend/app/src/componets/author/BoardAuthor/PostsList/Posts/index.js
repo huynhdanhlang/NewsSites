@@ -23,14 +23,20 @@ import { showModalEdit } from "../../../../../redux/actions/saga/posts";
 import { showDialog } from "../../../../../redux/actions/saga/posts";
 import { showDialogState$ } from "../../../../../redux/selector/index";
 
-const options = ["Xóa", "Chỉnh sửa"];
 const ITEM_HEIGHT = 48;
 
 export default function Post({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  console.log(["post"], post);
   const [h2state, seth2State] = React.useState(null);
+  var options;
+  if (post.isChecked) {
+    options = ["Chỉnh sửa"];
+  } else {
+    options = ["Xóa", "Chỉnh sửa"];
+  }
 
   React.useEffect(() => {
     try {
@@ -77,7 +83,6 @@ export default function Post({ post, index }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   const handleClickItem = (index, id) => {
     console.log(options[index] === "Xóa", id);
