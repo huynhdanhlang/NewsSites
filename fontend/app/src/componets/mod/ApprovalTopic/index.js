@@ -24,7 +24,7 @@ export default function ListTopic() {
   let indexTopic = 0;
 
   // console.log(["parentTopic"], parentTopic);
-  const openCreatePostsModal = React.useCallback(() => {
+  const openMailPopup = React.useCallback(() => {
     dispatch(showMailPopup());
   }, [dispatch]);
 
@@ -105,7 +105,7 @@ export default function ListTopic() {
         (function (index) {
           button[i].addEventListener("click", myScript);
           function myScript() {
-            openCreatePostsModal();
+            openMailPopup();
             indexTopic = index;
             setMailerState((prevState) => ({
               ...prevState,

@@ -16,7 +16,6 @@ import {
 } from "@material-ui/core";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-// import FavoriteIcon from "@material-ui/icons/Favorite";
 import AlertDialog from "./Dialog/index";
 import moment from "moment";
 import { showModalEdit } from "../../../../../redux/actions/saga/posts";
@@ -114,7 +113,7 @@ export default function Post({ post, index }) {
   const { isShowDialog } = useSelector(showDialogState$);
   return (
     <Card>
-      {isShowDialog && <AlertDialog openDialog={isShowDialog} />}
+      {isShowDialog && <AlertDialog />}
       <div
         style={{
           textAlign: "center",
@@ -177,6 +176,9 @@ export default function Post({ post, index }) {
           }}
         ></Typography>
       </CardContent>
+      <div style={{ float: "right", backgroundColor: "lightblue" }}>
+        {post["name_topic"].name_topic}
+      </div>
     </Card>
   );
 }

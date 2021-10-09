@@ -224,7 +224,7 @@ function EditPostsModel({ post }) {
 
   return (
     <div>
-      <Modal disableEnforceFocus open={isShowEdit} onClose={onClose}>
+      <Modal disableEnforceFocus={true} open={isShowEdit} onClose={onClose}>
         {body}
       </Modal>
     </div>

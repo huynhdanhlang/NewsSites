@@ -196,7 +196,7 @@ function CreatePostsModel() {
 
   return (
     <div>
-      <Modal disableEnforceFocus open={isShow} onClose={onClose}>
+      <Modal  disableEnforceFocus={true} open={isShow} onClose={onClose}>
         {body}
       </Modal>
     </div>

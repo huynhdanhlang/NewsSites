@@ -9,7 +9,7 @@ exports.getPosts = async (req, res) => {
       .populate("author")
       .populate({ path: "name_topic", select: "_id name_topic" })
       .populate({ path: "name_topic_child", select: "_id name_topic" })
-      .populate({ path: "author", select: "fullname" });
+      .populate({ path: "author", select: "fullname email" });
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -23,7 +23,7 @@ exports.getPostsId = async (req, res) => {
       .populate("author")
       .populate({ path: "name_topic", select: "_id name_topic" })
       .populate({ path: "name_topic_child", select: "_id name_topic" })
-      .populate({ path: "author", select: "fullname" });
+      .populate({ path: "author", select: "fullname email" });
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -37,7 +37,7 @@ exports.getPostsAll = async (req, res) => {
       .populate("author")
       .populate({ path: "name_topic", select: "_id name_topic" })
       .populate({ path: "name_topic_child", select: "_id name_topic" })
-      .populate({ path: "author", select: "fullname" });
+      .populate({ path: "author", select: "fullname email" });
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error });
