@@ -192,17 +192,17 @@ exports.delete = async (req, res) => {
 };
 
 // Delete all TopicParent from the database.
-exports.deleteAll = (req, res) => {
-  TopicParent.deleteMany({})
-    .then((data) => {
-      res.send({ message: `${data.deletedCount} chủ đề đã xóa thành công` });
-    })
-    .catch((err) => {
-      res
-        .status(500)
-        .send({ message: err.message || "Có lỗi trong khi xóa tất cả chủ đề" });
-    });
-};
+// exports.deleteAll = (req, res) => {
+//   TopicParent.deleteMany({})
+//     .then((data) => {
+//       res.send({ message: `${data.deletedCount} chủ đề đã xóa thành công` });
+//     })
+//     .catch((err) => {
+//       res
+//         .status(500)
+//         .send({ message: err.message || "Có lỗi trong khi xóa tất cả chủ đề" });
+//     });
+// };
 
 // Find all published TopicParent
 exports.findAllPublished = (req, res) => {};

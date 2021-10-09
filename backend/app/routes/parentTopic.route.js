@@ -25,7 +25,7 @@ module.exports = function (app) {
   router.delete("/:id", topicParent.delete);
 
   // Create a new TopicParent
-  router.delete("/", topicParent.deleteAll);
+  // router.delete("/", topicParent.deleteAll);
 
   app.use("/api/author/topic/topicParent", router);
 };
