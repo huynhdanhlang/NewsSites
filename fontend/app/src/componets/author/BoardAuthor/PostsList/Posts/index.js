@@ -1,17 +1,13 @@
 import React from "react";
 import useStyles from "./style";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updatePosts,
-  deletePosts,
-} from "../../../../../redux/actions/saga/posts";
+
 import { Menu, MenuItem } from "@material-ui/core";
 // import PostService from "../../../../../services/posts.service";
 
 import {
   Avatar,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -20,9 +16,12 @@ import {
 } from "@material-ui/core";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+// import FavoriteIcon from "@material-ui/icons/Favorite";
+import AlertDialog from "./Dialog/index";
 import moment from "moment";
 import { showModalEdit } from "../../../../../redux/actions/saga/posts";
+import { showDialog } from "../../../../../redux/actions/saga/posts";
+import { showDialogState$ } from "../../../../../redux/selector/index";
 
 const options = ["Xóa", "Chỉnh sửa"];
 const ITEM_HEIGHT = 48;
@@ -67,33 +66,24 @@ export default function Post({ post, index }) {
     dispatch(showModalEdit());
   }, [dispatch]);
 
+  const openDialog = React.useCallback(() => {
+    dispatch(showDialog());
+  }, [dispatch]);
+
   const handleOnclick = (event) => {
     setAnchorEl(event.currentTarget);
-    // getPost(post._id);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // const getPost = async (id) => {
-  //   // console.log(["id fggfgfgfg"], id);
-  //   await PostService.getPostsId(id)
-  //     .then((response) => {
-  //       console.log(["id, response.data"], id, response.data);
-  //       // localStorage.clear();
-  //       localStorage.setItem("postId", JSON.stringify(response.data));
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
 
   const handleClickItem = (index, id) => {
     console.log(options[index] === "Xóa", id);
+    localStorage.setItem("postId", JSON.stringify(id));
     if (options[index] === "Xóa") {
-      dispatch(deletePosts.deletePostsRequest({ id }));
-      setTimeout(window.location.reload(true), 2000);
+      openDialog();
     }
     if (options[index] === "Chỉnh sửa") {
       openCreatePostsModal();
@@ -115,8 +105,11 @@ export default function Post({ post, index }) {
     status = "Không được duyệt";
     color = "red";
   }
+
+  const { isShowDialog } = useSelector(showDialogState$);
   return (
     <Card>
+      {isShowDialog && <AlertDialog openDialog={isShowDialog} />}
       <div
         style={{
           textAlign: "center",

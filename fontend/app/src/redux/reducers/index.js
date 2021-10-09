@@ -12,6 +12,7 @@ import childTopic from "./thunk/childTopic";
 import parentTopic from "./thunk/parentTopic";
 import authortutorial from "./saga/authortutorial";
 import sendmail from "./saga/sendmail";
+import dialog from "./saga/dialog";
 
 export default combineReducers({
   auth,
@@ -21,6 +22,7 @@ export default combineReducers({
   modaledit,
   sendmail,
   authortutorial,
+  dialog,
   childTopic,
   parentTopic,
 });

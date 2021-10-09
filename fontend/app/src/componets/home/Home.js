@@ -42,16 +42,15 @@ const Home = () => {
     <Container maxWidth={false} className="container">
       <div style={{ marginTop: 100 }}></div>
       <Grid container spacing={2} alignItems="stretch">
-      {posts.map((post) => (
-        // <Grid item xs={12}>
-        //    {post.approved && (
-        <Grid key={post._id} item xs={12} sm={4}>
-          <PostAll post={post} />
-        </Grid>
-        //    )}
-        //  </Grid>
-      ))}
-    </Grid>
+        {posts.map(
+          (post) =>
+            post.isChecked && (
+              <Grid key={post._id} item xs={12} sm={4}>
+                <PostAll post={post} />
+              </Grid>
+            )
+        )}
+      </Grid>
     </Container>
   );
 };

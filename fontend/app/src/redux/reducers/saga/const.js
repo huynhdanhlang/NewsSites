@@ -12,7 +12,10 @@ export const initialState = {
   authortutorial: {
     isShowTutorial: false,
   },
-  sendmail:{
+  sendmail: {
     isShowPopup: false,
-  }
+  },
+  dialog: {
+    isShowDialog: false,
+  },
 };

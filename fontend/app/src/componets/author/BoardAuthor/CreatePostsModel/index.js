@@ -46,7 +46,7 @@ function CreatePostsModel() {
 
   console.log(["jjj"], options);
 
-  var optionsChild=[];
+  var optionsChild = [];
   parentTopic.map((topic) => {
     if (selectedOption.label === topic.name_topic) {
       optionsChild = topic["name_topic_child"].map((child, index) => {
@@ -92,7 +92,7 @@ function CreatePostsModel() {
 
   const onSubmit = React.useCallback(() => {
     dispatch(createPosts.createPostsRequest(data));
-    setTimeout(window.location.reload(true), 2000);
+    setTimeout(window.location.reload(true), 3000);
   }, [dispatch, data]);
 
   const customStyles = {
@@ -133,6 +133,7 @@ function CreatePostsModel() {
             alignItems: "center",
           }}
         > */}
+        <label htmlFor="parenttopic">Chủ đề:</label>
         <Select
           classNamePrefix="select"
           className="basic-single"
@@ -144,7 +145,7 @@ function CreatePostsModel() {
           name="colors"
           styles={customStyles}
         />
-        &nbsp;
+        <label htmlFor="childtopic">Thẻ chủ đề:</label>
         <Select
           classNamePrefix="select"
           className="basic-single"
@@ -156,7 +157,7 @@ function CreatePostsModel() {
           name="colors"
           styles={customStyles}
         />
-        &nbsp;
+        <label htmlFor="content">Nội dung:</label>
         {/* </div> */}
         {/* <div className={classes.outer}> */}
         <JoditEditor
@@ -168,6 +169,8 @@ function CreatePostsModel() {
           onChange={(newContent) => {}}
         />
         {/* </div> */}
+        <label htmlFor="image">Ảnh bản tin:</label>
+
         <FileBase64
           accept="image/*"
           multiple={false}

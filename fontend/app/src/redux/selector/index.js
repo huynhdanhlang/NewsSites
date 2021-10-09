@@ -2,6 +2,8 @@ export const postsState$ = (state) => state.posts.data;
 
 export const modalState$ = (state) => state.modal;
 
+export const showDialogState$ = (state) => state.dialog;
+
 export const modalEditState$ = (state) => state.modaledit;
 
 export const sendMailPopup$ = (state) => state.sendmail;
