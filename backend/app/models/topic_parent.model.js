@@ -5,7 +5,8 @@ const TopicParent = mongoose.model(
   mongoose.Schema(
     {
       name_topic: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TopicChild",
         required: true,
       },
       name_topic_child: [
