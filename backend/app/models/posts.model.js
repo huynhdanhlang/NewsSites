@@ -19,7 +19,7 @@ const Post = mongoose.model(
       },
       name_topic: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "TopicChild",
+        ref: "TopicParent",
         required: true,
       },
       name_topic_child: {

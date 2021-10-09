@@ -79,7 +79,6 @@ exports.findAll = (req, res) => {
   TopicParent.find(condition)
     .populate("name_topic_child")
     .populate("author")
-    .populate("name_topic")
     .populate({ path: "author", select: "email" })
     .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
@@ -100,7 +99,6 @@ exports.findOne = (req, res) => {
 
   TopicParent.findById(id)
     .populate("name_topic_child")
-    .populate("name_topic")
     .populate({ path: "name_topic_child", select: "isChecked name_topic" })
     .then((data) => {
       if (!data)
@@ -115,11 +113,10 @@ exports.findOne = (req, res) => {
 // Find a single TopicAuthor with an author
 exports.findAllAuthor = async (req, res) => {
   try {
-    console.log(["req.params.author"], req.params.author);
+    console.log(["req.params.author"],req.params.author);
     const author = req.params.author;
     const topicauthor = await TopicParent.find({ author: author })
       .populate("author")
-      .populate("name_topic")
       .populate({ path: "author", select: "fullname" });
     res.status(200).json(topicauthor);
   } catch (error) {

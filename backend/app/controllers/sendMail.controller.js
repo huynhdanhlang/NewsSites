@@ -1,21 +1,6 @@
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
 
 exports.sendMail = (req, res) => {
-  const OAuth2 = google.auth.OAuth2;
-
-  const oauth2Client = new OAuth2(
-    process.env.OAUTH_CLIENTID,
-    process.env.OAUTH_CLIENT_SECRET,
-    "https://developers.google.com/oauthplayground"
-  );
-
-  oauth2Client.setCredentials({
-    refresh_token: process.env.OAUTH_REFRESH_TOKEN,
-  });
-
-  const accessToken = oauth2Client.getAccessToken();
-
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -25,11 +10,10 @@ exports.sendMail = (req, res) => {
       clientId: process.env.OAUTH_CLIENTID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
       refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-      accessToken: accessToken,
     },
   });
   console.log(["request"], req.body);
-
+  
   transporter.verify((err, success) => {
     err
       ? console.log(err)
@@ -45,7 +29,7 @@ exports.sendMail = (req, res) => {
   transporter.sendMail(mailOptions, function (err, data) {
     if (err) {
       res.json({
-        status: "fail" + err,
+        status: "fail",
       });
     } else {
       console.log("== Message Sent ==");
