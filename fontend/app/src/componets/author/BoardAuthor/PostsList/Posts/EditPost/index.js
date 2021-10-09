@@ -132,7 +132,7 @@ function EditPostsModel({ post }) {
 
   const onSubmit = React.useCallback(() => {
     dispatch(updatePosts.updatePostsRequest(data));
-    setTimeout(window.location.reload(true), 5000);
+    setTimeout(window.location.reload(), 5000);
   }, [dispatch, data]);
 
   const customStyles = {

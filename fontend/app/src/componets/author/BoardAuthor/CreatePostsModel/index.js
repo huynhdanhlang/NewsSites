@@ -92,7 +92,7 @@ function CreatePostsModel() {
 
   const onSubmit = React.useCallback(() => {
     dispatch(createPosts.createPostsRequest(data));
-    setTimeout(window.location.reload(true), 3000);
+    setTimeout(window.location.reload(), 5000);
   }, [dispatch, data]);
 
   const customStyles = {

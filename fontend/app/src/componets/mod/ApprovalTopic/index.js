@@ -21,7 +21,6 @@ export default function ListTopic() {
   const [data, setData] = useState([]);
   const { isShowPopup } = useSelector(sendMailPopup$);
   const dispatch = useDispatch();
-  let indexTopic = 0;
 
   // console.log(["parentTopic"], parentTopic);
   const openMailPopup = React.useCallback(() => {
@@ -106,10 +105,10 @@ export default function ListTopic() {
           button[i].addEventListener("click", myScript);
           function myScript() {
             openMailPopup();
-            indexTopic = index;
+            localStorage.setItem("topicIndex", JSON.stringify(index));
             setMailerState((prevState) => ({
               ...prevState,
-              ["email"]: data[indexTopic]["author"].email,
+              ["email"]: data[index]["author"].email,
             }));
           }
         })(i);
@@ -142,7 +141,8 @@ export default function ListTopic() {
 
   const submitEmail = async (e) => {
     e.preventDefault();
-    await dispatch(updateParentTopic(data[indexTopic]._id, data[indexTopic]));
+    const index = JSON.parse(localStorage.getItem("topicIndex"));
+    dispatch(updateParentTopic(data[index]._id, data[index]));
     console.log({ mailerState });
     const response = await fetch("http://localhost:8080/api/sendmail", {
       method: "POST",

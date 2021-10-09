@@ -93,7 +93,7 @@ const ParentTopic = (props) => {
         // console.log(response);
         setMessage("The parentTopic was updated successfully!");
         await getParentTopic(currentParentTopic._id);
-        setTimeout(window.location.reload(true), 1500);
+        setTimeout(window.location.reload(), 5000);
       })
       .catch((e) => {
         console.log(e);
