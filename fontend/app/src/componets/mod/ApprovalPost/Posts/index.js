@@ -172,7 +172,7 @@ export default function Post({ post, index }) {
           ></Typography>
         </CardContent>
         <div style={{ float: "right", backgroundColor: "lightblue" }}>
-          {post["name_topic"].name_topic_child}
+          {post["name_topic"].name_topic}
         </div>
       </Card>
       <Popup post={post} />

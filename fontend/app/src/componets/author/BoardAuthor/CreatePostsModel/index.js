@@ -30,14 +30,12 @@ function CreatePostsModel() {
     });
   }, [dispatch, selectedOption, selectChild]);
 
-  console.log(["selectedOption"], selectedOption);
-
   var options = parentTopic.map((topic, index) => {
     console.log(["test"], topic);
     if (topic.isChecked) {
       return {
-        label: topic["name_topic"].name_topic_child,
-        value: topic["name_topic"]._id,
+        label: topic.name_topic,
+        value: topic._id,
         key: index,
       };
     }
@@ -50,8 +48,7 @@ function CreatePostsModel() {
 
   var optionsChild = [];
   parentTopic.map((topic) => {
-    console.log(["selectedOption"],selectedOption);
-    if (selectedOption.value === topic["name_topic"]._id) {
+    if (selectedOption.label === topic.name_topic) {
       optionsChild = topic["name_topic_child"].map((child, index) => {
         if (child.isChecked) {
           return {
@@ -95,10 +92,7 @@ function CreatePostsModel() {
 
   const onSubmit = React.useCallback(() => {
     dispatch(createPosts.createPostsRequest(data));
-    let timer1 = setTimeout(window.location.reload(), 5000);
-    return () => {
-      clearTimeout(timer1);
-    };
+    setTimeout(window.location.reload(true), 3000);
   }, [dispatch, data]);
 
   const customStyles = {
@@ -202,7 +196,7 @@ function CreatePostsModel() {
 
   return (
     <div>
-      <Modal disableEnforceFocus={true} open={isShow} onClose={onClose}>
+      <Modal  disableEnforceFocus={true} open={isShow} onClose={onClose}>
         {body}
       </Modal>
     </div>

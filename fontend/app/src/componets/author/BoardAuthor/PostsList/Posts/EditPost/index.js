@@ -25,17 +25,17 @@ function EditPostsModel({ post }) {
     ["parentTopic"],
     parentTopic[0]["name_topic_child"][0].name_topic
   );
-  // console.log(["post_ppp", post]);
+  console.log(["post", post]);
 
   var name = [];
   parentTopic.map((topic) => {
-    // console.log(["topic_pppp"], topic);
+    // console.log(["post"], post);
 
-    if (post["name_topic"]._id === topic["name_topic"]._id) {
-      console.log(["topic"], topic);
+    if (post["name_topic"]._id === topic._id) {
+      console.log(["topic"],  topic);
       name.push({
-        name: topic["name_topic"].name_topic_child,
-        _id: topic["name_topic"]._id,
+        name: topic.name_topic,
+        _id: topic._id,
       });
       topic["name_topic_child"].map((child) => {
         if (post["name_topic_child"]._id === child._id) {
@@ -88,13 +88,13 @@ function EditPostsModel({ post }) {
       name_topic_child: selectChild.value,
     });
   }, [dispatch, selectedOption, selectChild]);
-  // console.log(["data-post", data]);
+  console.log(["data-post", data]);
 
   var options = parentTopic.map((topic, index) => {
     if (topic.isChecked) {
       return {
-        label: topic["name_topic"].name_topic_child,
-        value: topic["name_topic"]._id,
+        label: topic.name_topic,
+        value: topic._id,
         key: index,
       };
     }
@@ -107,7 +107,7 @@ function EditPostsModel({ post }) {
   var optionsChild = [];
   parentTopic.map((topic) => {
     if (topic.isChecked) {
-      if (selectedOption.value === topic["name_topic"]._id) {
+      if (selectedOption.label === topic.name_topic) {
         optionsChild = topic["name_topic_child"].map((child, index) => {
           if (topic.isChecked) {
             return {
@@ -132,10 +132,7 @@ function EditPostsModel({ post }) {
 
   const onSubmit = React.useCallback(() => {
     dispatch(updatePosts.updatePostsRequest(data));
-    let timer1 = setTimeout(window.location.reload(), 5000);
-    return () => {
-      clearTimeout(timer1);
-    };
+    setTimeout(window.location.reload(true), 5000);
   }, [dispatch, data]);
 
   const customStyles = {

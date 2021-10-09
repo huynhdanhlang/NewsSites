@@ -21,8 +21,9 @@ export default function ListTopic() {
   const [data, setData] = useState([]);
   const { isShowPopup } = useSelector(sendMailPopup$);
   const dispatch = useDispatch();
-  const [backupId, setBackupId] = useState([]);
+  let indexTopic = 0;
 
+  // console.log(["parentTopic"], parentTopic);
   const openMailPopup = React.useCallback(() => {
     dispatch(showMailPopup());
   }, [dispatch]);
@@ -37,21 +38,13 @@ export default function ListTopic() {
   const getParentTopic = async () => {
     await ParentTopicDataService.getAll()
       .then((response) => {
-        const data = response.data;
-        data.map((topic) => {
-          backupId.push(topic["name_topic"]._id);
-          setBackupId([...backupId], backupId);
-          topic["name_topic"] = topic["name_topic"].name_topic_child;
-        });
-        console.log(["id"], data);
+        console.log(["id"], response.data);
         setData(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
-
-  console.log(["backupId"], backupId);
 
   const [mailerState, setMailerState] = useState({
     name: "V/v Phản hồi xét duyệt chủ đề",
@@ -67,10 +60,6 @@ export default function ListTopic() {
   const findByName = async () => {
     await ParentTopicDataService.findByName(searchName)
       .then((response) => {
-        const data = response.data;
-        data.map((topic) => {
-          topic["name_topic"] = topic["name_topic"].name_topic_child;
-        });
         console.log(["searchName"], response.data);
         setData(response.data);
       })
@@ -117,13 +106,11 @@ export default function ListTopic() {
           button[i].addEventListener("click", myScript);
           function myScript() {
             openMailPopup();
-            localStorage.setItem("topicIndex", JSON.stringify(index));
+            indexTopic = index;
             setMailerState((prevState) => ({
               ...prevState,
-              ["email"]: data[index]["author"].email,
+              ["email"]: data[indexTopic]["author"].email,
             }));
-            data[index]["name_topic"] = backupId[index];
-            setData(data);
           }
         })(i);
       }
@@ -155,8 +142,7 @@ export default function ListTopic() {
 
   const submitEmail = async (e) => {
     e.preventDefault();
-    const index = JSON.parse(localStorage.getItem("topicIndex"));
-    dispatch(updateParentTopic(data[index]._id, data[index]));
+    await dispatch(updateParentTopic(data[indexTopic]._id, data[indexTopic]));
     console.log({ mailerState });
     const response = await fetch("http://localhost:8080/api/sendmail", {
       method: "POST",
