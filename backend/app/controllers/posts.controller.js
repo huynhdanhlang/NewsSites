@@ -75,6 +75,8 @@ exports.updatePost = async (req, res) => {
       }
     )
       .populate("author")
+      .populate({ path: "name_topic", select: "_id name_topic" })
+      .populate({ path: "name_topic_child", select: "_id name_topic" })
       .populate({ path: "author", select: "fullname" });
 
     res.status(200).json(post);

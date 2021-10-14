@@ -35,6 +35,10 @@ const Post = mongoose.model(
         type: Boolean,
         default: false,
       },
+      feedback: {
+        type: String,
+        default: "",
+      },
       attachment: String,
       likeCount: {
         type: Number,

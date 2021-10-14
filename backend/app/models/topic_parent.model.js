@@ -23,13 +23,17 @@ const TopicParent = mongoose.model(
         type: Boolean,
         default: false,
       },
-      isExpanded:{
+      isExpanded: {
         type: Boolean,
         default: true,
       },
       canceled: {
         type: Boolean,
         default: false,
+      },
+      feedback: {
+        type: String,
+        default: "",
       },
     },
     {
