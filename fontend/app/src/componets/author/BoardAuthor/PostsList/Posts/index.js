@@ -2,7 +2,7 @@ import React from "react";
 import useStyles from "./style";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Menu, MenuItem } from "@material-ui/core";
+import { Icon, Menu, MenuItem } from "@material-ui/core";
 // import PostService from "../../../../../services/posts.service";
 
 import {
@@ -13,8 +13,11 @@ import {
   CardMedia,
   IconButton,
   Typography,
+  Fab,
 } from "@material-ui/core";
-
+import { makeStyles } from "@material-ui/core/styles";
+import ReactTooltip from "react-tooltip";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AlertDialog from "./Dialog/index";
 import moment from "moment";
@@ -27,6 +30,7 @@ const ITEM_HEIGHT = 48;
 export default function Post({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [hover, sethover] = React.useState(false);
 
   console.log(["post"], post);
   const [h2state, seth2State] = React.useState(null);
@@ -42,8 +46,8 @@ export default function Post({ post, index }) {
       const span = document.createElement("span");
       const h2 = post.content;
       span.innerHTML = h2;
-      const h2Get = span.querySelector("h2").textContent;
-
+      const h2Get =
+        span.querySelector("h2").textContent.substring(0, 100) + "...";
       const spanElement = document.createElement("span");
       spanElement.innerText = h2Get;
       const h2Element = document.createElement("h2");
@@ -155,7 +159,6 @@ export default function Post({ post, index }) {
           </MenuItem>
         ))}
       </Menu>
-
       <CardMedia
         image={post.attachment}
         title={post.title}
@@ -163,7 +166,7 @@ export default function Post({ post, index }) {
       />
       <CardContent>
         <Typography variant="h5" color="textPrimary">
-          {post.title}
+          {post.title.substring(0, 60) + "..."}
         </Typography>
         {console.log(post.content.length)}
         <Typography
@@ -176,6 +179,37 @@ export default function Post({ post, index }) {
           }}
         ></Typography>
       </CardContent>
+      {post.feedback === "" && <div style={{ height: "40px" }}></div>}
+      {post.feedback !== "" && (
+        <div className={classes.floatBtn}>
+          <Fab
+            onMouseOver={() => sethover(true)}
+            onMouseOut={() => sethover(false)}
+            size="small"
+            color="secondary"
+            aria-label="add"
+            className={classes.iconHover}
+          >
+            {hover ? (
+              <div style={{ whiteSpace: "pre-line" }}>
+                <p data-for="tt" data-tip={post.feedback}>
+                  <NotificationsActiveIcon />
+                </p>
+                <ReactTooltip
+                  offset="{'left': -60}"
+                  className={classes.overrideMe}
+                  data-html={true}
+                  insecure={true}
+                  multiline={true}
+                  id="tt"
+                />
+              </div>
+            ) : (
+              <NotificationsActiveIcon />
+            )}
+          </Fab>
+        </div>
+      )}
       <div style={{ float: "right", backgroundColor: "lightblue" }}>
         {post["name_topic"].name_topic}
       </div>

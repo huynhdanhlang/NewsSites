@@ -10,6 +10,7 @@ export default function Popup({ post }) {
   const { isShowPopup } = useSelector(sendMailPopup$);
   // const postIndex = JSON.parse(localStorage.getItem("postIndex"));
 
+  console.log(["iiiii"], post);
   const [mailerState, setMailerState] = React.useState({
     name: "V/v Phản hồi xét duyệt bài đăng",
     email: "",
@@ -36,9 +37,10 @@ export default function Popup({ post }) {
         ...post,
         isChecked: true,
         canceled: false,
+        feedback: mailerState.message,
       })
     );
-  }, [dispatch, post]);
+  }, [dispatch, post, mailerState]);
 
   const onCancelButtonClick = React.useCallback(() => {
     dispatch(
@@ -46,19 +48,21 @@ export default function Popup({ post }) {
         ...post,
         isChecked: false,
         canceled: true,
+        feedback: mailerState.message,
       })
     );
-  }, [dispatch, post]);
+  }, [dispatch, post, mailerState]);
 
   const onClose = React.useCallback(() => {
     dispatch(hideMailPopup());
   }, [dispatch]);
 
-  const approval = JSON.parse(localStorage.getItem("approval"));
+  const approved = JSON.parse(localStorage.getItem("approved"));
 
   const submitEmail = async (e) => {
     e.preventDefault();
-    if (approval === 1) {
+    onClose();
+    if (approved === true) {
       onApprovalButtonClick();
     } else {
       onCancelButtonClick();
@@ -76,17 +80,18 @@ export default function Popup({ post }) {
         const resData = await res;
         console.log(resData);
         if (resData.status === "success") {
-          alert("Message Sent");
+          alert("Phản hồi của bạn đã được gửi đến tác giả!");
         } else if (resData.status === "fail") {
           alert("Message failed to send");
         }
       })
       .then(() => {
         setMailerState({
-          email: "",
-          name: "",
+          name: "V/v Phản hồi xét duyệt bài đăng",
+          email: post["author"].email,
           message: "",
         });
+        // window.location.reload();
       });
   };
 

@@ -27,12 +27,20 @@ export default function ListTopic() {
     dispatch(showMailPopup());
   }, [dispatch]);
 
+  const [mailerState, setMailerState] = useState({
+    name: "V/v Phản hồi xét duyệt chủ đề",
+    email: "",
+    message: "",
+  });
+
   React.useEffect(async () => {
     await getParentTopic();
     document.querySelectorAll("input[type=checkbox]").forEach((each) => {
       each.setAttribute("disabled", "disabled");
     });
   }, []);
+
+  const index = JSON.parse(localStorage.getItem("topicIndex"));
 
   const getParentTopic = async () => {
     await ParentTopicDataService.getAll()
@@ -44,12 +52,6 @@ export default function ListTopic() {
         console.log(e);
       });
   };
-
-  const [mailerState, setMailerState] = useState({
-    name: "V/v Phản hồi xét duyệt chủ đề",
-    email: "",
-    message: "",
-  });
 
   const onChangeSearchName = (e) => {
     const SearchName = e.target.value;
@@ -72,6 +74,10 @@ export default function ListTopic() {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+
+    var arr = [...data];
+    arr[index] = { ...arr[index], feedback: e.target.value };
+    setData(arr);
   }
 
   const onClose = React.useCallback(() => {
@@ -141,7 +147,8 @@ export default function ListTopic() {
 
   const submitEmail = async (e) => {
     e.preventDefault();
-    const index = JSON.parse(localStorage.getItem("topicIndex"));
+    onClose();
+    console.log(["data_send"], data);
     dispatch(updateParentTopic(data[index]._id, data[index]));
     console.log({ mailerState });
     const response = await fetch("http://localhost:8080/api/sendmail", {
@@ -156,15 +163,15 @@ export default function ListTopic() {
         const resData = await res;
         console.log(resData);
         if (resData.status === "success") {
-          alert("Message Sent");
+          alert("Phản hồi của bạn đã được gửi đến tác giả!");
         } else if (resData.status === "fail") {
           alert("Message failed to send");
         }
       })
       .then(() => {
         setMailerState({
-          email: "",
-          name: "",
+          name: "V/v Phản hồi xét duyệt chủ đề",
+          email: data[index]["author"].email,
           message: "",
         });
       });

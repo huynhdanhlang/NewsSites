@@ -4,12 +4,18 @@ import Post from "./Posts/index";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../redux/actions/saga/posts";
 import AlertDialog from "./Posts/Preview/index";
-import { postsState$, showDialogState$ } from "../../../redux/selector/index";
+import {
+  postsState$,
+  showDialogState$,
+  sendMailPopup$,
+} from "../../../redux/selector/index";
 import { showDialog } from "../../../redux/actions/saga/posts";
+import Popup from "./Posts/PopupCustom/index";
 
 export default function PostsList() {
   const dispatch = useDispatch();
   const { isShowDialog } = useSelector(showDialogState$);
+  const { isShowPopup } = useSelector(sendMailPopup$);
 
   const posts = useSelector(postsState$);
 
@@ -30,6 +36,7 @@ export default function PostsList() {
         ))}
       </Grid>
       {isShowDialog && <AlertDialog preview={posts[postIndex]} />}
+      {isShowPopup && <Popup post={posts[postIndex]} />}
     </Container>
   );
 }

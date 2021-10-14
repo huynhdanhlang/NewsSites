@@ -16,7 +16,9 @@ import SimpleBottomNavigation from "./componets/author/index";
 import { logout } from "./redux/actions/thunk/auth";
 import { clearMessage } from "./redux/actions/thunk/message";
 import { showAuthorTutorial } from "./redux/actions/saga/posts";
-
+import ParentTopicDataService from "./services/parentTopic.service";
+import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
+// import NavTopic from "./componets/NavBar/index";
 import { history } from "./helpers/history";
 
 // import { getPosts } from "./redux/actions/posts";
@@ -25,18 +27,53 @@ const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAuthorBoard, setShowAuthorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-
+  const [data, setData] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  // dispatch(getPosts.getPostsRequest()); //Test trigger action getPosts
+  const getParentTopic = async () => {
+    await ParentTopicDataService.getAll()
+      .then((response) => {
+        console.log(["id"], response.data);
+        setData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
-  useEffect(() => {
+  useEffect(async () => {
+    await getParentTopic();
     history.listen((location) => {
       dispatch(clearMessage()); //clear message when changing location
     });
   }, [dispatch]);
+
+  // const [topicarr, setTopicArr] = useState([]);
+
+  // data.map((topic) => {
+  //   setTopicArr([{ ...topicarr, [topic["name_topic"]]: false }]);
+  // });
+  // const [click, setClick] = useState(false);
+
+  // const [dropdown, setDropdown] = useState(topicarr);
+
+  // const handleClick = () => setClick(!click);
+  // const closeMobileMenu = () => setClick(false);
+
+  // const onMouseEnter = (name) => {
+  //   if (window.innerWidth < 960) {
+  //     setDropdown((state) => ({ ...state, [name]: false }));
+  //   } else {
+  //     setDropdown((state) => ({ ...state, [name]: true }));
+  //   }
+  // };
+
+  // const onMouseLeave = (name) => {
+  //   setDropdown((state) => ({ ...state, [name]: false }));
+  // };
+  // dispatch(getPosts.getPostsRequest()); //Test trigger action getPosts
 
   useEffect(() => {
     if (currentUser) {
@@ -57,26 +94,65 @@ const App = () => {
   return (
     <Router history={history}>
       <div>
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+        <Navbar variant="dark" bg="dark" expand="lg">
           {/* <Link to={"/"} className="navbar-brand">
             Hello
           </Link> */}
-          <div className="collapse navbar-collapse" id="navbarCollapse">
+          {!currentUser && (
+            <Navbar.Brand href="/home">Báo sinh viên</Navbar.Brand>
+          )}
+          <Navbar.Toggle aria-controls="navbarScroll" />
+
+          <Navbar.Collapse id="navbarScroll">
             <div className="navbar-nav">
               {!currentUser && (
-                <li className="nav-item active">
-                  <Link to={"/home"} className="nav-link">
-                    Báo Sinh viên
-                  </Link>
-                </li>
+                <div>
+                  {data.map((item, index) => {
+                    return (
+                      // <li
+                      //   className="nav-item"
+                      //   onMouseEnter={onMouseEnter.bind(this, topicArr[index])}
+                      //   onMouseLeave={onMouseLeave.bind(this, topicArr[index])}
+                      // >
+                      //   <Link
+                      //     to="/payments"
+                      //     className="nav-links"
+                      //     onClick={closeMobileMenu}
+                      //   >
+                      //     {item.name_topic} <i className="fas fa-caret-down" />
+                      //   </Link>
+                      //   {dropdown[index] && <PaymentsDropdown />}
+                      // </li>
+                      <DropdownButton
+                        as={ButtonGroup}
+                        id={`dropdown-button-drop-down`}
+                        drop="down"
+                        variant="secondary"
+                        menuVariant="dark"
+                        title={`${item.name_topic}`}
+                      >
+                        {item["name_topic_child"].map((child, index) => {
+                          return (
+                            <Link to="#" className="nav-link">
+                              {child.name_topic}
+                            </Link>
+                            // <Link to="#" className="nav-link">
+                            //   Test {index + 1}
+                            // </Link>
+                          );
+                        })}
+                      </DropdownButton>
+                    );
+                  })}
+                </div>
               )}
-              {currentUser && (
+              {/* {currentUser && (
                 <li className="nav-item">
                   <Link to={"/home"} className="nav-link">
                     Trang chủ
                   </Link>
                 </li>
-              )}
+              )} */}
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -103,7 +179,7 @@ const App = () => {
                 </li>
               )}
             </div>
-          </div>
+          </Navbar.Collapse>
 
           {currentUser ? (
             <div className="navbar-nav">
@@ -132,7 +208,7 @@ const App = () => {
               </li> */}
             </div>
           )}
-        </nav>
+        </Navbar>
 
         <div className="container-fluid !direction !spacing">
           <Switch>

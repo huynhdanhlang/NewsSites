@@ -11,6 +11,7 @@ import JoditEditor from "jodit-react";
 import { userState$, modalState$ } from "../../../../redux/selector/index";
 import { retrieveParentTopic } from "../../../../redux/actions/thunk/parentTopic";
 import { parentTopic$ } from "../../../../redux/selector/index";
+import PostCreate from "../../../../services/posts.service";
 
 function CreatePostsModel() {
   const classes = useStyles();
@@ -90,9 +91,21 @@ function CreatePostsModel() {
     dispatch(hideModal());
   }, [dispatch]);
 
+  const getParentTopic = async (data) => {
+    // console.log(["id fggfgfgfg"], id);
+    await PostCreate.createPost(data)
+      .then((response) => {
+        setTimeout(window.location.reload(), 1000);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const onSubmit = React.useCallback(() => {
-    dispatch(createPosts.createPostsRequest(data));
-    setTimeout(window.location.reload(), 5000);
+    getParentTopic(data);
+    // dispatch(createPosts.createPostsRequest(data));
+    // setTimeout(window.location.reload(), 5000);
   }, [dispatch, data]);
 
   const customStyles = {
@@ -196,7 +209,7 @@ function CreatePostsModel() {
 
   return (
     <div>
-      <Modal  disableEnforceFocus={true} open={isShow} onClose={onClose}>
+      <Modal disableEnforceFocus={true} open={isShow} onClose={onClose}>
         {body}
       </Modal>
     </div>

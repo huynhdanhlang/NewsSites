@@ -37,6 +37,7 @@ const ParentTopic = (props) => {
       .then((response) => {
         console.log(id, response.data);
         localStorage.setItem("name_topic", JSON.stringify(response.data));
+        setTimeout(window.location.reload(), 2000);
       })
       .catch((e) => {
         console.log(e);
@@ -84,7 +85,10 @@ const ParentTopic = (props) => {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { _id: null, name_topic: "",isChecked: false}]);
+    setInputList([
+      ...inputList,
+      { _id: null, name_topic: "", isChecked: false },
+    ]);
   };
 
   const updateContent = () => {
@@ -93,7 +97,6 @@ const ParentTopic = (props) => {
         // console.log(response);
         setMessage("The parentTopic was updated successfully!");
         await getParentTopic(currentParentTopic._id);
-        setTimeout(window.location.reload(), 5000);
       })
       .catch((e) => {
         console.log(e);
@@ -160,7 +163,7 @@ const ParentTopic = (props) => {
                       name="name_topic"
                     />
                     <div>
-                      {inputList.length !== 1 && (
+                      {inputList.length !== 1 && !topic.isChecked && (
                         <a
                           onClick={() => handleRemoveClick(i)}
                           className="btn btn-danger btn-sm "
@@ -189,14 +192,16 @@ const ParentTopic = (props) => {
             <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
             &nbsp;
           </form>
-          <a
-            className="btn btn-danger btn-sm "
-            onClick={removeParentTopic}
-            href="#"
-            role="button"
-          >
-            Xóa{" "}
-          </a>
+          {!currentParentTopic.isChecked && (
+            <a
+              className="btn btn-danger btn-sm "
+              onClick={removeParentTopic}
+              href="#"
+              role="button"
+            >
+              Xóa{" "}
+            </a>
+          )}
           &nbsp;
           <a
             className="btn btn-success btn-sm "

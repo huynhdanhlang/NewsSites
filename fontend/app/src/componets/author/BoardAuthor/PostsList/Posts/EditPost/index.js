@@ -15,6 +15,7 @@ import { modalEditState$ } from "../../../../../../redux/selector/index";
 import { retrieveParentTopic } from "../../../../../../redux/actions/thunk/parentTopic";
 import { parentTopic$ } from "../../../../../../redux/selector/index";
 import Select from "react-select";
+import PostUpdate from "../../../../../../services/posts.service";
 
 function EditPostsModel({ post }) {
   const classes = useStyles();
@@ -32,7 +33,7 @@ function EditPostsModel({ post }) {
     // console.log(["post"], post);
 
     if (post["name_topic"]._id === topic._id) {
-      console.log(["topic"],  topic);
+      console.log(["topic"], topic);
       name.push({
         name: topic.name_topic,
         _id: topic._id,
@@ -130,9 +131,20 @@ function EditPostsModel({ post }) {
     dispatch(hideModalEdit());
   }, [dispatch]);
 
+  const getParentTopic = async (data) => {
+    // console.log(["id fggfgfgfg"], id);
+    await PostUpdate.updatePost(data)
+      .then((response) => {
+        setTimeout(window.location.reload(), 1000);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const onSubmit = React.useCallback(() => {
-    dispatch(updatePosts.updatePostsRequest(data));
-    setTimeout(window.location.reload(), 5000);
+    getParentTopic(data);
+    // dispatch(updatePosts.updatePostsRequest(data));
   }, [dispatch, data]);
 
   const customStyles = {

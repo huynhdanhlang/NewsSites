@@ -113,6 +113,22 @@ export default function ListTopic() {
                   key={index}
                 >
                   {parent.name_topic}
+                  {"    "}
+                  {!parent.isChecked && !parent.canceled && (
+                    <div style={{ float: "right", backgroundColor: "yellow" }}>
+                      Đang chờ duyệt
+                    </div>
+                  )}
+                  {parent.isChecked && !parent.canceled && (
+                    <div style={{ float: "right", backgroundColor: "#3E9C5B" }}>
+                      Đã duyệt
+                    </div>
+                  )}
+                  {parent.canceled && (
+                    <div style={{ float: "right", backgroundColor: "red" }}>
+                      Không được duyệt
+                    </div>
+                  )}
                 </li>
               ))}
             &nbsp;
@@ -143,6 +159,19 @@ export default function ListTopic() {
               >
                 Chỉnh sửa
               </Link>
+
+              <div>Phản hồi từ kiểm duyệt:</div>
+
+              <div
+                style={{
+                  whiteSpace: "pre-line",
+                  overflow: "auto",
+                  maxHeight: "300px",
+                }}
+                class="container-sm !direction !spacing"
+              >
+                {currnentParentTopic.feedback}
+              </div>
             </div>
           ) : (
             <div>

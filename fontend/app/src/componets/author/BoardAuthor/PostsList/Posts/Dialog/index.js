@@ -9,9 +9,8 @@ import { showDialogState$ } from "../../../../../../redux/selector/index";
 import { useSelector } from "react-redux";
 import { hideDialog } from "../../../../../../redux/actions/saga/posts";
 import { useDispatch } from "react-redux";
-import {
-  deletePosts,
-} from "../../../../../../redux/actions/saga/posts";
+// import { deletePosts } from "../../../../../../redux/actions/saga/posts";
+import PostDelete from "../../../../../../services/posts.service";
 
 export default function AlertDialog() {
   const { isShowDialog } = useSelector(showDialogState$);
@@ -24,11 +23,22 @@ export default function AlertDialog() {
     dispatch(hideDialog());
   }, [dispatch]);
 
+  const getParentTopic = async (id) => {
+    // console.log(["id fggfgfgfg"], id);
+    await PostDelete.deletePost({ id })
+      .then((response) => {
+        setTimeout(window.location.reload(), 1000);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const hideDialogClickDelete = React.useCallback(
     (id) => {
-      dispatch(deletePosts.deletePostsRequest({ id }));
+      getParentTopic(id);
+      // dispatch(deletePosts.deletePostsRequest({ id }));
       dispatch(hideDialog());
-      setTimeout(window.location.reload(), 5000);
     },
     [dispatch]
   );

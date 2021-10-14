@@ -34,7 +34,8 @@ export default function PostAll({ post }) {
       const span = document.createElement("span");
       const h2 = post.content;
       span.innerHTML = h2;
-      const h2Get = span.querySelector("h2").textContent;
+      const h2Get =
+        span.querySelector("h2").textContent.substring(0, 100) + "...";
 
       const spanElement = document.createElement("span");
       spanElement.innerText = h2Get;
@@ -70,7 +71,7 @@ export default function PostAll({ post }) {
       />
       <CardContent>
         <Typography variant="h5" color="textPrimary">
-          {post.title}
+          {post.title.substring(0, 60) + "..."}
         </Typography>
         {console.log(post.content.length)}
         <Typography

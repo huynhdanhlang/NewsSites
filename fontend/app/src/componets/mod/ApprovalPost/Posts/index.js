@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import Popup from "./PopupCustom/index";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { showDialog } from "../../../../redux/actions/saga/posts";
 import moment from "moment";
@@ -39,7 +38,7 @@ export default function Post({ post, index }) {
       const span = document.createElement("span");
       const h2 = post.content;
       span.innerHTML = h2;
-      const h2Get = span.querySelector("h2").textContent;
+      const h2Get = span.querySelector("h2").textContent.substring(0, 100) + "...";
 
       const spanElement = document.createElement("span");
       spanElement.innerText = h2Get;
@@ -81,11 +80,11 @@ export default function Post({ post, index }) {
       openDialog();
     }
     if (options[index] === "Duyệt") {
-      localStorage.setItem("approval", JSON.stringify(1));
+      localStorage.setItem("approved", JSON.stringify(true));
       openMailPopup();
     }
     if (options[index] === "Không duyệt") {
-      localStorage.setItem("approval", JSON.stringify(0));
+      localStorage.setItem("approved", JSON.stringify(false));
       openMailPopup();
     }
   };
@@ -158,7 +157,7 @@ export default function Post({ post, index }) {
         />
         <CardContent>
           <Typography variant="h5" color="textPrimary">
-            {post.title}
+            {post.title.substring(0, 60) + "..."}
           </Typography>
           {console.log(post.content.length)}
           <Typography
@@ -172,10 +171,9 @@ export default function Post({ post, index }) {
           ></Typography>
         </CardContent>
         <div style={{ float: "right", backgroundColor: "lightblue" }}>
-          {post["name_topic"].name_topic}
+          {post["name_topic"].name_topic}{" "}[{post["name_topic_child"].name_topic}]
         </div>
       </Card>
-      <Popup post={post} />
     </div>
   );
 }
