@@ -12,7 +12,7 @@ module.exports = function (app) {
 
   var middlewares = [
     verifySignUp.checkDuplicateUsernameorEmail,
-    verifySignUp.checkRolesExisted,
+    // verifySignUp.checkRolesExisted,
   ];
   app.post("/api/auth/signup", middlewares, controller.singup);
 

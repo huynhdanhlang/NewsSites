@@ -33,6 +33,7 @@ require("./app/routes/childTopic.route")(app);
 require("./app/routes/parentTopic.route")(app);
 require("./app/routes/listTopic.route")(app);
 require("./app/routes/sendMail.route")(app);
+require("./app/routes/roles.route")(app);
 
 //set port,listen for requests
 const PORT = process.env.PORT || 8080;
