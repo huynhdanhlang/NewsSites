@@ -24,11 +24,16 @@ const update = (data) => {
   return api.post("/user/update", data);
 };
 
+const findByName = (name) => {
+  return api.get(`/user?name=${name}`);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAllUser,
   update,
+  findByName,
   getPublicContent,
   getAuthorBoard,
-  getModeratorBoard
+  getModeratorBoard,
 };

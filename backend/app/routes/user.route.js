@@ -37,4 +37,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.updateUser
   );
+
+  app.get(
+    "/api/user",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.findAllUser
+  );
 };

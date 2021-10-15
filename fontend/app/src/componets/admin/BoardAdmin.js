@@ -3,35 +3,37 @@ import { history } from "../../helpers/history";
 import UserService from "../../services/user.service";
 import { Router } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { retrieveAllRoles } from "../../redux/actions/thunk/roles";
+import { findByNameUser, retrieveUser } from "../../redux/actions/thunk/user";
+import { userAllState$ } from "../../redux/selector/index";
 import AddUser from "./AddUser/index";
 
 export default function BoardAdmin() {
-  const [alluser, setAllUser] = useState([]);
+  const alluser = useSelector(userAllState$);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [currentuser, setCurrentUser] = useState(null);
-  const [response, setResponse] = useState("");
   const dispatch = useDispatch();
-  const [err, setErr] = useState(false);
+  const [searchName, setSearchName] = useState("");
 
   React.useEffect(() => {
-    UserService.getAllUser().then(
-      (response) => {
-        setAllUser(response.data);
-      },
-      (error) => {
-        setErr(true);
-        const _alluser =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+    dispatch(retrieveUser());
+    // UserService.getAllUser().then(
+    //   (response) => {
+    //     setAllUser(response.data);
+    //   },
+    //   (error) => {
+    //     setErr(true);
+    //     const _alluser =
+    //       (error.response &&
+    //         error.response.data &&
+    //         error.response.data.message) ||
+    //       error.message ||
+    //       error.toString();
 
-        setResponse(_alluser);
-      }
-    );
+    //     setResponse(_alluser);
+    //   }
+    // );
   }, []);
 
   console.log(["err"], err);
@@ -92,6 +94,24 @@ export default function BoardAdmin() {
     });
   };
 
+  const onChangeSearchName = (e) => {
+    const SearchName = e.target.value;
+    setSearchName(SearchName);
+  };
+
+  const refreshData = () => {
+    setCurrentUser(null);
+    setCurrentIndex(-1);
+  };
+
+  const findByName = () => {
+    refreshData();
+    dispatch(findByNameUser(searchName));
+  };
+
+  var err = localStorage.getItem("error");
+  var response = localStorage.getItem("isAllow");
+
   return (
     <Router history={history}>
       {err ? (
@@ -108,12 +128,12 @@ export default function BoardAdmin() {
                   type="text"
                   className="form-control"
                   placeholder="Tìm kiếm theo tên"
-                  // value={searchName}
-                  // onChange={onChangeSearchName}
+                  value={searchName}
+                  onChange={onChangeSearchName}
                 />
                 <div className="input-group-append">
                   <a
-                    // onClick={findByName}
+                    onClick={findByName}
                     className="btn btn-outline-secondary"
                     href="#"
                     role="button"

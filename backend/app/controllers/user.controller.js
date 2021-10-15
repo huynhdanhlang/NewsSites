@@ -37,7 +37,6 @@ exports.updateUser = async (req, res) => {
 
     updateUser.password = bycrypt.hashSync(req.body.password, 8);
 
-
     const user = await User.findOneAndUpdate(
       {
         _id: updateUser._id,
@@ -52,6 +51,33 @@ exports.updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error });
   }
+};
+
+exports.findAllUser = (req, res) => {
+  console.log(["sfbjsbs"], req.query.name);
+  const name = req.query.name;
+  var condition = name
+    ? {
+        fullname: {
+          $regex: new RegExp(name),
+          $options: "i",
+        },
+      }
+    : {};
+
+  // TopicParent.find(condition);
+  // const topic =
+  User.find(condition)
+    .populate("roles")
+    .then((data) => {
+      console.log(["data"], data);
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Lỗi trong khi lấy chủ đề",
+      });
+    });
 };
 
 exports.moderatorBoard = (req, res) => {
