@@ -13,6 +13,7 @@ import parentTopic from "./thunk/parentTopic";
 import authortutorial from "./saga/authortutorial";
 import sendmail from "./saga/sendmail";
 import dialog from "./saga/dialog";
+import roles from "./thunk/roles";
 
 export default combineReducers({
   auth,
@@ -25,4 +26,5 @@ export default combineReducers({
   dialog,
   childTopic,
   parentTopic,
+  roles,
 });

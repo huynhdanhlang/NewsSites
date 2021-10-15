@@ -1,12 +1,13 @@
 import api from "./api";
 import TokenService from "../services/token.service";
 
-const register = (fullname, username, email, password) => {
+const register = (fullname, username, email, password, roles) => {
   return api.post("/auth/signup", {
     fullname,
     username,
     email,
     password,
+    roles,
   });
 };
 
@@ -17,7 +18,7 @@ const login = (username, password) => {
       password,
     })
     .then((response) => {
-      console.log(["response"],response);
+      console.log(["response"], response);
       if (response.data.accessToken) {
         TokenService.setUser(response.data);
       }

@@ -22,6 +22,7 @@ const getPostsAll = createActions({
   getPostsASuccess: (payload) => payload,
   getPostsAFailure: (error) => error,
 });
+
 //Cac ham trong createActions la obj tra ve dang:
 
 /*

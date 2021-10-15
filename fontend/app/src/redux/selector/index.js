@@ -8,6 +8,10 @@ export const modalEditState$ = (state) => state.modaledit;
 
 export const sendMailPopup$ = (state) => state.sendmail;
 
+export const rolesState$ = (state) => state.roles;
+
+export const userAllState$ = (state) => state.user;
+
 export const authorTutorial$ = (state) => state.authortutorial;
 
 export const userState$ = (state) => state.auth;

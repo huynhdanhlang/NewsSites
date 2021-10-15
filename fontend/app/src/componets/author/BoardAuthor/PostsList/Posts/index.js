@@ -130,7 +130,7 @@ export default function Post({ post, index }) {
       <CardHeader
         avatar={<Avatar src="" />}
         title={post.author.fullname}
-        subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
+        subheader={moment(post.updatedAt).format("DD-MM-YYYY HH:mm")}
         action={
           <IconButton onClick={handleOnclick}>
             <MoreVertIcon />

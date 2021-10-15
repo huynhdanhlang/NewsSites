@@ -62,7 +62,7 @@ export default function PostAll({ post }) {
       <CardHeader
         avatar={<Avatar src="" />}
         title={post.author.fullname}
-        subheader={moment(post.updatedAt).format("YYYY-MM-DD HH:mm")}
+        subheader={moment(post.updatedAt).format("DD-MM-YYYY HH:mm")}
       />
       <CardMedia
         image={post.attachment}

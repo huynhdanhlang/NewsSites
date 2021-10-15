@@ -36,7 +36,7 @@ export default function TopicToturial() {
             <p>+ Sửa, xóa chủ đề phân cấp trong danh sách.</p>
             <p>**Bài đăng:</p>
             <p>- Thêm, sửa, xóa bài đăng</p>
-            <p>- Xem trước bài đăng</p>
+            <p>- Xem phản hồi từ kiểm duyệt</p>
             <p>- Trạng thái bài đăng (chờ duyệt, đã duyệt, không được duyệt)</p>
           </p>
         </p>
