@@ -18,8 +18,14 @@ exports.getPosts = async (req, res) => {
 
 exports.getPostsId = async (req, res) => {
   try {
-    console.log(["ksdksjdksjk"], req.body);
-    const posts = await Post.findById(req.params.id)
+    console.log(["ksdksjdksjk"], req.params.id);
+    const posts = await Post.find({
+      $or: [
+        { _id: req.params.id },
+        { name_topic: req.params.id },
+        { name_topic_child: req.params.id },
+      ],
+    })
       .populate("author")
       .populate({ path: "name_topic", select: "_id name_topic" })
       .populate({ path: "name_topic_child", select: "_id name_topic" })

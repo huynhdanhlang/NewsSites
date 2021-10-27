@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Login from "./componets/login/Login";
-import Register from "./componets/register/Register";
 import Home from "./componets/home/Home";
 import Profile from "./componets/profile/Profile";
 // import BoardUser from "./componets/user/BoardUser";
@@ -21,7 +20,7 @@ import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
 // import NavTopic from "./componets/NavBar/index";
 import { history } from "./helpers/history";
 
-// import { getPosts } from "./redux/actions/posts";
+import * as actions from "./redux/actions/saga/posts";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -43,37 +42,21 @@ const App = () => {
       });
   };
 
+  var path = ["/home", "/"];
+
+  const getPostTopic = (id, name_topic) => {
+    path.pop();
+    path.push(`/${name_topic}`);
+    console.log(["path"], path);
+    dispatch(actions.getPostsId.getPostsIdRequest(id));
+  };
+
   useEffect(async () => {
     await getParentTopic();
     history.listen((location) => {
       dispatch(clearMessage()); //clear message when changing location
     });
   }, [dispatch]);
-
-  // const [topicarr, setTopicArr] = useState([]);
-
-  // data.map((topic) => {
-  //   setTopicArr([{ ...topicarr, [topic["name_topic"]]: false }]);
-  // });
-  // const [click, setClick] = useState(false);
-
-  // const [dropdown, setDropdown] = useState(topicarr);
-
-  // const handleClick = () => setClick(!click);
-  // const closeMobileMenu = () => setClick(false);
-
-  // const onMouseEnter = (name) => {
-  //   if (window.innerWidth < 960) {
-  //     setDropdown((state) => ({ ...state, [name]: false }));
-  //   } else {
-  //     setDropdown((state) => ({ ...state, [name]: true }));
-  //   }
-  // };
-
-  // const onMouseLeave = (name) => {
-  //   setDropdown((state) => ({ ...state, [name]: false }));
-  // };
-  // dispatch(getPosts.getPostsRequest()); //Test trigger action getPosts
 
   useEffect(() => {
     if (currentUser) {
@@ -95,12 +78,10 @@ const App = () => {
     <Router history={history}>
       <div>
         <Navbar variant="dark" bg="dark" expand="lg">
-          {/* <Link to={"/"} className="navbar-brand">
-            Hello
-          </Link> */}
           {!currentUser && (
             <Navbar.Brand href="/home">Báo sinh viên</Navbar.Brand>
           )}
+
           <Navbar.Toggle aria-controls="navbarScroll" />
 
           <Navbar.Collapse id="navbarScroll">
@@ -109,36 +90,43 @@ const App = () => {
                 <div>
                   {data.map((item, index) => {
                     return (
-                      // <li
-                      //   className="nav-item"
-                      //   onMouseEnter={onMouseEnter.bind(this, topicArr[index])}
-                      //   onMouseLeave={onMouseLeave.bind(this, topicArr[index])}
-                      // >
-                      //   <Link
-                      //     to="/payments"
-                      //     className="nav-links"
-                      //     onClick={closeMobileMenu}
-                      //   >
-                      //     {item.name_topic} <i className="fas fa-caret-down" />
-                      //   </Link>
-                      //   {dropdown[index] && <PaymentsDropdown />}
-                      // </li>
                       <DropdownButton
                         as={ButtonGroup}
-                        id={`dropdown-button-drop-down`}
+                        id={`${item._id}`}
                         drop="down"
+                        onMouseEnter={(e) =>
+                          document.getElementById(`${item._id}`).click()
+                        }
+                        onMouseLeave={(e) =>
+                          document.getElementById(`${item._id}`).click()
+                        }
                         variant="secondary"
-                        menuVariant="dark"
+                        menuVariant="dark" // onMouseEnter={true}
                         title={`${item.name_topic}`}
                       >
+                        <Link
+                          onClick={(e) =>
+                            getPostTopic(item._id, item.name_topic)
+                          }
+                          to={`/${item.name_topic}`}
+                          className="nav-link"
+                        >
+                          {item.name_topic}
+                        </Link>{" "}
                         {item["name_topic_child"].map((child, index) => {
                           return (
-                            <Link to="#" className="nav-link">
+                            <Link
+                              onClick={(e) =>
+                                getPostTopic(
+                                  child._id,
+                                  item.name_topic + "/" + child.name_topic
+                                )
+                              }
+                              to={`/${item.name_topic}/${child.name_topic}`}
+                              className="nav-link"
+                            >
                               {child.name_topic}
                             </Link>
-                            // <Link to="#" className="nav-link">
-                            //   Test {index + 1}
-                            // </Link>
                           );
                         })}
                       </DropdownButton>
@@ -212,7 +200,7 @@ const App = () => {
 
         <div className="container-fluid !direction !spacing">
           <Switch>
-            <Route exact path={["/home", "/"]} component={Home} />
+            <Route exact path={path} component={Home} />
             <Route exact path="/login" component={Login} />
             {/* <Route exact path="/register" component={Register} /> */}
             <Route exact path="/profile" component={Profile} />
