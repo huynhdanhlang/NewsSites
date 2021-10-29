@@ -1,8 +1,8 @@
 import React from "react";
 import useStyles from "./style";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePosts } from "../../../redux/actions/saga/posts";
-
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Card,
@@ -16,8 +16,10 @@ import {
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import moment from "moment";
+import * as actions from "../../../redux/actions/saga/posts";
+import { postsState$ } from "../../../redux/selector/index";
 
-export default function PostAll({ post }) {
+export default function PostAll({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -28,6 +30,8 @@ export default function PostAll({ post }) {
   }, [dispatch, post]);
 
   const [h2state, seth2State] = React.useState(null);
+
+  const preview = useSelector(postsState$);
 
   React.useEffect(() => {
     try {
@@ -57,6 +61,25 @@ export default function PostAll({ post }) {
     } catch (error) {}
   }, []);
 
+  const onMouseEnterView = (e) => {
+    console.log(e, index);
+    localStorage.setItem(
+      "postIndex",
+      JSON.stringify([index, post._id, post.title])
+    );
+  };
+
+  const postIndex = JSON.parse(localStorage.getItem("postIndex"));
+
+  const onClick = () => {
+    console.log(["kkjjjjjjjjjjjjj"]);
+    try {
+      dispatch(actions.getPostsId.getPostsIdRequest(postIndex[1]));
+    } catch (error) {}
+  };
+
+  console.log(["index"], post._id);
+
   return (
     <Card>
       <CardHeader
@@ -64,11 +87,17 @@ export default function PostAll({ post }) {
         title={post.author.fullname}
         subheader={moment(post.updatedAt).format("DD-MM-YYYY HH:mm")}
       />
-      <CardMedia
-        image={post.attachment}
-        title={post.title}
-        className={classes.media}
-      />
+      <Link
+        onClick={(e) => onClick()}
+        onMouseEnter={(e, index) => onMouseEnterView(e, index)}
+        to={`/news/${postIndex ? postIndex[2] : ""}`}
+      >
+        <CardMedia
+          image={post.attachment}
+          title={post.title}
+          className={classes.media}
+        />
+      </Link>
       <CardContent>
         <Typography variant="h5" color="textPrimary">
           {post.title.substring(0, 60) + "..."}

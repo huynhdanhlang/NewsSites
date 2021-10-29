@@ -19,7 +19,7 @@ import ParentTopicDataService from "./services/parentTopic.service";
 import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
 // import NavTopic from "./componets/NavBar/index";
 import { history } from "./helpers/history";
-
+import ViewPost from "./componets/home/View/index";
 import * as actions from "./redux/actions/saga/posts";
 
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
       });
   };
 
-  var path = ["/home", "/"];
+  var path = ["/home", "/", "/"];
 
   const getPostTopic = (id, name_topic) => {
     path.pop();
@@ -50,6 +50,10 @@ const App = () => {
     console.log(["path"], path);
     dispatch(actions.getPostsId.getPostsIdRequest(id));
   };
+
+  window.onpopstate = function(event) {
+    window.location.reload();
+};
 
   useEffect(async () => {
     await getParentTopic();
@@ -74,6 +78,7 @@ const App = () => {
     dispatch(showAuthorTutorial());
   }, [dispatch]);
 
+  const postIndex = JSON.parse(localStorage.getItem("postIndex"));
   return (
     <Router history={history}>
       <div>
@@ -203,6 +208,8 @@ const App = () => {
             <Route exact path={path} component={Home} />
             <Route exact path="/login" component={Login} />
             {/* <Route exact path="/register" component={Register} /> */}
+            <Route exact path={`/news/${postIndex?postIndex[2]:""}`} component={ViewPost} />
+
             <Route exact path="/profile" component={Profile} />
             {/* <Route path="/user" component={BoardUser} /> */}
             <Route path="/author" component={SimpleBottomNavigation} />
