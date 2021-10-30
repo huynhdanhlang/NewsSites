@@ -5,11 +5,16 @@ import {
   updatePosts,
   getPostsAll,
   deletePosts,
-  getPostsId
+  getPostsId,
 } from "../../actions/saga/posts";
-import { initialState } from "./const";
 
-export default function postsReducers(state = initialState.posts, action) {
+const postView = JSON.parse(localStorage.getItem("postView"));
+
+const initialState = postView
+  ? { isLoading: true, data: [postView] }
+  : { isLoading: false, data: [] };
+
+export default function postsReducers(state = initialState, action) {
   switch (action.type) {
     case getTypes(getPosts.getPostsRequest):
       return {

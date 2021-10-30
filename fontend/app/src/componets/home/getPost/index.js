@@ -22,7 +22,7 @@ import { postsState$ } from "../../../redux/selector/index";
 export default function PostAll({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [postIndex,setPostIndex] =React.useState([])
+  const [postIndex, setPostIndex] = React.useState([]);
 
   const onLikeButtonClick = React.useCallback(() => {
     dispatch(
@@ -69,6 +69,7 @@ export default function PostAll({ post, index }) {
       JSON.stringify([index, post._id, post.title])
     );
     setPostIndex(JSON.parse(localStorage.getItem("postIndex")));
+    localStorage.setItem("postView", JSON.stringify(post));
   };
 
   // React.useEffect(() => {
