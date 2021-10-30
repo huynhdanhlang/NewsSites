@@ -141,13 +141,13 @@ const App = () => {
                   })}
                 </div>
               )}
-              {/* {currentUser && (
+              {currentUser && (
                 <li className="nav-item">
                   <Link to={"/home"} className="nav-link">
                     Trang chủ
                   </Link>
                 </li>
-              )} */}
+              )}
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
