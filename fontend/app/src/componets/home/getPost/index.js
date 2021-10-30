@@ -22,6 +22,7 @@ import { postsState$ } from "../../../redux/selector/index";
 export default function PostAll({ post, index }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [postIndex,setPostIndex] =React.useState([])
 
   const onLikeButtonClick = React.useCallback(() => {
     dispatch(
@@ -67,9 +68,12 @@ export default function PostAll({ post, index }) {
       "postIndex",
       JSON.stringify([index, post._id, post.title])
     );
+    setPostIndex(JSON.parse(localStorage.getItem("postIndex")));
   };
 
-  const postIndex = JSON.parse(localStorage.getItem("postIndex"));
+  // React.useEffect(() => {
+  //   const postIndex = JSON.parse(localStorage.getItem("postIndex"));
+  // }, [postIndex]);
 
   const onClick = () => {
     console.log(["kkjjjjjjjjjjjjj"]);
@@ -90,7 +94,7 @@ export default function PostAll({ post, index }) {
       <Link
         onClick={(e) => onClick()}
         onMouseEnter={(e, index) => onMouseEnterView(e, index)}
-        to={`/news/${postIndex ? postIndex[2] : ""}`}
+        to={`/news/${postIndex ? postIndex[1] : ""}`}
       >
         <CardMedia
           image={post.attachment}

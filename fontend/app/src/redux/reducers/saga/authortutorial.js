@@ -14,10 +14,10 @@ export default function modalReducers(
       return {
         isShowTutorial: true,
       };
-    case getTypes(hideAuthorTutorial):
-      return {
-        isShowTutorial: false,
-      };
+    // case getTypes(hideAuthorTutorial):
+    //   return {
+    //     isShowTutorial: false,
+    //   };
     default:
       return state;
   }

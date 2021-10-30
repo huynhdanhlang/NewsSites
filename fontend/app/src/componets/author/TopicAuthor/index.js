@@ -15,37 +15,37 @@ import { authorTutorial$ } from "../../../redux/selector/index";
 function TopicAuthor() {
   const dispatch = useDispatch();
 
-  const onClick = React.useCallback(() => {
-    dispatch(hideAuthorTutorial());
-  }, [dispatch]);
+  // const onClick = React.useCallback(() => {
+  //   dispatch(hideAuthorTutorial());
+  // }, [dispatch]);
 
   const { isShowTutorial } = useSelector(authorTutorial$);
 
   return (
     <Container maxWidth={false} className="container">
-      {isShowTutorial ? <TopicTutorial /> : null}
       <Router history={history}>
-        <Navbar variant="dark" fixed="bottom" bg="dark" expand="lg">
+        <Navbar variant="dark" bg="dark" expand="lg">
+          &nbsp;
           <Navbar.Brand href="#">Chủ đề</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <DropdownButton
               as={ButtonGroup}
-              id={`dropdown-button-drop-up`}
-              drop="up"
+              id={`dropdown-button-drop-down`}
+              drop="down"
               variant="secondary"
               menuVariant="dark"
               title={` Chủ đề `}
             >
               <Link
-                onClick={onClick}
+                // onClick={onClick}
                 to="/author/topic/addChild"
                 className="nav-link"
               >
                 Thêm chủ đề
               </Link>
               <Link
-                onClick={onClick}
+                // onClick={onClick}
                 to="/author/topic/childTopic"
                 className="nav-link"
               >
@@ -55,15 +55,15 @@ function TopicAuthor() {
             &nbsp;
             <DropdownButton
               as={ButtonGroup}
-              key="up"
-              id={`dropdown-button-drop-up-click`}
-              drop="up"
+              key="down"
+              id={`dropdown-button-drop-down-click`}
+              drop="down"
               variant="secondary"
               menuVariant="dark"
               title={` Chủ đề và thẻ `}
             >
               <Link
-                onClick={onClick}
+                // onClick={onClick}
                 to="/author/topic/addParent"
                 className="nav-link"
                 id="check-lick"
@@ -71,7 +71,7 @@ function TopicAuthor() {
                 Thêm chủ đề và thẻ
               </Link>{" "}
               <Link
-                onClick={onClick}
+                // onClick={onClick}
                 to="/author/topic/topicParent"
                 className="nav-link"
               >
@@ -116,6 +116,8 @@ function TopicAuthor() {
           </Switch>
         </div>
       </Router>
+
+      {isShowTutorial ? <TopicTutorial /> : null}
     </Container>
   );
 }

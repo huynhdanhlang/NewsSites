@@ -37,7 +37,6 @@
   }
 }
 
-
 /* label {
   display: block;
   margin-top: 10px;
@@ -86,3 +85,10 @@
   max-width: 300px;
   margin: auto;
 }
+
+/* .footer {
+  display: flex;
+  min-height: 150px;
+  flex-direction: column-reverse;
+  /* background-color: #50b4ed !important; */
+

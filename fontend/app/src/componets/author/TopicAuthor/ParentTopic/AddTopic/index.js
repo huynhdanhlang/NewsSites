@@ -226,6 +226,7 @@ export default function AddTopic() {
           </a>
         </div>
       )}
+      &nbsp;
     </div>
   );
 }

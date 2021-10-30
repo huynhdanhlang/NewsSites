@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     width: 500,
   },
   stickToBottom: {
-    alignItems: "center",
+    alignItems: "center", 
   },
 });
 
@@ -29,7 +29,7 @@ const SimpleBottomNavigation = () => {
   const onClick = React.useCallback(() => {
     dispatch(showAuthorTutorial());
   }, [dispatch]);
-  
+
   return (
     <Router history={history}>
       <Grid container justifyContent="center">
@@ -56,6 +56,7 @@ const SimpleBottomNavigation = () => {
             to={"/author/posts"}
           />
         </BottomNavigation>
+
         <Switch>
           <Route path="/author/topic" component={TopicAuthor} />
           <Route exact path="/author/posts" component={BoardAuthor} />

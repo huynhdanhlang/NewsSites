@@ -174,6 +174,12 @@ export default function BoardAdmin() {
                       })}
                     </li>
                   ))}
+                <li className="list-group-item">test</li>
+                <li className="list-group-item">test</li>
+                <li className="list-group-item">test</li>
+                <li className="list-group-item">test</li>
+                <li className="list-group-item">test</li>
+                <li className="list-group-item">test</li>
                 &nbsp;
               </ul>
             </div>
@@ -222,10 +228,10 @@ export default function BoardAdmin() {
                         onChange={onChangePassword}
                       />
                     </div>
-
+                    <br />
                     <a
                       onClick={onClickUpdateUser}
-                      className="btn btn-primary btn-sm "
+                      className="float-end btn btn-primary btn-sm "
                       href="#"
                       role="button"
                     >

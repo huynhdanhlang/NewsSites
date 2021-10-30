@@ -44,7 +44,9 @@ export default function AddUser() {
         className={classes.fab}
         onClick={openCreatePostsModal}
         aria-label="add"
-      ><AddIcon /></Fab>
+      >
+        <AddIcon />
+      </Fab>
     </Container>
   );
 }

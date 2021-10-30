@@ -43,7 +43,7 @@ const showModalEdit = createAction("SHOW_EDIT_POST_MODAL");
 const hideModalEdit = createAction("HIDE_EDIT_POST_MODAL");
 
 const showAuthorTutorial = createAction("SHOW_TUTORIAL");
-const hideAuthorTutorial = createAction("HIDE_TUTORIAL");
+// const hideAuthorTutorial = createAction("HIDE_TUTORIAL");
 
 const showDialog = createAction("SHOW_DIALOG");
 const hideDialog = createAction("HIDE_DIALOG");
@@ -81,5 +81,5 @@ export {
   showDialog,
   hideDialog,
   showAuthorTutorial,
-  hideAuthorTutorial,
+  // hideAuthorTutorial,
 };

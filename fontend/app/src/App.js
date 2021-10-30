@@ -21,6 +21,7 @@ import { Navbar, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { history } from "./helpers/history";
 import ViewPost from "./componets/home/View/index";
 import * as actions from "./redux/actions/saga/posts";
+import Footer from "./componets/Footer/index";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -51,9 +52,9 @@ const App = () => {
     dispatch(actions.getPostsId.getPostsIdRequest(id));
   };
 
-  window.onpopstate = function(event) {
-    window.location.reload();
-};
+  // window.onpopstate = function (event) {
+  //   window.location.reload();
+  // };
 
   useEffect(async () => {
     await getParentTopic();
@@ -78,7 +79,8 @@ const App = () => {
     dispatch(showAuthorTutorial());
   }, [dispatch]);
 
-  const postIndex = JSON.parse(localStorage.getItem("postIndex"));
+  // const postIndex = JSON.parse(localStorage.getItem("postIndex"));
+
   return (
     <Router history={history}>
       <div>
@@ -208,7 +210,7 @@ const App = () => {
             <Route exact path={path} component={Home} />
             <Route exact path="/login" component={Login} />
             {/* <Route exact path="/register" component={Register} /> */}
-            <Route exact path={`/news/${postIndex?postIndex[2]:""}`} component={ViewPost} />
+            <Route exact path={`/news/:id`} component={ViewPost} />
 
             <Route exact path="/profile" component={Profile} />
             {/* <Route path="/user" component={BoardUser} /> */}
@@ -218,6 +220,7 @@ const App = () => {
           </Switch>
         </div>
       </div>
+      <Footer />
     </Router>
   );
 };
