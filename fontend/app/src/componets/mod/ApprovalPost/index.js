@@ -11,6 +11,8 @@ import {
 } from "../../../redux/selector/index";
 import { showDialog } from "../../../redux/actions/saga/posts";
 import Popup from "./Posts/PopupCustom/index";
+import usePagination from "../../Pagination/index";
+import { Pagination } from "@material-ui/lab";
 
 export default function PostsList() {
   const dispatch = useDispatch();
@@ -26,8 +28,31 @@ export default function PostsList() {
   }, [dispatch]);
   const postIndex = JSON.parse(localStorage.getItem("postIndex"));
 
+  
+  const [page, setPage] = React.useState(1);
+  const PER_PAGE = 10;
+
+  const count = Math.ceil(posts.length / PER_PAGE);
+  const _DATA = usePagination(posts, PER_PAGE);
+
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+
   return (
     <Container maxWidth={false} className="container">
+            &nbsp;
+      <Pagination
+        className
+        color="primary"
+        count={count}
+        page={page}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+      />
+      &nbsp;
       <Grid container spacing={2} alignItems="stretch">
         {posts.map((post, index) => (
           <Grid key={post._id} item xs={12} sm={4}>
@@ -35,6 +60,17 @@ export default function PostsList() {
           </Grid>
         ))}
       </Grid>
+      &nbsp;
+      <Pagination
+        className
+        color="primary"
+        count={count}
+        page={page}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+      />
+      &nbsp;
       {isShowDialog && <AlertDialog preview={posts[postIndex]} />}
       {isShowPopup && <Popup post={posts[postIndex]} />}
     </Container>
