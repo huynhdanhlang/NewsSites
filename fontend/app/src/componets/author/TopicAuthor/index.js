@@ -15,9 +15,12 @@ import { authorTutorial$ } from "../../../redux/selector/index";
 function TopicAuthor() {
   const dispatch = useDispatch();
 
-  // const onClick = React.useCallback(() => {
-  //   dispatch(hideAuthorTutorial());
-  // }, [dispatch]);
+  const authorTutorial = useSelector(authorTutorial$);
+
+  const onClick = React.useCallback(() => {
+    dispatch(hideAuthorTutorial());
+    localStorage.setItem("authorTutorial", JSON.stringify(authorTutorial));
+  }, []);
 
   const { isShowTutorial } = useSelector(authorTutorial$);
 
@@ -38,14 +41,14 @@ function TopicAuthor() {
               title={` Chủ đề `}
             >
               <Link
-                // onClick={onClick}
+                onClick={onClick}
                 to="/author/topic/addChild"
                 className="nav-link"
               >
                 Thêm chủ đề
               </Link>
               <Link
-                // onClick={onClick}
+                onClick={onClick}
                 to="/author/topic/childTopic"
                 className="nav-link"
               >
@@ -63,7 +66,7 @@ function TopicAuthor() {
               title={` Chủ đề và thẻ `}
             >
               <Link
-                // onClick={onClick}
+                onClick={onClick}
                 to="/author/topic/addParent"
                 className="nav-link"
                 id="check-lick"
@@ -71,7 +74,7 @@ function TopicAuthor() {
                 Thêm chủ đề và thẻ
               </Link>{" "}
               <Link
-                // onClick={onClick}
+                onClick={onClick}
                 to="/author/topic/topicParent"
                 className="nav-link"
               >

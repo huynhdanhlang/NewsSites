@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%,-50%)",
     position: "absolute",
-    width: "60%",
+    width: "90%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),

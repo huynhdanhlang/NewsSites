@@ -9,9 +9,9 @@ export const initialState = {
   modaledit: {
     isShowEdit: false,
   },
-  authortutorial: {
-    isShowTutorial: true,
-  },
+  // authortutorial: {
+  //   isShowTutorial: true,
+  // },
   sendmail: {
     isShowPopup: false,
   },

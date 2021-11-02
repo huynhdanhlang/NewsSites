@@ -3,8 +3,19 @@ import {
   showAuthorTutorial,
   hideAuthorTutorial,
 } from "../../actions/saga/posts";
-import { initialState } from "./const";
-
+// import { initialState } from "./const";
+const authortutorial = JSON.parse(localStorage.getItem("authorTutorial"));
+const initialState = authortutorial
+  ? {
+      authortutorial: {
+        isShowTutorial: false,
+      },
+    }
+  : {
+      authortutorial: {
+        isShowTutorial: true,
+      },
+    };
 export default function modalReducers(
   state = initialState.authortutorial,
   action
@@ -14,10 +25,10 @@ export default function modalReducers(
       return {
         isShowTutorial: true,
       };
-    // case getTypes(hideAuthorTutorial):
-    //   return {
-    //     isShowTutorial: false,
-    //   };
+    case getTypes(hideAuthorTutorial):
+      return {
+        isShowTutorial: false,
+      };
     default:
       return state;
   }
