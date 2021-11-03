@@ -24,6 +24,7 @@ import moment from "moment";
 import { showModalEdit } from "../../../../../redux/actions/saga/posts";
 import { showDialog } from "../../../../../redux/actions/saga/posts";
 import { showDialogState$ } from "../../../../../redux/selector/index";
+import { retrieveParentTopic } from "../../../../../redux/actions/thunk/parentTopic";
 
 const ITEM_HEIGHT = 48;
 
@@ -81,6 +82,7 @@ export default function Post({ post, index }) {
 
   const handleOnclick = (event) => {
     setAnchorEl(event.currentTarget);
+    dispatch(retrieveParentTopic());
   };
 
   const handleClose = () => {

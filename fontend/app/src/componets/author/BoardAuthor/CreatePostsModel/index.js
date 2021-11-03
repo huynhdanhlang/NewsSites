@@ -12,8 +12,9 @@ import { userState$, modalState$ } from "../../../../redux/selector/index";
 import { retrieveParentTopic } from "../../../../redux/actions/thunk/parentTopic";
 import { parentTopic$ } from "../../../../redux/selector/index";
 import PostCreate from "../../../../services/posts.service";
+import { history } from "../../../../helpers/history";
 
-function CreatePostsModel() {
+const CreatePostsModel = () => {
   const classes = useStyles();
   const dispatch = useDispatch(modalState$);
   const { user: currentUser } = useSelector(userState$);
@@ -87,9 +88,9 @@ function CreatePostsModel() {
     author: currentUser.id,
   });
 
-  const onClose = React.useCallback(() => {
-    dispatch(hideModal());
-  }, [dispatch]);
+  // const onClose = React.useCallback(() => {
+  //   dispatch(hideModal());
+  // }, [dispatch]);
 
   const getParentTopic = async (data) => {
     // console.log(["id fggfgfgfg"], id);
@@ -127,18 +128,23 @@ function CreatePostsModel() {
     setSelectChild(event);
   };
 
+  const onBack = React.useCallback(() => {
+    dispatch(hideModal());
+    history.push("/author/posts");
+  }, []);
+
   const body = (
-    <div className={classes.paper} id="simple-modal-title">
-      <h2>Thêm tin mới</h2>
-      <form noValidate autoComplete="off" className={classes.form}>
-        <TextField
-          className={classes.title}
-          required
-          label="Tiêu đề tin"
-          value={data.title}
-          onChange={(e) => setData({ ...data, title: e.target.value })}
-        />
-        {/* <label htmlFor="tag_select">Chủ đề:</label>
+    // <div className={classes.paper} id="simple-modal-title">
+    // <h2>Thêm tin mới</h2>
+    <form noValidate autoComplete="off" className={classes.form}>
+      <TextField
+        className={classes.title}
+        required
+        label="Tiêu đề tin"
+        value={data.title}
+        onChange={(e) => setData({ ...data, title: e.target.value })}
+      />
+      {/* <label htmlFor="tag_select">Chủ đề:</label>
         <div
           style={{
             display: "flex",
@@ -146,74 +152,84 @@ function CreatePostsModel() {
             alignItems: "center",
           }}
         > */}
-        <label htmlFor="parenttopic">Chủ đề:</label>
-        <Select
-          classNamePrefix="select"
-          className="basic-single"
-          isMulti={false}
-          value={selectedOption}
-          isClearable={false}
-          onChange={handleOnchange}
-          options={options}
-          name="colors"
-          styles={customStyles}
-        />
-        <label htmlFor="childtopic">Thẻ chủ đề:</label>
-        <Select
-          classNamePrefix="select"
-          className="basic-single"
-          isMulti={false}
-          value={selectChild}
-          isClearable={false}
-          onChange={handleOnchangeChild}
-          options={optionsChild}
-          name="colors"
-          styles={customStyles}
-        />
-        <label htmlFor="content">Nội dung:</label>
-        {/* </div> */}
-        {/* <div className={classes.outer}> */}
-        <JoditEditor
-          ref={editor}
-          value={data.content}
-          config={config}
-          tabIndex={-1} // tabIndex of textarea
-          onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
-          onChange={(newContent) => {}}
-        />
-        {/* </div> */}
-        <label htmlFor="image">Ảnh bản tin:</label>
+      <label htmlFor="parenttopic">Chủ đề:</label>
+      <Select
+        classNamePrefix="select"
+        className="basic-single"
+        isMulti={false}
+        value={selectedOption}
+        isClearable={false}
+        onChange={handleOnchange}
+        options={options}
+        name="colors"
+        styles={customStyles}
+      />
+      <label htmlFor="childtopic">Thẻ chủ đề:</label>
+      <Select
+        classNamePrefix="select"
+        className="basic-single"
+        isMulti={false}
+        value={selectChild}
+        isClearable={false}
+        onChange={handleOnchangeChild}
+        options={optionsChild}
+        name="colors"
+        styles={customStyles}
+      />
+      <label htmlFor="content">Nội dung:</label>
+      {/* </div> */}
+      {/* <div className={classes.outer}> */}
+      <JoditEditor
+        ref={editor}
+        value={data.content}
+        config={config}
+        tabIndex={-1} // tabIndex of textarea
+        onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
+        onChange={(newContent) => {}}
+      />
+      {/* </div> */}
+      <label htmlFor="image">Ảnh bản tin:</label>
 
-        <FileBase64
-          accept="image/*"
-          multiple={false}
-          type="file"
-          value={data.attachment}
-          onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
-        />
-        <div className={classes.footer}>
-          <Button
-            variant="contained"
-            color="primary"
-            component="span"
-            fullwidth="true"
-            onClick={onSubmit}
-          >
-            Thêm
-          </Button>
-        </div>
-      </form>
-    </div>
+      <FileBase64
+        accept="image/*"
+        multiple={false}
+        type="file"
+        value={data.attachment}
+        onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
+      />
+      <div className={classes.footer}>
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          fullwidth="true"
+          onClick={onSubmit}
+        >
+          Thêm
+        </Button>
+        &nbsp;
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          fullwidth="true"
+          onClick={onBack}
+        >
+          Quay lại
+        </Button>
+      </div>
+    </form>
+    // {/* </div> */}
   );
-  const { isShow } = useSelector(modalState$);
+  // const { isShow } = useSelector(modalState$);
 
   return (
     <div>
-      <Modal disableEnforceFocus={true} open={isShow} onClose={onClose}>
-        {body}
-      </Modal>
+      {/* <Modal disableEnforceFocus={true} open={isShow} onClose={onClose}> */}
+      {body}
+      {/* </Modal> */}
     </div>
   );
-}
+};
 
 export default CreatePostsModel;

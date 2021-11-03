@@ -16,8 +16,9 @@ import { retrieveParentTopic } from "../../../../../../redux/actions/thunk/paren
 import { parentTopic$ } from "../../../../../../redux/selector/index";
 import Select from "react-select";
 import PostUpdate from "../../../../../../services/posts.service";
+import { history } from "../../../../../../helpers/history";
 
-function EditPostsModel({ post }) {
+const EditPostsModel = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch(modalEditState$);
   const parentTopic = useSelector(parentTopic$);
@@ -82,7 +83,7 @@ function EditPostsModel({ post }) {
   const [data, setData] = useState(post);
 
   React.useEffect(() => {
-    dispatch(retrieveParentTopic());
+    // dispatch(retrieveParentTopic());
     setData({
       ...data,
       name_topic: selectedOption.value,
@@ -127,9 +128,10 @@ function EditPostsModel({ post }) {
   });
 
   console.log(["data"], parentTopic);
-  const onClose = React.useCallback(() => {
-    dispatch(hideModalEdit());
-  }, [dispatch]);
+
+  // const onClose = React.useCallback(() => {
+  //   dispatch(hideModalEdit());
+  // }, [dispatch]);
 
   const getParentTopic = async (data) => {
     // console.log(["id fggfgfgfg"], id);
@@ -166,81 +168,96 @@ function EditPostsModel({ post }) {
     setSelectChild(event);
   };
 
+  const onBack = React.useCallback(() => {
+    dispatch(hideModalEdit());
+    history.push("/author/posts");
+  }, []);
+
   const body = (
-    <div className={classes.paper} id="simple-modal-title">
-      <h2>Thêm tin mới</h2>
-      <form noValidate autoComplete="off" className={classes.form}>
-        <TextField
-          className={classes.title}
-          required
-          label="Tiêu đề tin"
-          value={data.title}
-          onChange={(e) => setData({ ...data, title: e.target.value })}
-        />
-        <label htmlFor="parenttopic">Chủ đề:</label>
-        <Select
-          classNamePrefix="select"
-          className="basic-single"
-          isMulti={false}
-          value={selectedOption}
-          isClearable={false}
-          onChange={handleOnchange}
-          options={options}
-          name="colors"
-          styles={customStyles}
-        />
-        <label htmlFor="childtopic">Thẻ chủ đề:</label>
-        <Select
-          classNamePrefix="select"
-          className="basic-single"
-          isMulti={false}
-          value={selectChild}
-          isClearable={false}
-          onChange={handleOnchangeChild}
-          options={optionsChild}
-          name="colors"
-          styles={customStyles}
-        />
-        <label htmlFor="content">Nội dung:</label>
-        <JoditEditor
-          ref={editor}
-          value={data.content}
-          config={config}
-          tabIndex={-1} // tabIndex of textarea
-          onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
-          onChange={(newContent) => {}}
-        />
-        <label htmlFor="image">Ảnh bản tin:</label>
-        <FileBase64
-          accept="image/*"
-          multiple={false}
-          type="file"
-          value={data.attachment}
-          onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
-        />
-        <div className={classes.footer}>
-          <Button
-            variant="contained"
-            color="primary"
-            component="span"
-            fullwidth="true"
-            onClick={onSubmit}
-          >
-            Cập nhật
-          </Button>
-        </div>
-      </form>
-    </div>
+    // <div className={classes.paper} id="simple-modal-title">
+    // <h2>Thêm tin mới</h2>
+    <form noValidate autoComplete="off" className={classes.form}>
+      <TextField
+        className={classes.title}
+        required
+        label="Tiêu đề tin"
+        value={data.title}
+        onChange={(e) => setData({ ...data, title: e.target.value })}
+      />
+      <label htmlFor="parenttopic">Chủ đề:</label>
+      <Select
+        classNamePrefix="select"
+        className="basic-single"
+        isMulti={false}
+        value={selectedOption}
+        isClearable={false}
+        onChange={handleOnchange}
+        options={options}
+        name="colors"
+        styles={customStyles}
+      />
+      <label htmlFor="childtopic">Thẻ chủ đề:</label>
+      <Select
+        classNamePrefix="select"
+        className="basic-single"
+        isMulti={false}
+        value={selectChild}
+        isClearable={false}
+        onChange={handleOnchangeChild}
+        options={optionsChild}
+        name="colors"
+        styles={customStyles}
+      />
+      <label htmlFor="content">Nội dung:</label>
+      <JoditEditor
+        ref={editor}
+        value={data.content}
+        config={config}
+        tabIndex={-1} // tabIndex of textarea
+        onBlur={(newContent) => setData({ ...data, content: newContent })} // preferred to use only this option to update the content for performance reasons
+        onChange={(newContent) => {}}
+      />
+      <label htmlFor="image">Ảnh bản tin:</label>
+      <FileBase64
+        accept="image/*"
+        multiple={false}
+        type="file"
+        value={data.attachment}
+        onDone={({ base64 }) => setData({ ...data, attachment: base64 })}
+      />
+      <div className={classes.footer}>
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          fullwidth="true"
+          onClick={onSubmit}
+        >
+          Cập nhật
+        </Button>
+        &nbsp;
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          fullwidth="true"
+          onClick={onBack}
+        >
+          Quay lại
+        </Button>
+      </div>
+    </form>
+    // </div>
   );
   const { isShowEdit } = useSelector(modalEditState$);
 
   return (
     <div>
-      <Modal disableEnforceFocus={true} open={isShowEdit} onClose={onClose}>
-        {body}
-      </Modal>
+      {/* <Modal disableEnforceFocus={true} open={isShowEdit} onClose={onClose}> */}
+      {body}
+      {/* </Modal> */}
     </div>
   );
-}
+};
 
 export default EditPostsModel;

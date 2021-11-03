@@ -38,36 +38,40 @@ export default function PostsList() {
 
   return (
     <div>
-      &nbsp;
-      <Pagination
-        className
-        color="primary"
-        count={count}
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-      />
-      &nbsp;
-      <Grid container spacing={2} alignItems="stretch">
-        {_DATA.currentData().map((post, index) => (
-          <Grid key={post._id} item xs={12} sm={4}>
-            <Post index={index} post={post} />
+      {isShowEdit === false ? (
+        <div>
+          &nbsp;
+          <Pagination
+            className
+            color="primary"
+            count={count}
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChange}
+          />
+          &nbsp;
+          <Grid container spacing={2} alignItems="stretch">
+            {_DATA.currentData().map((post, index) => (
+              <Grid key={post._id} item xs={12} sm={4}>
+                <Post index={index} post={post} />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-
-        {isShowEdit && <EditPost post={posts[postIndex]} />}
-      </Grid>
-      &nbsp;
-      <Pagination
-        className
-        color="primary"
-        count={count}
-        page={page}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-      />
+          &nbsp;
+          <Pagination
+            className
+            color="primary"
+            count={count}
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChange}
+          />
+        </div>
+      ) : (
+        <EditPost post={posts[postIndex]} />
+      )}
     </div>
   );
 }

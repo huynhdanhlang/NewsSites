@@ -6,10 +6,11 @@ import AddIcon from "@material-ui/icons/Add";
 import Header from "./Header/index";
 import PostsList from "./PostsList/index";
 import useStyles from "./Styles/style";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../../redux/actions/saga/posts";
 import CreatePostsModel from "./CreatePostsModel/index";
 // import EditPost from "./PostsList/Posts/index";
+import { modalState$ } from "../../../redux/selector/index";
 
 const BoardAuthor = () => {
   const [content, setContent] = useState("");
@@ -39,6 +40,9 @@ const BoardAuthor = () => {
   }, [dispatch]);
 
   const classes = useStyles();
+
+  const { isShow } = useSelector(modalState$);
+
   return (
     // <div className="container">
     //   <header className="jumbotron">
@@ -47,8 +51,8 @@ const BoardAuthor = () => {
     // </div>
     <Container maxWidth={false} className="container">
       <Header />
-      <CreatePostsModel />
-      <PostsList />
+      {isShow ? <CreatePostsModel /> : ""}
+      {isShow === false && <PostsList />}
       <Fab
         color="primary"
         className={classes.fab}

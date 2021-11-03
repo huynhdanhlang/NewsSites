@@ -2,9 +2,9 @@
 .jodit .jodit-workplace {
   overflow: auto !important;
   position: relative;
-  max-height: 200px !important;
+  max-height: 500px !important;
 }
 
-.jodit-wysiwyg {
+/* .jodit-wysiwyg {
   min-height: 150px !important;
-}
+} */
