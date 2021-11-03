@@ -89,6 +89,7 @@ export default function Post({ post, index }) {
     }
   };
   console.log(["index"], index);
+  
   localStorage.setItem("postIndex", JSON.stringify(index));
   var status = "";
   var color = "";

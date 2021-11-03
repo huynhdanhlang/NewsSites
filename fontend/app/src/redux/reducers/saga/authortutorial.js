@@ -4,10 +4,14 @@ import {
   hideAuthorTutorial,
 } from "../../actions/saga/posts";
 // import { initialState } from "./const";
-const authortutorial = JSON.parse(localStorage.getItem("authorTutorial"));
-console.log("authortutorial", authortutorial.isShowTutorial === true);
+let authortutorial = JSON.parse(localStorage.getItem("authorTutorial"));
+authortutorial = authortutorial
+  ? authortutorial.isShowTutorial
+  : {
+      isShowTutorial: false,
+    };
 let initialState =
-  authortutorial.isShowTutorial === true
+  authortutorial === true
     ? {
         authortutorial: {
           isShowTutorial: true,

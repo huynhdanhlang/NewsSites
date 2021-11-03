@@ -48,6 +48,7 @@ export default function AddTopic() {
 
   return (
     <div className="submit-form">
+      &nbsp;
       {submited ? (
         <div>
           <h4>Bạn đã thêm chủ đề thành công!</h4>

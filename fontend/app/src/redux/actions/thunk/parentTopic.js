@@ -98,9 +98,9 @@ export const deleteAllParenttopic = () => async (dispatch) => {
   }
 };
 
-export const findByNameParentTopic = (name) => async (dispatch) => {
+export const findByNameParentTopic = (params) => async (dispatch) => {
   try {
-    const res = await ParentTopicService.findByName(name);
+    const res = await ParentTopicService.findByName(params);
 
     dispatch({
       type: RETRIEVE_PARENTTOPIC,

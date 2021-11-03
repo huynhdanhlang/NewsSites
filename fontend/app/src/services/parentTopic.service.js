@@ -30,8 +30,8 @@ const removeAll = () => {
   return api.delete("/author/topic/topicParent");
 };
 
-const findByName = (name) => {
-  return api.get(`/author/topic/topicParent?name=${name}`);
+const findByName = (params) => {
+  return api.get(`/author/topic/topicParent`, { params });
 };
 
 export default {

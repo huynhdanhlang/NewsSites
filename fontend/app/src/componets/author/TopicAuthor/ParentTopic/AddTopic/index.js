@@ -8,7 +8,7 @@ import { userState$ } from "../../../../../redux/selector/index";
 
 export default function AddTopic() {
   //ChildTopic
-  const childTopic = useSelector(childTopic$);
+  let childTopic = useSelector(childTopic$);
   const [selectedOption, setSelectedOption] = React.useState([]);
   const [inputList, setInputList] = React.useState([
     { id: null, name_topic: "", isChecked: false },
@@ -119,6 +119,7 @@ export default function AddTopic() {
 
   return (
     <div className="submit-form">
+      &nbsp;
       {submited ? (
         <div>
           <h4>Bạn đã thêm chủ đề thành công!</h4>

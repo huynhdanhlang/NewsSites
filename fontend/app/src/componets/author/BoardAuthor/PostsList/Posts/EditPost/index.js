@@ -21,8 +21,9 @@ import { history } from "../../../../../../helpers/history";
 const EditPostsModel = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch(modalEditState$);
-  const parentTopic = useSelector(parentTopic$);
-
+  let parentTopic = useSelector(parentTopic$);
+  parentTopic = parentTopic.parentTopic;
+  
   console.log(
     ["parentTopic"],
     parentTopic[0]["name_topic_child"][0].name_topic

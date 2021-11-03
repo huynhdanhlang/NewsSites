@@ -21,8 +21,9 @@ const CreatePostsModel = () => {
   const editor = useRef(null);
   const [selectedOption, setSelectedOption] = useState([]);
   const [selectChild, setSelectChild] = useState([]);
-  const parentTopic = useSelector(parentTopic$);
-
+  let parentTopic = useSelector(parentTopic$);
+  parentTopic = parentTopic.parentTopic;
+  
   React.useEffect(() => {
     dispatch(retrieveParentTopic());
     setData({

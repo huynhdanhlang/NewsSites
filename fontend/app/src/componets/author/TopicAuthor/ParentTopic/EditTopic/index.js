@@ -123,6 +123,7 @@ const ParentTopic = (props) => {
 
   return (
     <div>
+      &nbsp;
       {currentParentTopic ? (
         <div className="edit-form">
           <h4>Chủ đề</h4>

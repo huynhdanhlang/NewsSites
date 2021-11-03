@@ -8,32 +8,24 @@ import { retrieveAllRoles } from "../../redux/actions/thunk/roles";
 import { findByNameUser, retrieveUser } from "../../redux/actions/thunk/user";
 import { userAllState$ } from "../../redux/selector/index";
 import AddUser from "./AddUser/index";
+import { Pagination } from "@material-ui/lab";
 
 export default function BoardAdmin() {
-  const alluser = useSelector(userAllState$);
+  const user = useSelector(userAllState$);
+  const [alluser, setAllUser] = useState(user);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [currentuser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
   const [searchName, setSearchName] = useState("");
 
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+
+  const pageSizes = [3, 6, 9];
+
   React.useEffect(() => {
     dispatch(retrieveUser());
-    // UserService.getAllUser().then(
-    //   (response) => {
-    //     setAllUser(response.data);
-    //   },
-    //   (error) => {
-    //     setErr(true);
-    //     const _alluser =
-    //       (error.response &&
-    //         error.response.data &&
-    //         error.response.data.message) ||
-    //       error.message ||
-    //       error.toString();
-
-    //     setResponse(_alluser);
-    //   }
-    // );
   }, []);
 
   console.log(["err"], err);
@@ -104,9 +96,55 @@ export default function BoardAdmin() {
     setCurrentIndex(-1);
   };
 
-  const findByName = () => {
-    refreshData();
-    dispatch(findByNameUser(searchName));
+  const getRequestParams = (searchName, page, pageSize) => {
+    let params = {};
+
+    if (searchName) {
+      params["name"] = searchName;
+    }
+
+    if (page) {
+      params["page"] = page - 1;
+    }
+
+    if (pageSize) {
+      params["size"] = pageSize;
+    }
+
+    return params;
+  };
+
+  const findRetrieveAllUser = () => {
+    const params = getRequestParams(searchName, page, pageSize);
+
+    UserService.findByName(params)
+      .then((response) => {
+        const { user, totalPages } = response.data;
+
+        setAllUser(user);
+        setCount(totalPages);
+
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  React.useEffect(findRetrieveAllUser, [page, pageSize]);
+
+  // const findByName = () => {
+  //   refreshData();
+  //   // dispatch(findByNameUser(searchName));
+  // };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(event.target.value);
+    setPage(1);
   };
 
   var err = localStorage.getItem("error");
@@ -134,7 +172,7 @@ export default function BoardAdmin() {
                 />
                 <div className="input-group-append">
                   <a
-                    onClick={findByName}
+                    onClick={findRetrieveAllUser}
                     className="btn btn-outline-secondary"
                     href="#"
                     role="button"
@@ -145,6 +183,28 @@ export default function BoardAdmin() {
               </div>
             </div>
 
+            <div className="mt-3">
+              {"Items per Page: "}
+              <select onChange={handlePageSizeChange} value={pageSize}>
+                {pageSizes.map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+
+              <Pagination
+                className="my-3"
+                count={count}
+                page={page}
+                siblingCount={1}
+                boundaryCount={1}
+                variant="outlined"
+                shape="rounded"
+                color="primary"
+                onChange={handlePageChange}
+              />
+            </div>
             <div className="col-md-6">
               <h4>Danh sách người dùng</h4>
               <ul className="list-group">
@@ -157,7 +217,6 @@ export default function BoardAdmin() {
                         (index === currentIndex ? " active" : "")
                       }
                       onClick={() => setActiveParentTopic(user, index)}
-                      key={index}
                     >
                       {user.fullname}
                       {user["roles"].map((role, index) => {
@@ -175,29 +234,6 @@ export default function BoardAdmin() {
                       })}
                     </li>
                   ))}
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
-                <li className="list-group-item">test</li>
                 &nbsp;
               </ul>
             </div>

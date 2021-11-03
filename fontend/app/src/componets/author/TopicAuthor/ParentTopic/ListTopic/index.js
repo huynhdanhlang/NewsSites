@@ -10,15 +10,22 @@ import { Link, Router } from "react-router-dom";
 import { history } from "../../../../../helpers/history";
 import ParentTopicDataService from "../../../../../services/parentTopic.service";
 import { userState$ } from "../../../../../redux/selector/index";
+import { Pagination } from "@material-ui/lab";
 
 export default function ListTopic() {
   const [currnentParentTopic, setCurrentParentTopic] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState("");
   const { user: currentUser } = useSelector(userState$);
-  const parentTopic = useSelector(parentTopic$);
+  const topic = useSelector(parentTopic$);
+  const [parentTopic, setParentTopic] = useState(topic.parentTopic);
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+
+  const pageSizes = [3, 6, 9];
   // console.log(parentTopic);
   React.useEffect(() => {
     dispatch(retrieveParentTopicAuthor(currentUser.id));
@@ -53,28 +60,61 @@ export default function ListTopic() {
       });
   };
 
-  // React.useEffect(() => {
-  //   getParentTopic(currnentParentTopic._id);
-  // }, [currnentParentTopic._id]);
+  const getRequestParams = (searchName, page, pageSize) => {
+    let params = {};
 
-  // const removeAllParenttopic = () => {
-  //   dispatch(deleteAllParenttopic())
-  //     .then((response) => {
-  //       // console.log(response);
-  //       refreshData();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
+    if (searchName) {
+      params["name_topic"] = searchName;
+    }
+
+    if (page) {
+      params["page"] = page - 1;
+    }
+
+    if (pageSize) {
+      params["size"] = pageSize;
+    }
+
+    return params;
+  };
+
+  const findRetrieveAllParentTopic = () => {
+    const params = getRequestParams(searchName, page, pageSize);
+
+    ParentTopicDataService.findByName(params)
+      .then((response) => {
+        const { parentTopic, totalPages } = response.data;
+
+        setParentTopic(parentTopic);
+        setCount(totalPages);
+
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  React.useEffect(findRetrieveAllParentTopic, [page, pageSize]);
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(event.target.value);
+    setPage(1);
+  };
+
+  // const findByName = () => {
+  //   refreshData();
+  //   dispatch(findByNameParentTopic(searchName));
   // };
 
-  const findByName = () => {
-    refreshData();
-    dispatch(findByNameParentTopic(searchName));
-  };
 
   return (
     <Router history={history}>
+      &nbsp;
       <div className="list row">
         <div className="col-md-8">
           <div className="input-group mb-3">
@@ -88,7 +128,7 @@ export default function ListTopic() {
 
             <div className="input-group-append">
               <a
-                onClick={findByName}
+                onClick={findRetrieveAllParentTopic}
                 className="btn btn-outline-secondary"
                 href="#"
                 role="button"
@@ -97,6 +137,29 @@ export default function ListTopic() {
               </a>
             </div>
           </div>
+        </div>
+
+        <div className="mt-3">
+          {"Items per Page: "}
+          <select onChange={handlePageSizeChange} value={pageSize}>
+            {pageSizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+
+          <Pagination
+            className="my-3"
+            count={count}
+            page={page}
+            siblingCount={1}
+            boundaryCount={1}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            onChange={handlePageChange}
+          />
         </div>
 
         <div className="col-md-6">

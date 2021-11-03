@@ -45,8 +45,8 @@ export default function ListTopic() {
   const getParentTopic = async () => {
     await ParentTopicDataService.getAll()
       .then((response) => {
-        console.log(["id"], response.data);
-        setData(response.data);
+        console.log(["id"], response.data.parentTopic);
+        setData(response.data.parentTopic);
       })
       .catch((e) => {
         console.log(e);
@@ -75,6 +75,7 @@ export default function ListTopic() {
       [e.target.name]: e.target.value,
     }));
 
+    console.log(["email"], data);
     var arr = [...data];
     arr[index] = { ...arr[index], feedback: e.target.value };
     setData(arr);

@@ -20,16 +20,31 @@ export default function (parentTopic = initialState, action) {
       return action.payload;
 
     case UPDATE_PARENTTOPIC:
-      return parentTopic.map((parent) => {
-        if (parent._id === action.payload._id) {
-          return {
-            ...parent,
-            ...action.payload,
-          };
-        } else {
-          return parent;
-        }
-      });
+      try {
+        return parentTopic.parentTopic.map((parent) => {
+          if (parent._id === action.payload._id) {
+            return {
+              ...parent,
+              ...action.payload,
+            };
+          } else {
+            return parent;
+          }
+        });
+      } catch (error) {
+        try {
+          return parentTopic.map((parent) => {
+            if (parent._id === action.payload._id) {
+              return {
+                ...parent,
+                ...action.payload,
+              };
+            } else {
+              return parent;
+            }
+          });
+        } catch (error) {}
+      }
 
     case DELETE_PARENTTOPIC:
       return parentTopic.filter(({ _id }) => _id !== action.payload._id);

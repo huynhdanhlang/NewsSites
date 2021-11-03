@@ -24,8 +24,8 @@ const update = (data) => {
   return api.post("/user/update", data);
 };
 
-const findByName = (name) => {
-  return api.get(`/user?name=${name}`);
+const findByName = (params) => {
+  return api.get(`/user`, { params });
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

@@ -20,9 +20,9 @@ export const retrieveUser = () => async (dispatch) => {
   }
 };
 
-export const findByNameUser = (name) => async (dispatch) => {
+export const findByNameUser = (params) => async (dispatch) => {
   try {
-    const res = await UserService.findByName(name);
+    const res = await UserService.findByName(params);
 
     dispatch({
       type: RETRIEVE_ALLUSER,

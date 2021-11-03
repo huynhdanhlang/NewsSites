@@ -10,7 +10,6 @@ export default function Popup({ post }) {
   const { isShowPopup } = useSelector(sendMailPopup$);
   // const postIndex = JSON.parse(localStorage.getItem("postIndex"));
 
-  console.log(["iiiii"], post);
   const [mailerState, setMailerState] = React.useState({
     name: "V/v Phản hồi xét duyệt bài đăng",
     email: "",
@@ -56,6 +55,8 @@ export default function Popup({ post }) {
   const onClose = React.useCallback(() => {
     dispatch(hideMailPopup());
   }, [dispatch]);
+
+  console.log(["iiiii"], post);
 
   const approved = JSON.parse(localStorage.getItem("approved"));
 

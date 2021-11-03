@@ -36,7 +36,7 @@ const App = () => {
     await ParentTopicDataService.getAll()
       .then((response) => {
         console.log(["id"], response.data);
-        setData(response.data);
+        setData(response.data.parentTopic);
       })
       .catch((e) => {
         console.log(e);

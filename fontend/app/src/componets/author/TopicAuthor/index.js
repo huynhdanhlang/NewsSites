@@ -11,12 +11,19 @@ import { Container } from "@material-ui/core";
 import { hideAuthorTutorial } from "../../../redux/actions/saga/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { authorTutorial$ } from "../../../redux/selector/index";
+import { retrieveParentTopicAuthor } from "../../../redux/actions/thunk/parentTopic";
+import { retrieveChildTopicAuthor } from "../../../redux/actions/thunk/childTopic";
+
+import { userState$ } from "../../../redux/selector/index";
 
 function TopicAuthor() {
   const dispatch = useDispatch();
+  const { user: currentUser } = useSelector(userState$);
 
   const onClick = React.useCallback(() => {
     dispatch(hideAuthorTutorial());
+    dispatch(retrieveParentTopicAuthor(currentUser.id));
+    dispatch(retrieveChildTopicAuthor(currentUser.id));
   }, []);
   const authorTutorial = useSelector(authorTutorial$);
   localStorage.setItem("authorTutorial", JSON.stringify(authorTutorial));
@@ -34,6 +41,7 @@ function TopicAuthor() {
               as={ButtonGroup}
               id={`dropdown-button-drop-down`}
               drop="down"
+              onClick={onClick}
               variant="secondary"
               menuVariant="dark"
               title={` Chủ đề `}
@@ -56,6 +64,7 @@ function TopicAuthor() {
             &nbsp;
             <DropdownButton
               as={ButtonGroup}
+              onClick={onClick}
               key="down"
               id={`dropdown-button-drop-down-click`}
               drop="down"
@@ -114,7 +123,6 @@ function TopicAuthor() {
               path="/author/topic/topicParent/:id"
               component={ParentTopic.EditParentTopic}
             />
-
           </Switch>
         </div>
       </Router>

@@ -67,6 +67,7 @@ const ChildTopic = (props) => {
 
   return (
     <div>
+      &nbsp;
       {currentChildTopic ? (
         <div className="edit-form">
           <h4>Chủ đề</h4>
