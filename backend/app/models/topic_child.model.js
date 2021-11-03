@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const TopicChild = mongoose.model(
   "TopicChild",
-  mongoose.Schema({
+  new mongoose.Schema({
     name_topic_child: {
       type: String,
       required: true,
@@ -12,7 +13,7 @@ const TopicChild = mongoose.model(
       ref: "User",
       required: true,
     },
-  })
+  }).plugin(mongoosePaginate)
 );
 
 module.exports = TopicChild;

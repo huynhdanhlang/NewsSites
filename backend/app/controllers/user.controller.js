@@ -2,6 +2,13 @@ const db = require("../models/index");
 const User = db.user;
 var bycrypt = require("bcryptjs");
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
+};
+
 exports.allAcess = (req, res) => {
   res.status(200).send("Trang người dùng");
 };
@@ -54,8 +61,10 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.findAllUser = (req, res) => {
-  console.log(["sfbjsbs"], req.query.name);
-  const name = req.query.name;
+  const { page, size, name } = req.query;
+
+  console.log(["sfbjsbs"], page, size, name);
+
   var condition = name
     ? {
         fullname: {
@@ -65,13 +74,24 @@ exports.findAllUser = (req, res) => {
       }
     : {};
 
+  const { limit, offset } = getPagination(page, size);
+
   // TopicParent.find(condition);
   // const topic =
-  User.find(condition)
-    .populate("roles")
+  const options = {
+    offset,
+    limit,
+    populate: "roles",
+  };
+  User.paginate(condition, options)
     .then((data) => {
       console.log(["data"], data);
-      res.send(data);
+      res.send({
+        totalItems: data.totalDocs,
+        user: data.docs,
+        totalPages: data.totalPages,
+        currentPage: data.page - 1,
+      });
     })
     .catch((err) => {
       res.status(500).send({

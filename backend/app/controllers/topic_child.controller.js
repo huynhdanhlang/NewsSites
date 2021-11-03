@@ -2,6 +2,13 @@ const db = require("../models");
 
 const TopicChild = db.topic_child;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
+};
+
 // Create and Save a new TopicChild
 exports.create = (req, res) => {
   const topic_child = new TopicChild(req.body);
@@ -20,8 +27,9 @@ exports.create = (req, res) => {
 
 // Retrieve all TopicChild from the database.
 exports.findAll = (req, res) => {
-  console.log(["sfbjsbs"], req.query.name);
-  const name_topic_child = req.query.name;
+  const { page, size, name_topic_child } = req.query;
+  console.log(["sfbjsbs"], page, size, name_topic_child);
+
   var condition = name_topic_child
     ? {
         name_topic_child: {
@@ -31,9 +39,19 @@ exports.findAll = (req, res) => {
       }
     : {};
 
-  TopicChild.find(condition)
+  const { limit, offset } = getPagination(page, size);
+  const options = {
+    offset,
+    limit,
+  };
+  TopicChild.paginate(condition, options)
     .then((data) => {
-      res.send(data);
+      res.send({
+        totalItems: data.totalDocs,
+        childTopic: data.docs,
+        totalPages: data.totalPages,
+        currentPage: data.page - 1,
+      });
     })
     .catch((err) => {
       res.status(500).send({
@@ -61,7 +79,7 @@ exports.findOne = (req, res) => {
 // Find a single TopicChild with an author
 exports.findAllAuthor = async (req, res) => {
   try {
-    console.log(["req.params.author"],req.params.author);
+    console.log(["req.params.author"], req.params.author);
     const author = req.params.author;
     const topicchild = await TopicChild.find({ author: author })
       .populate("author")

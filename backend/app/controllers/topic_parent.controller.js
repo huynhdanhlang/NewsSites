@@ -1,5 +1,12 @@
 const db = require("../models");
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
+};
+
 const TopicParent = db.topic_parent;
 const TopicList = db.topicList;
 // Create and Save a new TopicParent
@@ -63,8 +70,9 @@ exports.create = (req, res) => {
 
 // Retrieve all TopicParent from the database.
 exports.findAll = (req, res) => {
-  console.log(["sfbjsbs"], req.query.name);
-  const name_topic = req.query.name;
+  const { page, size, name_topic } = req.query;
+  console.log(["sfbjsbs"], page, size, name_topic);
+
   var condition = name_topic
     ? {
         name_topic: {
@@ -73,17 +81,27 @@ exports.findAll = (req, res) => {
         },
       }
     : {};
-
+  const { limit, offset } = getPagination(page, size);
+  const options = {
+    offset,
+    limit,
+    populate: {
+      path: "author name_topic_child",
+      select: "isChecked name_topic email",
+    },
+    // populate: { path: "name_topic_child", select: "isChecked name_topic" },
+  };
   // TopicParent.find(condition);
   // const topic =
-  TopicParent.find(condition)
-    .populate("name_topic_child")
-    .populate("author")
-    .populate({ path: "author", select: "email" })
-    .populate({ path: "name_topic_child", select: "isChecked name_topic" })
+  TopicParent.paginate(condition, options)
     .then((data) => {
       console.log(["data"], data);
-      res.send(data);
+      res.send({
+        totalItems: data.totalDocs,
+        parentTopic: data.docs,
+        totalPages: data.totalPages,
+        currentPage: data.page - 1,
+      });
     })
     .catch((err) => {
       res.status(500).send({
@@ -113,7 +131,7 @@ exports.findOne = (req, res) => {
 // Find a single TopicAuthor with an author
 exports.findAllAuthor = async (req, res) => {
   try {
-    console.log(["req.params.author"],req.params.author);
+    console.log(["req.params.author"], req.params.author);
     const author = req.params.author;
     const topicauthor = await TopicParent.find({ author: author })
       .populate("author")

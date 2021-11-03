@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const TopicParent = mongoose.model(
   "TopicParent",
-  mongoose.Schema(
+  new mongoose.Schema(
     {
       name_topic: {
         type: String,
@@ -39,7 +40,7 @@ const TopicParent = mongoose.model(
     {
       timestamps: true,
     }
-  )
+  ).plugin(mongoosePaginate)
 );
 
 module.exports = TopicParent;
