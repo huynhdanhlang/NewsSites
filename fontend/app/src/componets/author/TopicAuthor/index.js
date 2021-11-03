@@ -15,13 +15,11 @@ import { authorTutorial$ } from "../../../redux/selector/index";
 function TopicAuthor() {
   const dispatch = useDispatch();
 
-  const authorTutorial = useSelector(authorTutorial$);
-
   const onClick = React.useCallback(() => {
     dispatch(hideAuthorTutorial());
-    localStorage.setItem("authorTutorial", JSON.stringify(authorTutorial));
   }, []);
-
+  const authorTutorial = useSelector(authorTutorial$);
+  localStorage.setItem("authorTutorial", JSON.stringify(authorTutorial));
   const { isShowTutorial } = useSelector(authorTutorial$);
 
   return (
@@ -116,6 +114,7 @@ function TopicAuthor() {
               path="/author/topic/topicParent/:id"
               component={ParentTopic.EditParentTopic}
             />
+
           </Switch>
         </div>
       </Router>
