@@ -1,14 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
-import { childTopic$ } from "../../../../../redux/selector/index";
+import { childTopic$, parentTopic$ } from "../../../../../redux/selector/index";
 import { retrieveChildTopicAuthor } from "../../../../../redux/actions/thunk/childTopic";
 import { createcParentTopic } from "../../../../../redux/actions/thunk/parentTopic";
 import { userState$ } from "../../../../../redux/selector/index";
+import { retrieveParentTopicAuthor } from "../../../../../redux/actions/thunk/parentTopic";
 
 export default function AddTopic() {
   //ChildTopic
   let childTopic = useSelector(childTopic$);
+  let testparentTopic = useSelector(parentTopic$);
   const [selectedOption, setSelectedOption] = React.useState([]);
   const [inputList, setInputList] = React.useState([
     { id: null, name_topic: "", isChecked: false },
@@ -18,6 +20,8 @@ export default function AddTopic() {
 
   React.useEffect(() => {
     dispatch(retrieveChildTopicAuthor(currentUser.id));
+    dispatch(retrieveParentTopicAuthor(currentUser.id));
+
     // console.log(childTopic);
     setParentTopic({
       ...parentTopic,
@@ -27,12 +31,16 @@ export default function AddTopic() {
     console.log("jjsjjs", selectedOption);
   }, [selectedOption.label, inputList]);
 
-  const options = childTopic.map((topic, index) => {
+  let options = childTopic.map((topic, index) => {
     return {
       label: topic.name_topic_child,
       value: topic._id,
       key: index,
     };
+  });
+
+  testparentTopic.map((topic, index) => {
+  options = options.filter((option) => option.label !== topic.name_topic);
   });
 
   const customStyles = {

@@ -184,7 +184,7 @@ export default function BoardAdmin() {
             </div>
 
             <div className="mt-3">
-              {"Items per Page: "}
+              {"Số người dùng mỗi trang: "}
               <select onChange={handlePageSizeChange} value={pageSize}>
                 {pageSizes.map((size) => (
                   <option key={size} value={size}>
