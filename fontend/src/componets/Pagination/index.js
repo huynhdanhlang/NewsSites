@@ -11,16 +11,16 @@ function usePagination(data, itemsPerPage) {
   }
 
   function next() {
-    setCurrentPage(currentPage => Math.min(currentPage + 1, maxPage));
+    setCurrentPage((currentPage) => Math.min(currentPage + 1, maxPage));
   }
 
   function prev() {
-    setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
+    setCurrentPage((currentPage) => Math.max(currentPage - 1, 1));
   }
 
   function jump(page) {
     const pageNumber = Math.max(1, page);
-    setCurrentPage(currentPage => Math.min(pageNumber, maxPage));
+    setCurrentPage((currentPage) => Math.min(pageNumber, maxPage));
   }
 
   return { next, prev, jump, currentData, currentPage, maxPage };
