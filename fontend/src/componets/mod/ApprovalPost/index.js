@@ -28,7 +28,6 @@ export default function PostsList() {
   }, [dispatch]);
   const postIndex = JSON.parse(localStorage.getItem("postIndex"));
 
-  
   const [page, setPage] = React.useState(1);
   const PER_PAGE = 10;
 
@@ -42,7 +41,7 @@ export default function PostsList() {
 
   return (
     <Container maxWidth={false} className="container">
-            &nbsp;
+      &nbsp;
       <Pagination
         className
         color="primary"
@@ -54,7 +53,7 @@ export default function PostsList() {
       />
       &nbsp;
       <Grid container spacing={2} alignItems="stretch">
-        {posts.map((post, index) => (
+        {_DATA.currentData().map((post, index) => (
           <Grid key={post._id} item xs={12} sm={4}>
             <Post index={index} post={post} />
           </Grid>
