@@ -31,7 +31,9 @@ const Home = () => {
   const dispatch = useDispatch();
   //const { user: currentUser } = useSelector(userState$);
 
-  const posts = useSelector(postsState$);
+  let posts = useSelector(postsState$);
+
+  posts = posts.filter((post) => post.isChecked === true);
 
   React.useEffect(() => {
     dispatch(actions.getPostsAll.getPostsARequest());
