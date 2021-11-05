@@ -39,7 +39,7 @@ exports.getPostsId = async (req, res) => {
 exports.getPostsAll = async (req, res) => {
   try {
     //console.log(req.params.author);
-    const posts = await Post.find()
+    const posts = await Post.find({ isChecked: true })
       .populate("author")
       .populate({ path: "name_topic", select: "_id name_topic" })
       .populate({ path: "name_topic_child", select: "_id name_topic" })
