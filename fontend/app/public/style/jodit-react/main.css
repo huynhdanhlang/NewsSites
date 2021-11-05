@@ -1,0 +1,10 @@
+.jodit-container .jodit-workplace,
+.jodit .jodit-workplace {
+  overflow: auto !important;
+  position: relative;
+  max-height: 500px !important;
+}
+
+/* .jodit-wysiwyg {
+  min-height: 150px !important;
+} */

@@ -1,0 +1,8 @@
+- [Node.js + MongoDB: User Authentication & Authorization with JWT](https://www.bezkoder.com/node-js-mongodb-auth-jwt/)
+- [React Redux Login, Logout, Registration example with Hooks](https://www.bezkoder.com/react-hooks-redux-login-registration-example/)
+- [React Refresh Token with JWT and Axios Interceptors](https://www.bezkoder.com/react-refresh-token/)
+- [Node.js, Express & MongoDb: Build a CRUD Rest Api example](https://www.bezkoder.com/node-express-mongodb-crud-rest-api/)
+- [React Hooks + Redux: CRUD example with Axios and Rest API](https://www.bezkoder.com/react-hooks-redux-crud/)
+- [Material-UI - The React UI library](https://mui.com/)
+- [JoditEditor - An excellent WYSIWYG editor written in pure TypeScript without the use of additional libraries](https://xdsoft.net/jodit/doc/)
+- [Blog person via MERN app](https://www.youtube.com/watch?v=khcjRUZCufs&t=6246s)
