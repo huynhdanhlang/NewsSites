@@ -11,11 +11,16 @@ import { showModal } from "../../../redux/actions/saga/posts";
 import CreatePostsModel from "./CreatePostsModel/index";
 // import EditPost from "./PostsList/Posts/index";
 import { modalState$ } from "../../../redux/selector/index";
+import { retrieveParentTopic } from "../../../redux/actions/thunk/parentTopic";
 
 const BoardAuthor = () => {
   const [content, setContent] = useState("");
 
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(retrieveParentTopic());
+  }, []);
 
   useEffect(() => {
     UserService.getAuthorBoard().then(
