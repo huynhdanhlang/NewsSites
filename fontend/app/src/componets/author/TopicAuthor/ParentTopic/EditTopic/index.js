@@ -108,13 +108,8 @@ const ParentTopic = (props) => {
   // )
 
   const removeParentTopic = () => {
-    dispatch(deleteParentTopic(currentParentTopic._id))
-      .then(() => {
-        props.history.push("/author/topic/topicParent/listTopic");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    dispatch(deleteParentTopic(currentParentTopic._id));
+    props.history.push("/author/topic/topicParent");
   };
   const handleClick = () => {
     setCurrentParentTopic(getTopic);

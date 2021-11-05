@@ -138,7 +138,7 @@ export default function ListTopic() {
         </div>
 
         <div className="mt-3">
-              {"Items per Page: "}
+              {"Số thẻ chủ đề mỗi trang: "}
               <select onChange={handlePageSizeChange} value={pageSize}>
                 {pageSizes.map((size) => (
                   <option key={size} value={size}>

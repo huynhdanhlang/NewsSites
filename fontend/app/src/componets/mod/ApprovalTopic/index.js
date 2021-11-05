@@ -10,6 +10,7 @@ import "react-super-treeview/dist/style.css";
 import { updateParentTopic } from "../../../redux/actions/thunk/parentTopic";
 import { Modal } from "@material-ui/core";
 import { sendMailPopup$ } from "../../../redux/selector/index";
+import { Pagination } from "@material-ui/lab";
 
 import {
   showMailPopup,
@@ -22,6 +23,11 @@ export default function ListTopic() {
   const { isShowPopup } = useSelector(sendMailPopup$);
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+
+  const pageSizes = [3, 6, 9];
   // console.log(["parentTopic"], parentTopic);
   const openMailPopup = React.useCallback(() => {
     dispatch(showMailPopup());
@@ -58,16 +64,62 @@ export default function ListTopic() {
     setSearchName(SearchName);
   };
 
-  const findByName = async () => {
-    await ParentTopicDataService.findByName(searchName)
+  const getRequestParams = (searchName, page, pageSize) => {
+    let params = {};
+
+    if (searchName) {
+      params["name_topic"] = searchName;
+    }
+
+    if (page) {
+      params["page"] = page - 1;
+    }
+
+    if (pageSize) {
+      params["size"] = pageSize;
+    }
+
+    return params;
+  };
+
+  const findRetrieveAllParentTopic = () => {
+    const params = getRequestParams(searchName, page, pageSize);
+
+    ParentTopicDataService.findByName(params)
       .then((response) => {
-        console.log(["searchName"], response.data);
-        setData(response.data);
+        const { parentTopic, totalPages } = response.data;
+
+        setData(parentTopic);
+        setCount(totalPages);
+
+        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
+  React.useEffect(findRetrieveAllParentTopic, [page, pageSize]);
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(event.target.value);
+    setPage(1);
+  };
+
+  // const findByName = async () => {
+  //   await ParentTopicDataService.findByName(searchName)
+  //     .then((response) => {
+  //       console.log(["searchName"], response.data);
+  //       setData(response.data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
   function handleStateChange(e) {
     setMailerState((prevState) => ({
@@ -221,7 +273,7 @@ export default function ListTopic() {
 
                 <div className="input-group-append">
                   <a
-                    onClick={findByName}
+                    onClick={findRetrieveAllParentTopic}
                     className="btn btn-outline-secondary"
                     href="#"
                     role="button"
@@ -233,6 +285,28 @@ export default function ListTopic() {
             </div>
           </div>
           &nbsp;
+          <div className="mt-3">
+            {"Số chủ đề mỗi trang: "}
+            <select onChange={handlePageSizeChange} value={pageSize}>
+              {pageSizes.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+
+            <Pagination
+              className="my-3"
+              count={count}
+              page={page}
+              siblingCount={1}
+              boundaryCount={1}
+              variant="outlined"
+              shape="rounded"
+              color="primary"
+              onChange={handlePageChange}
+            />
+          </div>
           <a
             onClick={handleClickSend}
             className="btn btn-danger btn-sm "

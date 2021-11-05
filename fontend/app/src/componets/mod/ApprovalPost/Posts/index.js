@@ -88,7 +88,7 @@ export default function Post({ post, index }) {
       openMailPopup();
     }
   };
-  console.log(["index"], index);
+  console.log(["index"], post);
   
   localStorage.setItem("postIndex", JSON.stringify(index));
   var status = "";
