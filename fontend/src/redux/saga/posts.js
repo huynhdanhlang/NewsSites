@@ -5,6 +5,7 @@ import api from "../../services/posts.service";
 function* getPostsSaga(action) {
   try {
     const posts = yield call(api.getPosts, action.payload); //excute function
+    localStorage.setItem("posts", JSON.stringify(posts.data));
     console.log("[getPostsSaga - posts]", posts);
     yield put(actions.getPosts.getPostsSuccess(posts.data));
   } catch (error) {

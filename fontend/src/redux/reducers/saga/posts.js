@@ -20,6 +20,7 @@ export default function postsReducers(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        data: action.payload,
       };
     case getTypes(getPosts.getPostsSuccess):
       console.log(action.payload);
