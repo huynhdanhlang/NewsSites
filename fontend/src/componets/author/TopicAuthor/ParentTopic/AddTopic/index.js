@@ -213,7 +213,7 @@ export default function AddTopic() {
                 );
               })}
             </div>
-            <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
+            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
           </div>
           <p></p>
           <a

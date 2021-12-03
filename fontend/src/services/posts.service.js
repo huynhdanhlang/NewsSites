@@ -2,13 +2,13 @@ import api from "./api";
 
 const getPosts = (payload) => {
   console.log(["fsfs"], payload);
-  return api.post("/posts/all/",  payload );
+  return api.post("/posts/all/", payload);
 };
 const getPostsId = (payload) => {
   return api.get("/posts/postsId/" + payload);
 };
-const getPostsAll = () => {
-  return api.get("/posts/postall/");
+const getPostsAll = (payload) => {
+  return api.post("/posts/postall/", payload);
 };
 
 const createPost = (payload) => {

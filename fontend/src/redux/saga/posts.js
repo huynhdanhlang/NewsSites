@@ -27,7 +27,7 @@ function* getPostsIdSaga(action) {
 
 function* getPostsAllSaga(action) {
   try {
-    const posts = yield call(api.getPostsAll); //excute function
+    const posts = yield call(api.getPostsAll, action.payload); //excute function
     console.log("[getPostsSaga - All posts]", posts);
     yield put(actions.getPostsAll.getPostsASuccess(posts.data));
   } catch (error) {

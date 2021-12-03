@@ -185,7 +185,7 @@ const ParentTopic = (props) => {
                 );
               })}
             </div>
-            <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
+            {/* <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div> */}
             &nbsp;
           </form>
           {!currentParentTopic.isChecked && (
