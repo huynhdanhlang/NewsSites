@@ -13,23 +13,23 @@ import api from "../../services/posts.service";
 const Home = () => {
   // const [content, setContent] = useState("");
 
-  let [posts, setPosts] = useState([]);
-  // React.useEffect(() => {
-  //   dispatch(actions.getPostsAll.getPostsARequest());
-  // }, []);
+  // let [posts, setPosts] = useState([]);
+  React.useEffect(() => {
+    dispatch(actions.getPostsAll.getPostsARequest());
+  }, []);
 
   const dispatch = useDispatch();
   //const { user: currentUser } = useSelector(userState$);
 
-  // let posts = useSelector(postsState$);
-  const retrievePosts = async () => {
-    await api.getPostsAll().then((data) => {
-      const { posts } = data.data;
-      setPosts(posts);
-    }); //excute function
-  };
+  let posts = useSelector(postsState$);
+  // const retrievePosts = async () => {
+  //   await api.getPostsAll().then((data) => {
+  //     const { posts } = data.data;
+  //     setPosts(posts);
+  //   }); //excute function
+  // };
 
-  useEffect(retrievePosts,[]);
+  // useEffect(retrievePosts,[]);
 
   posts = posts.filter((post) => post.isChecked === true);
 
