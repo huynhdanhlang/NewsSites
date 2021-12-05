@@ -12,13 +12,13 @@ import api from "../../services/posts.service";
 
 const Home = () => {
   // const [content, setContent] = useState("");
+  const dispatch = useDispatch();
 
   // let [posts, setPosts] = useState([]);
   React.useEffect(() => {
     dispatch(actions.getPostsAll.getPostsARequest());
   }, []);
 
-  const dispatch = useDispatch();
   //const { user: currentUser } = useSelector(userState$);
 
   let posts = useSelector(postsState$);
@@ -33,8 +33,9 @@ const Home = () => {
 
   posts = posts.filter((post) => post.isChecked === true);
 
+  console.log(["treu"], posts);
   const [page, setPage] = React.useState(1);
-  const PER_PAGE = 10;
+  const PER_PAGE = 9;
 
   const count = Math.ceil(posts.length / PER_PAGE);
   const _DATA = usePagination(posts, PER_PAGE);
@@ -58,12 +59,14 @@ const Home = () => {
       />
       &nbsp;
       <Grid container spacing={2} alignItems="stretch">
-        {_DATA.currentData().map((post, index) => (
-          // post.isChecked &&
-          <Grid key={post._id} item xs={12} sm={4}>
-            <PostAll index={index} post={post} />
-          </Grid>
-        ))}
+        {_DATA.currentData().map(
+          (post, index) =>
+            post.isChecked && (
+              <Grid key={post._id} item xs={12} sm={4}>
+                <PostAll index={index} post={post} />
+              </Grid>
+            )
+        )}
       </Grid>
       &nbsp;
       <Pagination
