@@ -18,7 +18,7 @@ const getPostsId = createActions({
 });
 
 const getPostsAll = createActions({
-  getPostsARequest: undefined,
+  getPostsARequest: (payload) => payload,
   getPostsASuccess: (payload) => payload,
   getPostsAFailure: (error) => error,
 });

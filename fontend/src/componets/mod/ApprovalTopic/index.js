@@ -227,6 +227,7 @@ export default function ListTopic() {
           email: data[index]["author"].email,
           message: "",
         });
+        window.location.reload();
       });
   };
 

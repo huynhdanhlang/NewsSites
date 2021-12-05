@@ -92,7 +92,7 @@ export default function Popup({ post }) {
           email: post["author"].email,
           message: "",
         });
-        // window.location.reload();
+        window.location.reload();
       });
   };
 
