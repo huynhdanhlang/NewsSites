@@ -58,11 +58,17 @@ export default function postsReducers(state = initialState, action) {
       };
     case getTypes(getPostsAll.getPostsASuccess):
       console.log(["getPostsSuccess"], action.payload.posts);
-      return {
-        ...state,
-        isLoading: false,
-        data: action.payload.posts,
-      };
+      return action.payload.posts
+        ? {
+            ...state,
+            isLoading: false,
+            data: action.payload.posts,
+          }
+        : {
+            ...state,
+            isLoading: false,
+            data: action.payload,
+          };
     case getTypes(getPostsAll.getPostsAFailure):
       return {
         ...state,
